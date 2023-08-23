@@ -1,0 +1,1 @@
+# study.mag_diploma
