@@ -4,7 +4,8 @@
 from info_service import actions
 
 
-actions.db_get_text_search_query('Программа подготовки')
+actions.db_get_searchterm_expression('Поступление на направление')
+actions.db_search_entries_base('Поступление на направление')
 
 
 #############################################################################
