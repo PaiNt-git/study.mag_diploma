@@ -10,8 +10,8 @@ def db_list_all_lemms():
 
     session = Session()
 
-    results = QuestAnswerBase.get_all_lemms()
+    results = QuestAnswerBase.get_all_lemms(return_is_dict=True)
 
     results = list(results)
 
-    return
+    return results

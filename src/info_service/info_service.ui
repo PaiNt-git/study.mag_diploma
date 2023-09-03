@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
+ <author>PaiNt</author>
  <class>info_service_main_window</class>
  <widget class="QMainWindow" name="info_service_main_window">
   <property name="geometry">
@@ -35,6 +36,62 @@
      <attribute name="title">
       <string>Все Леммы базы</string>
      </attribute>
+     <widget class="QTableWidget" name="AllLemmsTable">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>80</y>
+        <width>721</width>
+        <height>421</height>
+       </rect>
+      </property>
+      <attribute name="horizontalHeaderCascadingSectionResizes">
+       <bool>false</bool>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>Лемма</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Вес (Pg)</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Вес</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Вхождений в ответе</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Вхождений за всю базу</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Колонка</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QPushButton" name="GetLemmsFromBaseButton">
+      <property name="geometry">
+       <rect>
+        <x>610</x>
+        <y>20</y>
+        <width>131</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Получить из базы</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="SearchQueryManagement">
      <attribute name="title">
@@ -54,7 +111,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="File">
