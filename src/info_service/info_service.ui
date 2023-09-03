@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>info_service_main_window</class>
+ <widget class="QMainWindow" name="info_service_main_window">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>База знаний ответов на вопросы</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTabWidget" name="ProgramScreens">
+    <property name="geometry">
+     <rect>
+      <x>16</x>
+      <y>9</y>
+      <width>771</width>
+      <height>551</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
+    <widget class="QWidget" name="EntriesCRUD">
+     <attribute name="title">
+      <string>База ответов</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="LemmsOfAllBase">
+     <attribute name="title">
+      <string>Все Леммы базы</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="SearchQueryManagement">
+     <attribute name="title">
+      <string>Анализ запроса</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="Results">
+     <attribute name="title">
+      <string>Результаты</string>
+     </attribute>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="File">
+    <property name="title">
+     <string>Файл</string>
+    </property>
+    <addaction name="ExitAction"/>
+   </widget>
+   <widget class="QMenu" name="Help">
+    <property name="title">
+     <string>Справка</string>
+    </property>
+    <addaction name="AboutAction"/>
+   </widget>
+   <addaction name="File"/>
+   <addaction name="Help"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="ExitAction">
+   <property name="text">
+    <string>Выход</string>
+   </property>
+  </action>
+  <action name="AboutAction">
+   <property name="text">
+    <string>О программе</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>ExitAction</sender>
+   <signal>triggered()</signal>
+   <receiver>info_service_main_window</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

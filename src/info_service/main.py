@@ -4,8 +4,8 @@
 from info_service import actions
 
 
-actions.db_get_searchterm_expression('Поступление на направление')
-actions.db_search_entries_base('Поступление на направление')
+for lemm in actions.db_list_all_lemms():
+    print(lemm)
 
 
 #############################################################################
