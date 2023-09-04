@@ -6,7 +6,7 @@ import sys
 import logging
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5 import uic
+from PyQt5 import uic  # , pyrcc
 
 MAIN_PACKAGE_DIR = os.path.abspath(os.path.join(os.path.split(str(__file__))[0]))
 PACKAGE_NAME = os.path.basename(MAIN_PACKAGE_DIR)

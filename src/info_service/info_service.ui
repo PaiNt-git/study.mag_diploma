@@ -21,8 +21,8 @@
    <string>База знаний ответов на вопросы</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="info_service.qrc">
-    <normaloff>:/main/phil.png</normaloff>:/main/phil.png</iconset>
+   <iconset>
+    <normaloff>icon.png</normaloff>icon.png</iconset>
   </property>
   <property name="iconSize">
    <size>
@@ -725,9 +725,7 @@
    </property>
   </action>
  </widget>
- <resources>
-  <include location="info_service.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>ExitAction</sender>
