@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1021</width>
-    <height>724</height>
+    <width>914</width>
+    <height>737</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -20,6 +20,16 @@
   <property name="windowTitle">
    <string>База знаний ответов на вопросы</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="info_service.qrc">
+    <normaloff>:/main/phil.png</normaloff>:/main/phil.png</iconset>
+  </property>
+  <property name="iconSize">
+   <size>
+    <width>32</width>
+    <height>32</height>
+   </size>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
@@ -27,7 +37,7 @@
       <item>
        <widget class="QTabWidget" name="ProgramScreens">
         <property name="currentIndex">
-         <number>1</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="EntriesCRUD">
          <attribute name="title">
@@ -653,6 +663,12 @@
       </item>
       <item>
        <widget class="QPlainTextEdit" name="ConsoleView">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>125</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <family>Consolas</family>
@@ -678,7 +694,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1021</width>
+     <width>914</width>
      <height>21</height>
     </rect>
    </property>
@@ -709,7 +725,9 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="info_service.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>ExitAction</sender>
