@@ -6,7 +6,6 @@ import logging
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import uic
 
-from info_service import actions
 
 _old_stdout = sys.stdout
 _override_stdout = sys.stdout
@@ -48,13 +47,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self._init_program_event()
 
     def _init_program_event(self):
-
-        col_keys = ('word', 'weight', 'weight_norm', 'ndoc', 'nentry', 'col_name',)
-        for lemm in actions.db_list_all_lemms():
-            curc = self.AllLemmsTable.rowCount()
-            self.AllLemmsTable.insertRow(curc)
-            for i, col_key in enumerate(col_keys):
-                self.AllLemmsTable.setItem(curc, i, QtWidgets.QTableWidgetItem(str(lemm[col_key])))
+        from info_service import initializators
+        for initializator, callable in initializators.INIT_PROVIDERS.items():
+            callable(self)
 
 
 if __name__ == '__main__':
