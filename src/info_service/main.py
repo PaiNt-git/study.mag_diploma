@@ -1,10 +1,16 @@
 #!/usr/bin/env python
 
+import os
 import sys
+
 import logging
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import uic
+
+MAIN_PACKAGE_DIR = os.path.abspath(os.path.join(os.path.split(str(__file__))[0]))
+PACKAGE_NAME = os.path.basename(MAIN_PACKAGE_DIR)
+sys.path.append(MAIN_PACKAGE_DIR)
 
 
 _old_stdout = sys.stdout
@@ -48,8 +54,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def _init_program_event(self):
         from info_service import initializators
-        for initializator, callable in initializators.INIT_PROVIDERS.items():
-            callable(self)
+        for initializator, callable_ in initializators.INIT_PROVIDERS.items():
+            callable_(self)
 
 
 if __name__ == '__main__':

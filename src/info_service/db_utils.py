@@ -1,10 +1,3 @@
-import sys
-import os
-
-MAIN_PACKAGE_DIR = os.path.abspath(os.path.join(os.path.split(str(__file__))[0]))
-PACKAGE_NAME = os.path.basename(MAIN_PACKAGE_DIR)
-sys.path.append(MAIN_PACKAGE_DIR)
-
 import time
 
 import logging
@@ -18,7 +11,9 @@ from sqlalchemy.orm.attributes import InstrumentedAttribute,\
     CollectionAttributeImpl, ScalarObjectAttributeImpl
 from sqlalchemy.exc import StatementError
 
+
 from info_service.db_base import engine, Session
+
 
 logger = logging.getLogger('info_service')
 
