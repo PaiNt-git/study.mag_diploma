@@ -11,7 +11,4 @@ async def main(main_window):
 
     await asyncio.sleep(15)
 
-    for i in range(60):
-        print('привет')
-
-    # actions.keras()
+    actions.keras()
