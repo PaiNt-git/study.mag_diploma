@@ -14,7 +14,7 @@ class AttrDict(dict):
 
 DYN_FUNC_PROVIDERS = AttrDict()
 
-_modules = glob.glob(os.path.join(os.path.dirname(__file__)) + "/*.py")
+_modules = glob.glob(os.path.join(os.path.dirname(__file__), "*.py"))
 _modules = [os.path.basename(x)[:-3] for x in _modules if os.path.isfile(x)]
 _modules = [x for x in _modules if not x.startswith('_')]
 

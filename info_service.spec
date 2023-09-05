@@ -17,7 +17,7 @@ _modules_initializators = [os.path.basename(x)[:-3] for x in _modules_initializa
 _modules_initializators = ['info_service.initializators.'+x for x in _modules_initializators if not x.startswith('_')]
 _modules_initializators = ['info_service.initializators'] + _modules_initializators
 
-_tensorflow = ['tensorflow', 'h5py', 'h5py.defs', 'h5py.utils', 'h5py.hSac', 'h5py._proxy', ]
+_tensorflow = ['tensorflow', 'h5py', 'h5py.defs', 'h5py.utils', 'h5py.hSac', 'h5py._proxy', 'tensorflow.python._pywrap_tensorflow_internal']
 
 _natasha = [ 'pymorphy2_dicts_ru', 'natasha', 'razdel', 'navec', 'slovnet', 'yargy', 'ipymarkup', 'nerus', 'corus', ]
 
@@ -37,7 +37,7 @@ a = Analysis(['src\\info_service\\main.py'],
                 ('src/info_service/info_service.ui', '.'),
                 ('src/info_service/icon.png', '.'),
              ],
-             hiddenimports=_modules_actions+_modules_initializators,
+             hiddenimports=_tensorflow+_modules_actions+_modules_initializators,
              hookspath=[],
              runtime_hooks=[],
              excludes=[],
