@@ -20,3 +20,7 @@ def db_get_searchterm_expression(user_search_term, search_on='all'):
     retexp = sa.func.to_tsquery(regconfig, search_query)
 
     return retexp
+
+
+if __name__ == '__main__':
+    print(db_get_searchterm_expression('fdgdfgd'))

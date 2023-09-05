@@ -17,7 +17,12 @@ from sqlalchemy.orm.session import object_session
 
 
 SETTINGS = {}
-with open(os.path.normpath(os.path.join(os.path.split(str(__file__))[0], 'secrets', 'database.json')), 'r') as f:
+
+secrets_dir_path = os.path.normpath(os.path.join('secrets'))
+if not os.path.isdir(secrets_dir_path):
+    secrets_dir_path = os.path.normpath(os.path.join(os.path.dirname(__file__), 'secrets'))
+
+with open(os.path.normpath(os.path.join(secrets_dir_path, 'database.json')), 'r') as f:
     SETTINGS.update(json.load(f))
 
 

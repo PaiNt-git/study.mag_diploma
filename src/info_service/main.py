@@ -2,15 +2,64 @@
 
 import os
 import sys
-
+import glob
 import logging
+
+from importlib import import_module
+
+from inspect import isfunction
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import uic  # , pyrcc
 
+
 MAIN_PACKAGE_DIR = os.path.abspath(os.path.join(os.path.split(str(__file__))[0]))
 PACKAGE_NAME = os.path.basename(MAIN_PACKAGE_DIR)
 sys.path.append(MAIN_PACKAGE_DIR)
+sys.path.append(os.path.abspath(os.path.join(os.path.split(str(__file__))[0], '..')))
+
+
+# Импорт корневых модулей программы
+
+import info_service.db_base
+import info_service.db_utils
+
+# / Импорт корневых модулей программы
+
+# Импорт динамических провайдеров, и их доимпортирование специально для pyInstaller
+
+from info_service.actions import DYN_FUNC_PROVIDERS as ACTION_PROVIDERS
+if not len(ACTION_PROVIDERS):
+    _modules_actions = glob.glob(os.path.join(MAIN_PACKAGE_DIR, 'actions') + "/*.py")
+    _modules_actions = [os.path.basename(x)[:-3] for x in _modules_actions if os.path.isfile(x)]
+    _modules_actions = [x for x in _modules_actions if not x.startswith('_')]
+    for _module_name in _modules_actions:
+        _modul = import_module(f'{PACKAGE_NAME}.actions.{_module_name}')
+        _provider = getattr(_modul, str('main'), None)
+        if not _provider:
+            _provider = getattr(_modul, str(_module_name), None)
+
+        if isfunction(_provider):
+            ACTION_PROVIDERS[_module_name] = _provider
+            setattr(sys.modules[f'{PACKAGE_NAME}.actions'], _module_name, _provider)
+
+from info_service.initializators import DYN_FUNC_PROVIDERS as INIT_PROVIDERS
+if not len(INIT_PROVIDERS):
+    _modules_initializators = glob.glob(os.path.join(MAIN_PACKAGE_DIR, 'initializators') + "/*.py")
+    _modules_initializators = [os.path.basename(x)[:-3] for x in _modules_initializators if os.path.isfile(x)]
+    _modules_initializators = [x for x in _modules_initializators if not x.startswith('_')]
+
+    for _module_name in _modules_initializators:
+        _modul = import_module(f'{PACKAGE_NAME}.initializators.{_module_name}')
+        _provider = getattr(_modul, str('main'), None)
+        if not _provider:
+            _provider = getattr(_modul, str(_module_name), None)
+
+        if isfunction(_provider):
+            INIT_PROVIDERS[_module_name] = _provider
+            setattr(sys.modules[f'{PACKAGE_NAME}.initializators'], _module_name, _provider)
+
+# / Импорт динамических провайдеров, и их доимпортирование специально для pyInstaller
 
 
 _old_stdout = sys.stdout
@@ -53,8 +102,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self._init_program_event()
 
     def _init_program_event(self):
-        from info_service import initializators
-        for initializator, callable_ in initializators.INIT_PROVIDERS.items():
+        for initializator, callable_ in INIT_PROVIDERS.items():
             callable_(self)
 
 

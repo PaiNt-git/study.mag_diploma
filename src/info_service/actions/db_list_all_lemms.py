@@ -19,3 +19,7 @@ def db_list_all_lemms():
     print('test2')
 
     return results
+
+
+if __name__ == '__main__':
+    print(db_list_all_lemms())
