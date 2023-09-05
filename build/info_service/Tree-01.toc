@@ -1,7 +1,0 @@
-('src/info_service/secrets',
- 'secrets',
- [],
- 'DATA',
- [('secrets\\.gitignore', 'src/info_service/secrets\\.gitignore', 'DATA'),
-  ('secrets\\database.json', 'src/info_service/secrets\\database.json', 'DATA'),
-  ('secrets\\README.txt', 'src/info_service/secrets\\README.txt', 'DATA')])
