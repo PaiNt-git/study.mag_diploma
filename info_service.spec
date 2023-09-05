@@ -1,6 +1,9 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 
+
+
+
 import time
 import glob
 
@@ -14,7 +17,13 @@ _modules_initializators = [os.path.basename(x)[:-3] for x in _modules_initializa
 _modules_initializators = ['info_service.initializators.'+x for x in _modules_initializators if not x.startswith('_')]
 _modules_initializators = ['info_service.initializators'] + _modules_initializators
 
-_tensof_and_natasha = ['tensorflow', 'h5py', 'h5py.defs', 'h5py.utils', 'h5py.hSac', 'h5py._proxy', 'pymorphy2_dicts_ru', 'natasha', 'razdel', 'navec', 'slovnet', 'yargy', 'ipymarkup', 'nerus', 'corus', ]
+_tensorflow = ['tensorflow', 'h5py', 'h5py.defs', 'h5py.utils', 'h5py.hSac', 'h5py._proxy', ]
+
+_natasha = [ 'pymorphy2_dicts_ru', 'natasha', 'razdel', 'navec', 'slovnet', 'yargy', 'ipymarkup', 'nerus', 'corus', ]
+
+
+
+
 
 
 
