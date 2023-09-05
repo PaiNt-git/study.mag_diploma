@@ -30,24 +30,6 @@ import info_service.db_utils
 # / Импорт корневых модулей программы
 
 
-class SysRedirect(object):
-    def __init__(self, qtmain_wind):
-        self.qtmain_wind = qtmain_wind
-        self.terminal = sys.stdout       # To continue writing to terminal
-
-    def write(self, message):
-        text = self.qtmain_wind.ConsoleView.toPlainText()
-        if text.count('\n') > 800:
-            self.qtmain_wind.ConsoleView.setPlainText('')
-        self.qtmain_wind.ConsoleView.insertPlainText(message)
-
-    def flush(self):
-        # this flush method is needed for python 3 compatibility.
-        # this handles the flush command by doing nothing.
-        # you might want to specify some extra behavior here.
-        pass
-
-
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -98,11 +80,64 @@ class MainWindow(QtWidgets.QMainWindow):
             pass
 
 
+_LOG_SAFE_QT_BUFFER = ''
+
+
+async def write_to_window(qtmain_wind, message):
+    global _LOG_SAFE_QT_BUFFER
+
+    if _LOG_SAFE_QT_BUFFER.count('\n') > 30:
+        _LOG_SAFE_QT_BUFFER = ''
+        qtmain_wind.ConsoleView.clear()
+        await asyncio.sleep(4.0)
+    else:
+        _LOG_SAFE_QT_BUFFER = f'{_LOG_SAFE_QT_BUFFER}{message}'
+        qtmain_wind.ConsoleView.insertPlainText(message)
+        await asyncio.sleep(1.0)
+
+
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     window = MainWindow()
     window.show()
     time.sleep(0.1)
+
+    stdout_write_loop = asyncio.new_event_loop()
+    program_event_loop = asyncio.new_event_loop()
+
+    def forever_run_stdout_write_thread_target():
+        asyncio.set_event_loop(stdout_write_loop)
+        stdout_write_loop.run_forever()
+
+    def program_event_thread_target():
+        program_event_loop.run_until_complete(window._init_program_event())
+
+    class SysRedirect(object):
+        def __init__(self, qtmain_wind):
+            self.main_thread = threading.currentThread()
+            self.write_thread = self.main_thread
+            self.qtmain_wind = qtmain_wind
+            self.terminal = sys.stdout       # To continue writing to terminal
+
+        def write(self, message):
+            self.write_thread = threading.currentThread()
+
+            if message:
+                try:
+                    message = str(message)
+
+                    future = asyncio.run_coroutine_threadsafe(write_to_window(self.qtmain_wind, message), stdout_write_loop)
+                    future.result()
+
+                except Exception as e:
+                    self.terminal.write(repr(e))
+
+        def flush(self):
+            # this flush method is needed for python 3 compatibility.
+            # this handles the flush command by doing nothing.
+            # you might want to specify some extra behavior here.
+            stdout_write_loop.call_soon_threadsafe(stdout_write_loop.stop)
+            pass
 
     sys.stdout = SysRedirect(window)
 
@@ -110,13 +145,7 @@ if __name__ == '__main__':
     logger.setLevel(logging.DEBUG)
     logger.addHandler(logging.StreamHandler(stream=sys.stdout))
 
-    time.sleep(0.2)
-
-    program_event_loop = asyncio.new_event_loop()
-
-    def thread_target():
-        program_event_loop.run_until_complete(window._init_program_event())
-
-    threading.Thread(target=thread_target).start()
+    threading.Thread(target=forever_run_stdout_write_thread_target).start()
+    threading.Thread(target=program_event_thread_target).start()
 
     sys.exit(app.exec())

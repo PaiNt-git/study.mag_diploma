@@ -9,6 +9,9 @@ from info_service import actions
 
 async def main(main_window):
 
-    await asyncio.sleep(25)
+    await asyncio.sleep(15)
 
-    actions.keras()
+    for i in range(60):
+        print('привет')
+
+    # actions.keras()
