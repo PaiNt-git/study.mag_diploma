@@ -7,8 +7,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from info_service import actions
 
 
-async def main(main_window):
+def main(main_window):
 
-    await asyncio.sleep(15)
+    time.sleep(15)
 
     actions.keras()

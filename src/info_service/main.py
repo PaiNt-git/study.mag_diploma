@@ -75,6 +75,7 @@ class MainWindow(QtWidgets.QMainWindow):
         for initializator, callable_ in INIT_PROVIDERS.items():
             if iscoroutinefunction(callable_):
                 await callable_(self)
+
             else:
                 callable_(self)
 
@@ -114,17 +115,6 @@ async def write_to_window(qtmain_wind, message, set_to_field=False):
 
             chunks = [insert[i:i + 120] for i in range(0, len(insert), 120)]
 
-            #===================================================================
-            # instlines = insert.splitlines()
-            # for line in instlines:
-            #     if not line:
-            #         entry = '\n'
-            #     else:
-            #         entry = f'{line}\n'
-            #     _LOG_SAFE_QT_BUFFER_INFIELD = f'{_LOG_SAFE_QT_BUFFER_INFIELD}{entry}'
-            #     qtmain_wind.ConsoleView.insertPlainText((' ' if not line else '') + entry)
-            #===================================================================
-
             for cnk in chunks:
                 if not cnk:
                     continue
@@ -160,6 +150,7 @@ if __name__ == '__main__':
         def write(self, message):
             global _LOG_LAST_TIMESTAMP
             self.write_thread = threading.currentThread()
+            self.terminal.write(message)
 
             if message:
                 try:
@@ -170,7 +161,7 @@ if __name__ == '__main__':
                         set_to_field = True
 
                     future = asyncio.run_coroutine_threadsafe(write_to_window(self.qtmain_wind, message, set_to_field=set_to_field), stdout_write_loop)
-                    future.result()
+                    # future.result()
 
                 except Exception as e:
                     self.terminal.write(repr(e))
