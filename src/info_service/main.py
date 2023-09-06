@@ -44,8 +44,6 @@ class MainWindow(QtWidgets.QMainWindow):
     def closeEvent(self, event):
         print('closing...')
         self._forever_run_stdout_write_thread.join()
-        self._program_event_thread.join()
-        time.sleep(2)
         event.accept()
 
     async def _init_program_event(self):
@@ -102,10 +100,10 @@ def write_to_window_s(qtmain_wind, message, set_to_field=False):
     assert message
 
     global _LOG_LAST_TIMESTAMP, _LOG_SAFE_QT_BUFFER, _LOG_SAFE_QT_BUFFER_INFIELD, _clearing_field_flag
-    if not message or message == '\n':
+    if not message:
         return
 
-    message = (message + '\n') if message != '\n' else '\n'
+    # message = (message + '\n') if message != '\n' else '\n'
 
     if _LOG_SAFE_QT_BUFFER_INFIELD.count('\n') > 1000:
         _clearing_field_flag = True
