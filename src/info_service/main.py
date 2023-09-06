@@ -7,6 +7,7 @@ import os
 import sys
 import glob
 import logging
+import pathlib
 
 from importlib import import_module
 
@@ -14,6 +15,10 @@ from inspect import isfunction, iscoroutinefunction
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import uic  # , pyrcc
+
+
+if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+    os.environ["PYMORPHY2_DICT_PATH"] = str(pathlib.Path(sys._MEIPASS).joinpath('pymorphy2_dicts_ru/data'))
 
 
 MAIN_PACKAGE_DIR = os.path.abspath(os.path.join(os.path.split(str(__file__))[0]))
@@ -183,6 +188,15 @@ def write_to_window_s(qtmain_wind, message, set_to_field=False):
 
                 # Кажется что без задержек у меня все вылетает, но это стоит потом отладить, заебался уже. работает - не трогай!
                 time.sleep(0.5)
+
+    if _LOG_SAFE_QT_BUFFER.strip() != _LOG_SAFE_QT_BUFFER_INFIELD.strip():
+        ui_disable_clear_console = ACTION_PROVIDERS.get('ui_disable_clear_console', None)
+        if ui_disable_clear_console:
+            ui_disable_clear_console(qtmain_wind)
+    elif set_to_field:
+        ui_enable_clear_console = ACTION_PROVIDERS.get('ui_enable_clear_console', None)
+        if ui_enable_clear_console:
+            ui_enable_clear_console(qtmain_wind)
 
 
 if __name__ == '__main__':

@@ -1,7 +1,8 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 
-
+import pymorphy2_dicts_ru
+pymorph_data = pymorphy2_dicts_ru.get_path()
 
 
 import time
@@ -24,14 +25,9 @@ _modules_initializators = ['info_service.initializators'] + _modules_initializat
 
 
 
-
 _tensorflow = ['tensorflow', 'h5py', 'h5py.defs', 'h5py.utils', 'h5py.hSac', 'h5py._proxy', 'tensorflow.python._pywrap_tensorflow_internal']
 
-_natasha = [ 'pymorphy2_dicts_ru', 'natasha', 'razdel', 'navec', 'slovnet', 'yargy', 'ipymarkup', 'nerus', 'corus', ]
-
-
-
-
+_natasha = [ 'pymorphy2', 'natasha', 'razdel', 'navec', 'slovnet', 'yargy', 'ipymarkup', 'nerus', 'corus', ]
 
 
 
@@ -42,6 +38,9 @@ a = Analysis(['src\\info_service\\main.py'],
              pathex=['M:\\home\\git\\study.mag_diploma'],
              binaries=[],
              datas=[
+
+                (pymorph_data, 'pymorphy2_dicts_ru/data')
+
                 ('src/info_service/info_service.ui', '.'),
                 ('src/info_service/icon.png', '.'),
              ],
