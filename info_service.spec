@@ -39,12 +39,12 @@ a = Analysis(['src\\info_service\\main.py'],
              binaries=[],
              datas=[
 
-                (pymorph_data, 'pymorphy2_dicts_ru/data')
+                (pymorph_data, 'pymorphy2_dicts_ru/data'),
 
                 ('src/info_service/info_service.ui', '.'),
                 ('src/info_service/icon.png', '.'),
              ],
-             hiddenimports=_tensorflow+_modules_actions+_modules_events+_modules_initializators,
+             hiddenimports=_tensorflow+_natasha+_modules_actions+_modules_events+_modules_initializators,
              hookspath=[],
              runtime_hooks=[],
              excludes=[],
@@ -54,6 +54,13 @@ a = Analysis(['src\\info_service\\main.py'],
              noarchive=False)
 
 
+
+
+a.datas += Tree('M:/conda/miniconda-x64/envs/M-conda_study-natasha/Lib\site-packages/natasha/data', prefix='natasha/data')
+
+
+
+
 a.datas += Tree('src/info_service/datasets', prefix='datasets')
 a.datas += Tree('src/info_service/secrets', prefix='secrets')
 
@@ -61,6 +68,10 @@ a.datas += Tree('src/info_service/secrets', prefix='secrets')
 a.datas += Tree('src/info_service/actions', prefix='actions')
 a.datas += Tree('src/info_service/events', prefix='events')
 a.datas += Tree('src/info_service/initializators', prefix='initializators')
+
+
+
+
 
 
 

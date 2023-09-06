@@ -88,7 +88,7 @@ if not len(EVENT_PROVIDERS):
             _provider = getattr(_modul, str(_module_name), None)
 
         if isfunction(_provider):
-            INIT_PROVIDERS[_module_name] = _provider
+            EVENT_PROVIDERS[_module_name] = _provider
             setattr(sys.modules[f'{PACKAGE_NAME}.events'], _module_name, _provider)
 
 
@@ -227,6 +227,10 @@ if __name__ == '__main__':
                 print('{!r}; restarting thread'.format(e))
             else:
                 print('exited normally, bad thread; restarting')
+
+            ui_enable_clear_console = ACTION_PROVIDERS.get('ui_enable_clear_console', None)
+            if ui_enable_clear_console:
+                ui_enable_clear_console(window)
 
     def program_event_thread_target():
         """
