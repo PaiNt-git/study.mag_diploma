@@ -7,14 +7,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from info_service import actions
 
 
-async def main(main_window):
+def main(main_window):
 
     print('before')
 
-    await asyncio.sleep(5)
+    time.sleep(5)
 
     print('after')
 
-    # actions.keras()
+    actions.keras()
 
     print('after keras')

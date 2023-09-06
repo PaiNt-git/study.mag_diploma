@@ -1,5 +1,3 @@
 
-
-def main(main_window):
+def main():
     print('[main_window.clear_console]')
-    pass

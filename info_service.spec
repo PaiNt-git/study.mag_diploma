@@ -12,10 +12,18 @@ _modules_actions = [os.path.basename(x)[:-3] for x in _modules_actions if os.pat
 _modules_actions = ['info_service.actions.'+x for x in _modules_actions if not x.startswith('_')]
 _modules_actions = ['info_service.actions'] + _modules_actions
 
+_modules_events = glob.glob('M:\\home\\git\\study.mag_diploma\\src\\info_service\\events\\*.py')
+_modules_events = [os.path.basename(x)[:-3] for x in _modules_events if os.path.isfile(x)]
+_modules_events = ['info_service.events.'+x for x in _modules_events if not x.startswith('_')]
+_modules_events = ['info_service.events'] + _modules_events
+
 _modules_initializators = glob.glob('M:\\home\\git\\study.mag_diploma\\src\\info_service\\initializators\\*.py')
 _modules_initializators = [os.path.basename(x)[:-3] for x in _modules_initializators if os.path.isfile(x)]
 _modules_initializators = ['info_service.initializators.'+x for x in _modules_initializators if not x.startswith('_')]
 _modules_initializators = ['info_service.initializators'] + _modules_initializators
+
+
+
 
 _tensorflow = ['tensorflow', 'h5py', 'h5py.defs', 'h5py.utils', 'h5py.hSac', 'h5py._proxy', 'tensorflow.python._pywrap_tensorflow_internal']
 
@@ -37,7 +45,7 @@ a = Analysis(['src\\info_service\\main.py'],
                 ('src/info_service/info_service.ui', '.'),
                 ('src/info_service/icon.png', '.'),
              ],
-             hiddenimports=_tensorflow+_modules_actions+_modules_initializators,
+             hiddenimports=_tensorflow+_modules_actions+_modules_events+_modules_initializators,
              hookspath=[],
              runtime_hooks=[],
              excludes=[],
@@ -52,6 +60,7 @@ a.datas += Tree('src/info_service/secrets', prefix='secrets')
 
 
 a.datas += Tree('src/info_service/actions', prefix='actions')
+a.datas += Tree('src/info_service/events', prefix='events')
 a.datas += Tree('src/info_service/initializators', prefix='initializators')
 
 
