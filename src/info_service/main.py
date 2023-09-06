@@ -30,12 +30,26 @@ import info_service.db_utils
 # / Импорт корневых модулей программы
 
 
+_LOG_LAST_TIMESTAMP = 0
+_LOG_SAFE_QT_BUFFER = ''
+_LOG_SAFE_QT_BUFFER_INFIELD = ''
+_clearing_field_flag = False
+
+
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         uic.loadUi('info_service.ui', self)
 
+    def closeEvent(self, event):
+        print('closing...')
+        self._forever_run_stdout_write_thread.join()
+        self._program_event_thread.join()
+        time.sleep(2)
+        event.accept()
+
     async def _init_program_event(self):
+        global _LOG_LAST_TIMESTAMP
 
         # Импорт динамических провайдеров, и их доимпортирование специально для pyInstaller
 
@@ -79,29 +93,26 @@ class MainWindow(QtWidgets.QMainWindow):
             else:
                 callable_(self)
 
+            _LOG_LAST_TIMESTAMP = 0
             print(' ')
             pass
 
 
-_LOG_LAST_TIMESTAMP = 0
-_LOG_SAFE_QT_BUFFER = ''
-_LOG_SAFE_QT_BUFFER_INFIELD = ''
-_clearing_field_flag = False
+def write_to_window_s(qtmain_wind, message, set_to_field=False):
+    assert message
 
-
-async def write_to_window(qtmain_wind, message, set_to_field=False):
     global _LOG_LAST_TIMESTAMP, _LOG_SAFE_QT_BUFFER, _LOG_SAFE_QT_BUFFER_INFIELD, _clearing_field_flag
     if not message or message == '\n':
         return
 
     message = (message + '\n') if message != '\n' else '\n'
 
-    if _LOG_SAFE_QT_BUFFER.count('\n') > 1000:
+    if _LOG_SAFE_QT_BUFFER_INFIELD.count('\n') > 1000:
         _clearing_field_flag = True
         _LOG_SAFE_QT_BUFFER = ''
         _LOG_SAFE_QT_BUFFER_INFIELD = ''
         qtmain_wind.ConsoleView.clear()
-        await asyncio.sleep(6.0)
+        time.sleep(6.0)
         _clearing_field_flag = False
 
     _LOG_SAFE_QT_BUFFER = f'{_LOG_SAFE_QT_BUFFER}{message}'
@@ -113,7 +124,7 @@ async def write_to_window(qtmain_wind, message, set_to_field=False):
         if allen > inflen:
             insert = _LOG_SAFE_QT_BUFFER[-(allen - inflen):]
 
-            chunks = [insert[i:i + 120] for i in range(0, len(insert), 120)]
+            chunks = [insert[i:i + 800] for i in range(0, len(insert), 800)]
 
             for cnk in chunks:
                 if not cnk:
@@ -121,7 +132,7 @@ async def write_to_window(qtmain_wind, message, set_to_field=False):
                 _LOG_SAFE_QT_BUFFER_INFIELD = f'{_LOG_SAFE_QT_BUFFER_INFIELD}{cnk}'
                 qtmain_wind.ConsoleView.insertPlainText((' ' if cnk == '\n' else '') + cnk)
 
-                await asyncio.sleep(2.0)
+                time.sleep(2.0)
 
 
 if __name__ == '__main__':
@@ -150,21 +161,23 @@ if __name__ == '__main__':
         def write(self, message):
             global _LOG_LAST_TIMESTAMP
             self.write_thread = threading.currentThread()
-            self.terminal.write(message)
+
+            if self.terminal:
+                self.terminal.write(message)
 
             if message:
                 try:
                     message = str(message)
 
                     set_to_field = False
-                    if time.time() - _LOG_LAST_TIMESTAMP > 1:
+                    if time.time() - _LOG_LAST_TIMESTAMP > 2:
                         set_to_field = True
 
-                    future = asyncio.run_coroutine_threadsafe(write_to_window(self.qtmain_wind, message, set_to_field=set_to_field), stdout_write_loop)
-                    # future.result()
+                    handle = stdout_write_loop.call_soon_threadsafe(write_to_window_s, self.qtmain_wind, message, set_to_field, context=None)
 
                 except Exception as e:
-                    self.terminal.write(repr(e))
+                    if self.terminal:
+                        self.terminal.write(f'Write exception: {e!r}')
 
         def flush(self):
             # this flush method is needed for python 3 compatibility.
@@ -179,7 +192,10 @@ if __name__ == '__main__':
     logger.setLevel(logging.DEBUG)
     logger.addHandler(logging.StreamHandler(stream=sys.stdout))
 
-    threading.Thread(target=forever_run_stdout_write_thread_target).start()
-    threading.Thread(target=program_event_thread_target).start()
+    window._forever_run_stdout_write_thread = threading.Thread(target=forever_run_stdout_write_thread_target)
+    window._forever_run_stdout_write_thread.start()
+
+    window._program_event_thread = threading.Thread(target=program_event_thread_target)
+    window._program_event_thread.start()
 
     sys.exit(app.exec())

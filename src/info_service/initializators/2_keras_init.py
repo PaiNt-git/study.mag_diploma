@@ -11,8 +11,12 @@ async def main(main_window):
 
     print('before')
 
-    await asyncio.sleep(15)
+    await asyncio.sleep(5)
 
     print('after')
 
-    actions.keras()
+    # actions.keras()
+
+    print('after keras')
+
+    actions.print_to_console()
