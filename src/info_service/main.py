@@ -43,7 +43,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def closeEvent(self, event):
         print('closing...')
-        self._forever_run_stdout_write_thread.join()
+        # self._forever_run_stdout_write_thread.join()
+        # self._program_event_thread.join()
         event.accept()
 
     async def _init_program_event(self):
@@ -105,7 +106,7 @@ def write_to_window_s(qtmain_wind, message, set_to_field=False):
 
     # message = (message + '\n') if message != '\n' else '\n'
 
-    if _LOG_SAFE_QT_BUFFER_INFIELD.count('\n') > 1000:
+    if _LOG_SAFE_QT_BUFFER_INFIELD.count('\n') > 1000 or message == '[main_window.clear_console]':
         _clearing_field_flag = True
         _LOG_SAFE_QT_BUFFER = ''
         _LOG_SAFE_QT_BUFFER_INFIELD = ''

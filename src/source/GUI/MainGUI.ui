@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>623</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Маркирование изображений</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="VerticalTabWidget" name="tabWidget_main">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab_src">
+       <attribute name="title">
+        <string>Исходное изобр.</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_watermark">
+       <attribute name="title">
+        <string>ЦВЗ</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_dest">
+       <attribute name="title">
+        <string>Маркированное изобр.</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_metrics">
+       <attribute name="title">
+        <string>Метрики</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Файл</string>
+    </property>
+    <addaction name="action_open_src"/>
+    <addaction name="action_open_watermark"/>
+    <addaction name="action_dest"/>
+    <addaction name="action_save_watermark"/>
+    <addaction name="action_save_dest"/>
+    <addaction name="separator"/>
+    <addaction name="action_exit"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>Действия</string>
+    </property>
+    <widget class="QMenu" name="menu_attack">
+     <property name="toolTip">
+      <string>Атакуйте изображение</string>
+     </property>
+     <property name="title">
+      <string>Атака</string>
+     </property>
+     <property name="icon">
+      <iconset resource="icons.qrc">
+       <normaloff>:/icons/icons/main.svg</normaloff>:/icons/icons/main.svg</iconset>
+     </property>
+     <addaction name="action_redo_attack"/>
+     <addaction name="action_undo_attack"/>
+     <addaction name="action_salt_pepper"/>
+     <addaction name="action_gauss_noise"/>
+     <addaction name="action_speckle_noise"/>
+     <addaction name="action_poisson_noise"/>
+     <addaction name="action_median_filtering"/>
+     <addaction name="action_low_pass_filtering"/>
+     <addaction name="action_compression"/>
+    </widget>
+    <addaction name="action_marking"/>
+    <addaction name="menu_attack"/>
+    <addaction name="action_analyze"/>
+   </widget>
+   <widget class="QMenu" name="menu_settings">
+    <property name="title">
+     <string>Настройки</string>
+    </property>
+    <widget class="QMenu" name="menu_marking_method">
+     <property name="title">
+      <string>Метод маркирования</string>
+     </property>
+     <property name="icon">
+      <iconset resource="icons.qrc">
+       <normaloff>:/icons/icons/marking_method_3.svg</normaloff>:/icons/icons/marking_method_3.svg</iconset>
+     </property>
+     <addaction name="action_method_1"/>
+    </widget>
+    <addaction name="menu_marking_method"/>
+   </widget>
+   <widget class="QMenu" name="menu_help">
+    <property name="title">
+     <string>Помощь</string>
+    </property>
+    <addaction name="action_about"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+   <addaction name="menu_settings"/>
+   <addaction name="menu_help"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar_main"/>
+  <action name="action_open_src">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/open_src.svg</normaloff>:/icons/icons/open_src.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Открыть исходное</string>
+   </property>
+   <property name="toolTip">
+    <string>Открыть исходное изображение</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O, Ctrl+1</string>
+   </property>
+  </action>
+  <action name="action_save_dest">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/save.svg</normaloff>:/icons/icons/save.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Сохранить маркированное</string>
+   </property>
+   <property name="toolTip">
+    <string>Сохранить маркированное изображение на диск</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S, Ctrl+3</string>
+   </property>
+  </action>
+  <action name="action_exit">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/exit.svg</normaloff>:/icons/icons/exit.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Выйти</string>
+   </property>
+   <property name="toolTip">
+    <string>Выйти из приложения</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="action_marking">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/analyze_2.svg</normaloff>:/icons/icons/analyze_2.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Маркировать</string>
+   </property>
+   <property name="toolTip">
+    <string>Маркировать исходное изображение</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
+   </property>
+  </action>
+  <action name="action_salt_pepper">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/salt_and_pepper.svg</normaloff>:/icons/icons/salt_and_pepper.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Соль + Перец</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N, Ctrl+S, Ctrl+1</string>
+   </property>
+  </action>
+  <action name="action_gauss_noise">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/gaussian.svg</normaloff>:/icons/icons/gaussian.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Гауссовский шум</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N, Ctrl+G</string>
+   </property>
+  </action>
+  <action name="action_median_filtering">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/median_filtering.svg</normaloff>:/icons/icons/median_filtering.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Медианная фильтрация</string>
+   </property>
+  </action>
+  <action name="action_low_pass_filtering">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/compress_2.svg</normaloff>:/icons/icons/compress_2.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Фильтрация нижних частот</string>
+   </property>
+  </action>
+  <action name="action_compression">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/compress.svg</normaloff>:/icons/icons/compress.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Сжатие</string>
+   </property>
+  </action>
+  <action name="action_speckle_noise">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/speckle.svg</normaloff>:/icons/icons/speckle.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Спекл-шум</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N, Ctrl+S, Ctrl+2</string>
+   </property>
+  </action>
+  <action name="action_method_1">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/marking_method_1.svg</normaloff>:/icons/icons/marking_method_1.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Метод 1</string>
+   </property>
+  </action>
+  <action name="action_about">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/about.svg</normaloff>:/icons/icons/about.svg</iconset>
+   </property>
+   <property name="text">
+    <string>О программе</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="action_dest">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/open_dest.svg</normaloff>:/icons/icons/open_dest.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Открыть маркированное</string>
+   </property>
+   <property name="toolTip">
+    <string>Открыть маркированное изображение</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O, Ctrl+3</string>
+   </property>
+  </action>
+  <action name="action_open_watermark">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/open_key.svg</normaloff>:/icons/icons/open_key.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Открыть ЦВЗ</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O, Ctrl+2</string>
+   </property>
+  </action>
+  <action name="action_save_watermark">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/save.svg</normaloff>:/icons/icons/save.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Сохранить ЦВЗ</string>
+   </property>
+   <property name="toolTip">
+    <string>Сохранить ЦВЗ на диск</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S, Ctrl+2</string>
+   </property>
+  </action>
+  <action name="action_analyze">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/analyze_1.svg</normaloff>:/icons/icons/analyze_1.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Проанализировать</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
+   </property>
+  </action>
+  <action name="action_undo_attack">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/undo.svg</normaloff>:/icons/icons/undo.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Отменить атаку</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
+  </action>
+  <action name="action_redo_attack">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/redo.svg</normaloff>:/icons/icons/redo.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Повторить атаку</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+Z</string>
+   </property>
+  </action>
+  <action name="action_poisson_noise">
+   <property name="text">
+    <string>Шум Пуассона</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N, Ctrl+P</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>VerticalTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>GUI/ModifiedWidgets</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>action_exit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

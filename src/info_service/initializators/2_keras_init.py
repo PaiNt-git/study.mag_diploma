@@ -18,5 +18,3 @@ async def main(main_window):
     # actions.keras()
 
     print('after keras')
-
-    actions.print_to_console()
