@@ -7,4 +7,4 @@ from info_service import actions
 
 
 def main(main_window):
-    main_window.ClearConsole.clicked.connect(actions.win_clear_console)
+    main_window.ButtonClearConsole.clicked.connect(actions.win_clear_console)

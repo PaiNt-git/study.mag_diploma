@@ -30,14 +30,14 @@
     <height>32</height>
    </size>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="QWidget" name="maingrid">
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
-     <layout class="QVBoxLayout" name="verticalLayout_0" stretch="5,0,0">
+     <layout class="QVBoxLayout" name="verticalmain" stretch="5,0,0">
       <item>
        <widget class="QTabWidget" name="ProgramScreens">
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="EntriesCRUD">
          <attribute name="title">
@@ -45,11 +45,11 @@
          </attribute>
          <layout class="QGridLayout" name="gridLayout_3">
           <item row="0" column="0">
-           <layout class="QVBoxLayout" name="verticalLayout_1">
+           <layout class="QVBoxLayout" name="verticaltintab">
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_0">
+             <layout class="QHBoxLayout" name="horizontalintab">
               <item>
-               <spacer name="horizontalSpacer_0">
+               <spacer name="horizontalSpacer">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -62,7 +62,7 @@
                </spacer>
               </item>
               <item>
-               <widget class="QLabel" name="PageText_0">
+               <widget class="QLabel" name="label_3">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
@@ -100,7 +100,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="PageFrom_0">
+               <widget class="QLabel" name="label_2">
                 <property name="text">
                  <string>из</string>
                 </property>
@@ -200,7 +200,7 @@
              </layout>
             </item>
             <item>
-             <widget class="QTableWidget" name="AllAnswersTable">
+             <widget class="QTableWidget" name="TableAllAnswers">
               <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>false</bool>
               </attribute>
@@ -246,11 +246,11 @@
          </attribute>
          <layout class="QGridLayout" name="gridLayout">
           <item row="0" column="0">
-           <layout class="QVBoxLayout" name="verticalLayout">
+           <layout class="QVBoxLayout" name="verticaltintab_2">
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout">
+             <layout class="QHBoxLayout" name="horizontalintab_2">
               <item>
-               <spacer name="horizontalSpacer">
+               <spacer name="horizontalSpacer_2">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -263,7 +263,7 @@
                </spacer>
               </item>
               <item>
-               <widget class="QLabel" name="PageText">
+               <widget class="QLabel" name="label_5">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
@@ -301,7 +301,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="PageFrom">
+               <widget class="QLabel" name="label_4">
                 <property name="text">
                  <string>из</string>
                 </property>
@@ -401,7 +401,7 @@
              </layout>
             </item>
             <item>
-             <widget class="QTableWidget" name="AllLemmsTable">
+             <widget class="QTableWidget" name="TableAllLemms">
               <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>false</bool>
               </attribute>
@@ -452,11 +452,11 @@
          </attribute>
          <layout class="QGridLayout" name="gridLayout_4">
           <item row="0" column="0">
-           <layout class="QVBoxLayout" name="verticalLayout_2">
+           <layout class="QVBoxLayout" name="verticaltintab_3">
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_1">
+             <layout class="QHBoxLayout" name="horizontalintab_3">
               <item>
-               <spacer name="horizontalSpacer_1">
+               <spacer name="horizontalSpacer_3">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -469,7 +469,7 @@
                </spacer>
               </item>
               <item>
-               <widget class="QLabel" name="PageText_1">
+               <widget class="QLabel" name="label_7">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
@@ -507,7 +507,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="PageFrom_1">
+               <widget class="QLabel" name="label_6">
                 <property name="text">
                  <string>из</string>
                 </property>
@@ -607,7 +607,7 @@
              </layout>
             </item>
             <item>
-             <widget class="QTableWidget" name="AllResultsTable">
+             <widget class="QTableWidget" name="TableAllResults">
               <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>false</bool>
               </attribute>
@@ -650,7 +650,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="widget" native="true">
+       <widget class="QWidget" name="horizontalmain" native="true">
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
           <widget class="QLabel" name="label">
@@ -671,7 +671,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="ClearConsole">
+          <widget class="QPushButton" name="ButtonClearConsole">
            <property name="text">
             <string>Очистить консоль</string>
            </property>
@@ -681,7 +681,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPlainTextEdit" name="ConsoleView">
+       <widget class="QPlainTextEdit" name="TextConsoleView">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -721,24 +721,24 @@
     <property name="title">
      <string>Файл</string>
     </property>
-    <addaction name="ExitAction"/>
+    <addaction name="MenuExitAction"/>
    </widget>
    <widget class="QMenu" name="Help">
     <property name="title">
      <string>Справка</string>
     </property>
-    <addaction name="AboutAction"/>
+    <addaction name="MenuAboutAction"/>
    </widget>
    <addaction name="File"/>
    <addaction name="Help"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="ExitAction">
+  <action name="MenuExitAction">
    <property name="text">
     <string>Выход</string>
    </property>
   </action>
-  <action name="AboutAction">
+  <action name="MenuAboutAction">
    <property name="text">
     <string>О программе</string>
    </property>
@@ -747,7 +747,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>ExitAction</sender>
+   <sender>MenuExitAction</sender>
    <signal>triggered()</signal>
    <receiver>info_service_main_window</receiver>
    <slot>close()</slot>

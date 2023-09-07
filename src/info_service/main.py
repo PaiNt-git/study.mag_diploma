@@ -164,7 +164,7 @@ def write_to_window_s(qtmain_wind, message, set_to_field=False):
         _clearing_field_flag = True
         _LOG_SAFE_QT_BUFFER = ''
         _LOG_SAFE_QT_BUFFER_INFIELD = ''
-        qtmain_wind.ConsoleView.clear()
+        qtmain_wind.TextConsoleView.clear()
         time.sleep(6.0)
         _clearing_field_flag = False
 
@@ -184,7 +184,7 @@ def write_to_window_s(qtmain_wind, message, set_to_field=False):
                 if not cnk:
                     continue
                 _LOG_SAFE_QT_BUFFER_INFIELD = f'{_LOG_SAFE_QT_BUFFER_INFIELD}{cnk}'
-                qtmain_wind.ConsoleView.insertPlainText((' ' if cnk == '\n' else '') + cnk)
+                qtmain_wind.TextConsoleView.insertPlainText((' ' if cnk == '\n' else '') + cnk)
 
                 # Кажется что без задержек у меня все вылетает, но это стоит потом отладить, заебался уже. работает - не трогай!
                 time.sleep(0.5)

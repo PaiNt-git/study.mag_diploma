@@ -14,10 +14,6 @@ def db_list_all_lemms():
 
     results = list(results)
 
-    print('test1')
-
-    print('test2')
-
     return results
 
 

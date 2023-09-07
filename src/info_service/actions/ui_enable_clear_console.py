@@ -1,3 +1,3 @@
 
 def main(main_window):
-    main_window.ClearConsole.setEnabled(True)
+    main_window.ButtonClearConsole.setEnabled(True)
