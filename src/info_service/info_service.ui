@@ -288,7 +288,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="LemmsCurPage">
+               <widget class="QLabel" name="CurPageTableAllLemms">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
@@ -308,7 +308,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="LemmsMaxPage">
+               <widget class="QLabel" name="MaxPageTableAllLemms">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
@@ -321,7 +321,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="LemmsFirstPage">
+               <widget class="QPushButton" name="ButtonFirstPageTableAllLemms">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -341,7 +341,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="LemmsPrevPage">
+               <widget class="QPushButton" name="ButtonsPrevPageTableAllLemms">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -361,7 +361,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="LemmsNextPage">
+               <widget class="QPushButton" name="ButtonNextPageTableAllLemms">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -379,7 +379,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="LemmsLastPage">
+               <widget class="QPushButton" name="ButtonLastPageTableAllLemms">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>

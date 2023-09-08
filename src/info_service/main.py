@@ -107,6 +107,7 @@ class MainWindow(QtWidgets.QMainWindow):
         super(MainWindow, self).__init__()
         uic.loadUi(f'{PACKAGE_NAME}.ui', self)
         self._load_events_handlers()
+        time.sleep(0.5)
 
     def closeEvent(self, event):
         """
@@ -131,6 +132,10 @@ class MainWindow(QtWidgets.QMainWindow):
         """
         global _LOG_LAST_TIMESTAMP
 
+        ui_disable_clear_console = ACTION_PROVIDERS.get('ui_disable_clear_console', None)
+        if ui_disable_clear_console:
+            ui_disable_clear_console(self)
+
         for init_name, callable_ in INIT_PROVIDERS.items():
             if iscoroutinefunction(callable_):
                 await callable_(self)
@@ -143,6 +148,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
         _LOG_LAST_TIMESTAMP = 0
         print(f'\n--->>> ALL init executed... \n')
+
+        ui_enable_clear_console = ACTION_PROVIDERS.get('ui_enable_clear_console', None)
+        if ui_enable_clear_console:
+            ui_enable_clear_console(self)
 
 
 def write_to_window_s(qtmain_wind, message, set_to_field=False):
@@ -189,15 +198,6 @@ def write_to_window_s(qtmain_wind, message, set_to_field=False):
                 # Кажется что без задержек у меня все вылетает, но это стоит потом отладить, заебался уже. работает - не трогай!
                 time.sleep(0.5)
 
-    if _LOG_SAFE_QT_BUFFER.strip() != _LOG_SAFE_QT_BUFFER_INFIELD.strip():
-        ui_disable_clear_console = ACTION_PROVIDERS.get('ui_disable_clear_console', None)
-        if ui_disable_clear_console:
-            ui_disable_clear_console(qtmain_wind)
-    elif set_to_field:
-        ui_enable_clear_console = ACTION_PROVIDERS.get('ui_enable_clear_console', None)
-        if ui_enable_clear_console:
-            ui_enable_clear_console(qtmain_wind)
-
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
@@ -219,6 +219,8 @@ if __name__ == '__main__':
         Евентлуп треда для принта
         https://stackoverflow.com/questions/29692250/restarting-a-thread-in-python
         """
+        global window
+
         while True:
             try:
                 asyncio.set_event_loop(stdout_write_loop)
@@ -228,14 +230,12 @@ if __name__ == '__main__':
             else:
                 print('exited normally, bad thread; restarting')
 
-            ui_enable_clear_console = ACTION_PROVIDERS.get('ui_enable_clear_console', None)
-            if ui_enable_clear_console:
-                ui_enable_clear_console(window)
-
     def program_event_thread_target():
         """
         Евентлуп треда загрузки инициализаторов
         """
+        global window
+
         program_event_loop.run_until_complete(window._init_program_event())
 
     class SysRedirect(object):
@@ -250,7 +250,7 @@ if __name__ == '__main__':
             self.terminal = sys.stdout       # To continue writing to terminal
 
         def write(self, message):
-            global _LOG_LAST_TIMESTAMP
+            global _LOG_LAST_TIMESTAMP, window
             self.write_thread = threading.currentThread()
 
             if self.terminal:
@@ -263,13 +263,6 @@ if __name__ == '__main__':
                     set_to_field = False
                     if time.time() - _LOG_LAST_TIMESTAMP > 2:
                         set_to_field = True
-
-                    #===========================================================
-                    # looprunn = stdout_write_loop.is_running()
-                    # threadalive = (window._forever_run_stdout_write_thread and window._forever_run_stdout_write_thread.is_alive())
-                    # if not looprunn or not threadalive:
-                    #     window._forever_run_stdout_write_thread.run()
-                    #===========================================================
 
                     handle = stdout_write_loop.call_soon_threadsafe(write_to_window_s, self.qtmain_wind, message, set_to_field, context=None)
 

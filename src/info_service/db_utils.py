@@ -18,6 +18,12 @@ from info_service.db_base import engine, Session
 logger = logging.getLogger('info_service')
 
 
+class AttrOrderedDict(OrderedDict):
+    def __init__(self, *args, **kwargs):
+        super(AttrOrderedDict, self).__init__(*args, **kwargs)
+        self.__dict__ = self
+
+
 def normalize_scalars(value):
     if isinstance(value, Decimal):
         return float(value)
@@ -37,8 +43,8 @@ def normalize_scalars(value):
     elif isinstance(value, dict):
         return {k: normalisator(v_) for k, v_ in value.items()}
 
-    elif isinstance(value, OrderedDict):
-        return OrderedDict(((k, normalisator(v_)) for k, v_ in value.items()))
+    elif isinstance(value, AttrOrderedDict):
+        return AttrOrderedDict(((k, normalisator(v_)) for k, v_ in value.items()))
 
     return value
 
@@ -51,8 +57,8 @@ def normalisator(v):
     elif isinstance(v, dict):
         v = {k: normalize_scalars(v_) for k, v_ in v.items()}
 
-    elif isinstance(v, OrderedDict):
-        v = OrderedDict(((k, normalize_scalars(v_)) for k, v_ in v.items()))
+    elif isinstance(v, AttrOrderedDict):
+        v = AttrOrderedDict(((k, normalize_scalars(v_)) for k, v_ in v.items()))
 
     else:
         v = normalize_scalars(v)
@@ -74,7 +80,7 @@ def togudb_serializator(togudb_obj, include=None, exclude=None):
                   if isinstance(value, InstrumentedAttribute) \
                   and not isinstance(value.impl, (ScalarObjectAttributeImpl, CollectionAttributeImpl))]
 
-    _temp = OrderedDict()
+    _temp = AttrOrderedDict()
 
     if include:
         attrs_keys = filter(lambda x: x in include, attrs_keys)
