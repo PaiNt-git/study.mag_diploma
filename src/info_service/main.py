@@ -206,13 +206,16 @@ if __name__ == '__main__':
     time.sleep(0.1)
 
     stdout_write_loop = asyncio.new_event_loop()
-    program_event_loop = asyncio.new_event_loop()
+    program_init_loop = asyncio.new_event_loop()
+    program_actions_loop = asyncio.new_event_loop()
 
     window.stdout_write_loop = stdout_write_loop
-    window.program_event_loop = program_event_loop
+    window.program_init_loop = program_init_loop
+    window.program_actions_loop = program_actions_loop
 
     window._forever_run_stdout_write_thread = None
-    window._program_event_thread = None
+    window._program_init_thread = None
+    window._forever_run_actions_loop_thread = None
 
     def forever_run_stdout_write_thread_target():
         """
@@ -236,7 +239,26 @@ if __name__ == '__main__':
         """
         global window
 
-        program_event_loop.run_until_complete(window._init_program_event())
+        program_init_loop.run_until_complete(window._init_program_event())
+
+    def forever_run_actions_thread_target():
+        """
+        Евентлуп треда для действий иницированных элементами гуя
+
+        Исполнять неблокирующее ассинхронное действие в эвентпуле отдельного потока:
+        asyncio.run_coroutine_threadsafe(coroutine(), window.program_actions_loop)
+
+        """
+        global window
+
+        while True:
+            try:
+                asyncio.set_event_loop(program_actions_loop)
+                program_actions_loop.run_forever()
+            except BaseException as e:
+                print('{!r}; restarting thread'.format(e))
+            else:
+                print('exited normally, bad thread; restarting')
 
     class SysRedirect(object):
         """
@@ -286,7 +308,10 @@ if __name__ == '__main__':
     window._forever_run_stdout_write_thread = threading.Thread(target=forever_run_stdout_write_thread_target, daemon=True)
     window._forever_run_stdout_write_thread.start()
 
-    window._program_event_thread = threading.Thread(target=program_event_thread_target)
-    window._program_event_thread.start()
+    window._forever_run_actions_loop_thread = threading.Thread(target=forever_run_actions_thread_target)
+    window._forever_run_actions_loop_thread.start()
+
+    window._program_init_thread = threading.Thread(target=program_event_thread_target)
+    window._program_init_thread.start()
 
     sys.exit(app.exec())

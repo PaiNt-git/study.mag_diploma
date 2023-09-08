@@ -6,11 +6,19 @@ from info_service.db_base import Session, QuestAnswerBase
 from info_service.db_utils import togudb_serializator
 
 
+class AttrDict(dict):
+    def __init__(self, *args, **kwargs):
+        super(AttrDict, self).__init__(*args, **kwargs)
+        self.__dict__ = self
+
+
 def db_list_all_lemms():
 
     session = Session()
 
     results = QuestAnswerBase.get_all_lemms(return_is_dict=True)
+
+    results = map(lambda x: AttrDict(x.items()), results)
 
     results = list(results)
 

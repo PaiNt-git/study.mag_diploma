@@ -1,7 +1,11 @@
+import asyncio
+
 from collections import OrderedDict
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import time
+
+from info_service import actions
 
 
 def main(main_window, table_widget_name, columns: OrderedDict, queryset, page_num=1):
@@ -52,6 +56,6 @@ def main(main_window, table_widget_name, columns: OrderedDict, queryset, page_nu
         table_widget.insertRow(curc)
 
         for k, col_key in enumerate(columns.keys()):
-            table_widget.setItem(curc, k, QtWidgets.QTableWidgetItem(str(item[col_key])))
+            table_widget.setItem(curc, k, QtWidgets.QTableWidgetItem(str(getattr(item, col_key, ''))))
 
     pass
