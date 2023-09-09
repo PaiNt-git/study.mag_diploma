@@ -8,7 +8,7 @@ import time
 from info_service import actions
 
 
-def main(main_window, table_widget_name, columns: OrderedDict, queryset, page_num=1, cell_editable=lambda item: False, cell_edit_callback=None):
+def main(main_window, table_widget_name, columns: OrderedDict, queryset, page_num=1, row_map_callback=None, cell_editable=lambda queryset_row, qt_item: False, cell_edit_callback=None):
     cur_page_widget = getattr(main_window, f'CurPage{table_widget_name}')
     cur_page = int(cur_page_widget.text())
 
@@ -54,18 +54,17 @@ def main(main_window, table_widget_name, columns: OrderedDict, queryset, page_nu
 
     table_widget.setHorizontalHeaderLabels(columns.values())
 
-    for i, item in enumerate(queryset):
+    for i, row in enumerate(queryset):
+
+        if row_map_callback:
+            row = row_map_callback(row)
+
         curc = table_widget.rowCount()
         table_widget.insertRow(curc)
 
         for k, col_key in enumerate(columns.keys()):
 
-            qtcell = QtWidgets.QTableWidgetItem(str(getattr(item, col_key, '')))
-
-            if cell_editable(qtcell):
-                qtcell.setFlags(qtcell.flags() | QtCore.Qt.ItemIsEditable)
-            else:
-                qtcell.setFlags(qtcell.flags() & ~QtCore.Qt.ItemIsEditable)
+            qtcell = QtWidgets.QTableWidgetItem(str(getattr(row, col_key, '')))
 
             #===============================================================================
             # The ** operator does exponentiation. a ** b is a raised to the b power. The same ** symbol is also used in function argument and calling notations, with a different meaning (passing and receiving arbitrary keyword arguments).
@@ -75,6 +74,11 @@ def main(main_window, table_widget_name, columns: OrderedDict, queryset, page_nu
             #===============================================================================
 
             table_widget.setItem(curc, k, qtcell)
+
+            if cell_editable(row, qtcell):
+                qtcell.setFlags(qtcell.flags() | QtCore.Qt.ItemIsEditable)
+            else:
+                qtcell.setFlags(qtcell.flags() & ~QtCore.Qt.ItemIsEditable)
 
     table_widget.setVerticalHeaderLabels(list(map(str, range(offset + 1, len(queryset) + offset + 1))))
 

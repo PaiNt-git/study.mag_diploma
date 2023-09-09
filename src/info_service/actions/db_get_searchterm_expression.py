@@ -6,7 +6,7 @@ from info_service.db_base import Session, QuestAnswerBase
 from info_service import actions
 
 
-def db_get_searchterm_expression(user_search_term, search_on='all'):
+def main(user_search_term, search_on='all'):
 
     vector = QuestAnswerBase.search_vector.property.columns[0]
     if search_on == 'questions':
@@ -23,4 +23,4 @@ def db_get_searchterm_expression(user_search_term, search_on='all'):
 
 
 if __name__ == '__main__':
-    print(db_get_searchterm_expression('fdgdfgd'))
+    print(main('fdgdfgd'))

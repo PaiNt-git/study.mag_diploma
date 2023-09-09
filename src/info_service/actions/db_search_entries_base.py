@@ -6,7 +6,7 @@ from info_service.db_base import Session, QuestAnswerBase
 from info_service.db_utils import togudb_serializator
 
 
-def db_search_entries_base(user_search_term, category=None, sort=False, search_on='all'):
+def main(user_search_term, category=None, sort=False, search_on='all'):
 
     session = Session()
 

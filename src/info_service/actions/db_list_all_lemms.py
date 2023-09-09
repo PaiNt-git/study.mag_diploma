@@ -12,7 +12,7 @@ class AttrDict(dict):
         self.__dict__ = self
 
 
-def db_list_all_lemms():
+def main():
 
     session = Session()
 
@@ -26,4 +26,4 @@ def db_list_all_lemms():
 
 
 if __name__ == '__main__':
-    print(db_list_all_lemms())
+    print(main())
