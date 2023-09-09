@@ -37,7 +37,7 @@
       <item>
        <widget class="QTabWidget" name="ProgramScreens">
         <property name="currentIndex">
-         <number>0</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="EntriesCRUD">
          <attribute name="title">
@@ -311,7 +311,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="ButtonsPrevPageTableAllLemms">
+               <widget class="QPushButton" name="ButtonPrevPageTableAllLemms">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>

@@ -18,5 +18,5 @@ def main(main_window):
         ButtonNextPage = getattr(main_window, f'ButtonNextPage{crud_name}')
         ButtonNextPage.clicked.connect(lambda: actions.win_lemms_next_page(main_window, crud_name))
 
-        ButtonsPrevPage = getattr(main_window, f'ButtonsPrevPage{crud_name}')
+        ButtonsPrevPage = getattr(main_window, f'ButtonPrevPage{crud_name}')
         ButtonsPrevPage.clicked.connect(lambda: actions.win_lemms_prev_page(main_window, crud_name))

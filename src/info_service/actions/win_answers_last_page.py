@@ -1,8 +1,10 @@
 import json
-
-from PyQt5 import QtCore, QtGui, QtWidgets
+import asyncio
 
 from collections import OrderedDict
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+import time
 
 from info_service.db_base import Session, QuestAnswerBase
 
@@ -11,7 +13,13 @@ from info_service.db_utils import togudb_serializator
 from info_service import actions
 
 
-def main(main_window):
+def main(main_window, table_widget_name):
+
+    cur_page_widget = getattr(main_window, f'CurPage{table_widget_name}')
+    cur_page = int(cur_page_widget.text())
+
+    max_page_widget = getattr(main_window, f'MaxPage{table_widget_name}')
+    max_page = int(max_page_widget.text())
 
     columns = OrderedDict(
         [
@@ -47,7 +55,7 @@ def main(main_window):
     actions.win_CRUD_load_page(main_window, 'TableAllAnswers',
                                columns,
                                actions.db_list_entries(),
-                               page_num=1,
+                               page_num=max_page,
                                row_map_callback=lambda x: q_k_result_format_override(togudb_serializator(x, include=columns.keys())),
                                cell_editable=cell_editable,
                                )
