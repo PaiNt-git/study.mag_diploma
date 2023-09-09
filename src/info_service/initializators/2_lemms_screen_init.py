@@ -4,6 +4,8 @@ from collections import OrderedDict
 
 from info_service import actions
 
+from info_service.actions._lemms_utils import *
+
 
 def main(main_window):
     actions.win_CRUD_load_page(main_window, 'TableAllLemms', OrderedDict(

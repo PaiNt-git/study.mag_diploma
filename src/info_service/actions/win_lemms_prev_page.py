@@ -7,6 +7,8 @@ import time
 
 from info_service import actions
 
+from info_service.actions._lemms_utils import *
+
 
 def main(main_window, table_widget_name):
 
