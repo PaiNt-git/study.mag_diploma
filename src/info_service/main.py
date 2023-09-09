@@ -115,8 +115,17 @@ class MainWindow(QtWidgets.QMainWindow):
         Закрытие программы, закрытие потоков, плохо работает
         :param event:
         """
-        print('closing...')
-        #self._forever_run_stdout_write_thread.join()
+        print('closing..')
+
+        window.stdout_write_loop = None
+        window.program_init_loop = None
+        window.program_actions_loop = None
+
+        self._program_init_thread = None
+        self._forever_run_stdout_write_thread = None
+        self._forever_run_actions_loop_thread = None
+
+        time.sleep(0.2)
         event.accept()
 
     def _load_events_handlers(self):
@@ -214,6 +223,10 @@ if __name__ == '__main__':
     window.program_init_loop = program_init_loop
     window.program_actions_loop = program_actions_loop
 
+    _forever_run_stdout_write_thread = None
+    _program_init_thread = None
+    _forever_run_actions_loop_thread = None
+
     window._forever_run_stdout_write_thread = None
     window._program_init_thread = None
     window._forever_run_actions_loop_thread = None
@@ -306,13 +319,18 @@ if __name__ == '__main__':
     logger.setLevel(logging.DEBUG)
     logger.addHandler(logging.StreamHandler(stream=sys.stdout))
 
-    window._forever_run_stdout_write_thread = threading.Thread(target=forever_run_stdout_write_thread_target, daemon=True)
+    _forever_run_stdout_write_thread = threading.Thread(target=forever_run_stdout_write_thread_target, daemon=True)
+    window._forever_run_stdout_write_thread = _forever_run_stdout_write_thread
     window._forever_run_stdout_write_thread.start()
 
-    window._forever_run_actions_loop_thread = threading.Thread(target=forever_run_actions_thread_target)
+    _forever_run_actions_loop_thread = threading.Thread(target=forever_run_actions_thread_target, daemon=True)
+    window._forever_run_actions_loop_thread = _forever_run_actions_loop_thread
     window._forever_run_actions_loop_thread.start()
 
-    window._program_init_thread = threading.Thread(target=program_event_thread_target)
+    _program_init_thread = threading.Thread(target=program_event_thread_target, daemon=True)
+    window._program_init_thread = _program_init_thread
     window._program_init_thread.start()
 
-    sys.exit(app.exec())
+    qtapp = app.exec()
+
+    sys.exit()
