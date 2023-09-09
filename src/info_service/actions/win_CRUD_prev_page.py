@@ -9,7 +9,6 @@ from info_service import actions
 
 
 def main(main_window, table_widget_name):
-    print('prev page start')
 
     cur_page_widget = getattr(main_window, f'CurPage{table_widget_name}')
     cur_page = int(cur_page_widget.text())
@@ -30,5 +29,3 @@ def main(main_window, table_widget_name):
         actions.db_list_all_lemms(),
         page_num=cur_page - 1,
     )
-
-    print('prev page end')

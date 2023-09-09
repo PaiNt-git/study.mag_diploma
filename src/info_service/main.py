@@ -104,6 +104,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """
         Загрузка инфтерфейса, присоединение обработчиков событий
         """
+        self.MAINWINDOW_LOCAL_STORAGE = {}
         super(MainWindow, self).__init__()
         uic.loadUi(f'{PACKAGE_NAME}.ui', self)
         self._load_events_handlers()

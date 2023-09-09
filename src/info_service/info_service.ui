@@ -37,7 +37,7 @@
       <item>
        <widget class="QTabWidget" name="ProgramScreens">
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="EntriesCRUD">
          <attribute name="title">
@@ -87,7 +87,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="AnswersCurPage">
+               <widget class="QLabel" name="CurPageTableAllAnswers">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
@@ -107,7 +107,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="AnswersMaxPage">
+               <widget class="QLabel" name="MaxPageTableAllAnswers">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
@@ -120,7 +120,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="AnswersFirstPage">
+               <widget class="QPushButton" name="ButtonFirstPageTableAllAnswers">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -140,7 +140,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="AnswersPrevPage">
+               <widget class="QPushButton" name="ButtonPrevPageTableAllAnswers">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -160,7 +160,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="AnswersNextPage">
+               <widget class="QPushButton" name="ButtonNextPageTableAllAnswers">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -178,7 +178,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="AnswersLastPage">
+               <widget class="QPushButton" name="ButtonLastPageTableAllAnswers">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -204,36 +204,6 @@
               <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>false</bool>
               </attribute>
-              <column>
-               <property name="text">
-                <string>Лемма</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Вес (Pg)</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Вес</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Вхождений в ответе</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Вхождений за всю базу</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Колонка</string>
-               </property>
-              </column>
              </widget>
             </item>
            </layout>
@@ -405,36 +375,6 @@
               <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>false</bool>
               </attribute>
-              <column>
-               <property name="text">
-                <string>Лемма</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Вес (Pg)</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Вес</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Вхождений в ответе</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Вхождений за всю базу</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Колонка</string>
-               </property>
-              </column>
              </widget>
             </item>
            </layout>
@@ -494,7 +434,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="ResultsCurPage">
+               <widget class="QLabel" name="CurPageTableAllResults">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
@@ -514,7 +454,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="ResultsMaxPage">
+               <widget class="QLabel" name="MaxPageTableAllResults">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
@@ -527,7 +467,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="ResultsFirstPage">
+               <widget class="QPushButton" name="ButtonFirstPageTableAllResults">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -547,7 +487,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="ResultsPrevPage">
+               <widget class="QPushButton" name="ButtonPrevPageTableAllResults">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -567,7 +507,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="ResultsNextPage">
+               <widget class="QPushButton" name="ButtonNextPageTableAllResults">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -585,7 +525,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="ResultsLastPage">
+               <widget class="QPushButton" name="ButtonLastPageTableAllResults">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -611,36 +551,6 @@
               <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>false</bool>
               </attribute>
-              <column>
-               <property name="text">
-                <string>Лемма</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Вес (Pg)</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Вес</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Вхождений в ответе</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Вхождений за всю базу</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Колонка</string>
-               </property>
-              </column>
              </widget>
             </item>
            </layout>

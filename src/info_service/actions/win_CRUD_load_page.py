@@ -8,7 +8,7 @@ import time
 from info_service import actions
 
 
-def main(main_window, table_widget_name, columns: OrderedDict, queryset, page_num=1):
+def main(main_window, table_widget_name, columns: OrderedDict, queryset, page_num=1, cell_editable=lambda item: False, cell_edit_callback=None):
     cur_page_widget = getattr(main_window, f'CurPage{table_widget_name}')
     cur_page = int(cur_page_widget.text())
 
@@ -59,7 +59,22 @@ def main(main_window, table_widget_name, columns: OrderedDict, queryset, page_nu
         table_widget.insertRow(curc)
 
         for k, col_key in enumerate(columns.keys()):
-            table_widget.setItem(curc, k, QtWidgets.QTableWidgetItem(str(getattr(item, col_key, ''))))
+
+            qtcell = QtWidgets.QTableWidgetItem(str(getattr(item, col_key, '')))
+
+            if cell_editable(qtcell):
+                qtcell.setFlags(qtcell.flags() | QtCore.Qt.ItemIsEditable)
+            else:
+                qtcell.setFlags(qtcell.flags() & ~QtCore.Qt.ItemIsEditable)
+
+            #===============================================================================
+            # The ** operator does exponentiation. a ** b is a raised to the b power. The same ** symbol is also used in function argument and calling notations, with a different meaning (passing and receiving arbitrary keyword arguments).
+            # The ^ operator does a binary xor. a ^ b will return a value with only the bits set in a or in b but not both. This one is simple!
+            # The % operator is mostly to find the modulus of two integers. a % b returns the remainder after dividing a by b. Unlike the modulus operators in some other programming languages (such as C), in Python a modulus it will have the same sign as b, rather than the same sign as a. The same operator is also used for the "old" style of string formatting, so a % b can return a string if a is a format string and b is a value (or tuple of values) which can be inserted into a.
+            # The // operator does Python's version of integer division. Python's integer division is not exactly the same as the integer division offered by some other languages (like C), since it rounds towards negative infinity, rather than towards zero. Together with the modulus operator, you can say that a == (a // b)*b + (a % b).
+            #===============================================================================
+
+            table_widget.setItem(curc, k, qtcell)
 
     table_widget.setVerticalHeaderLabels(list(map(str, range(offset + 1, len(queryset) + offset + 1))))
 
