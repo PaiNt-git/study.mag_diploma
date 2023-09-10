@@ -10,7 +10,9 @@ from info_service import actions
 from info_service.actions._lemms_utils import *
 
 
-def main(main_window, table_widget_name):
+def main(main_window):
+
+    table_widget_name = 'TableAllLemms'
 
     cur_page_widget = getattr(main_window, f'CurPage{table_widget_name}')
     cur_page = int(cur_page_widget.text())
@@ -20,7 +22,7 @@ def main(main_window, table_widget_name):
 
     actions.win_CRUD_load_page(main_window, 'TableAllLemms', OrderedDict(
         [
-            ('word', 'Лемма'),
+            ('word', 'Отстемленная Лемма'),
             ('weight', 'Вес (Pg)'),
             ('weight_norm', 'Вес'),
             ('ndoc', 'Вхождений в ответе'),

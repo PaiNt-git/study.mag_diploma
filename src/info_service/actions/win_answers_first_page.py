@@ -15,7 +15,9 @@ from info_service import actions
 from info_service.actions._answers_utils import *
 
 
-def main(main_window, table_widget_name):
+def main(main_window):
+
+    table_widget_name = 'TableAllAnswers'
 
     cur_page_widget = getattr(main_window, f'CurPage{table_widget_name}')
     cur_page = int(cur_page_widget.text())

@@ -8,8 +8,10 @@ from info_service.actions._lemms_utils import *
 
 
 def main(main_window):
-    actions.win_CRUD_load_page(main_window, 'TableAllLemms', OrderedDict(
+
+    columns = OrderedDict(
         [
+
             ('word', 'Лемма'),
             ('weight', 'Вес (Pg)'),
             ('weight_norm', 'Вес'),
@@ -17,6 +19,8 @@ def main(main_window):
             ('nentry', 'Вхождений за всю базу'),
             ('col_name', 'Колонка'),
 
-        ]),
-        actions.db_list_all_lemms(),
-    )
+        ])
+
+    actions.win_CRUD_load_page(main_window, 'TableAllLemms', columns,
+                               actions.db_list_all_lemms(),
+                               )

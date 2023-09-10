@@ -134,7 +134,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """
         for event_name, callable_ in EVENT_PROVIDERS.items():
             callable_(self)
-            print(f'\n+++>"{event_name}" init connected to MainWindow... ')
+            print(f'\n+++>"{event_name}" handlers connected to MainWindow... ')
 
     async def _init_program_event(self):
         """
@@ -185,6 +185,7 @@ def write_to_window_s(qtmain_wind, message, set_to_field=False):
         _LOG_SAFE_QT_BUFFER_INFIELD = ''
         qtmain_wind.TextConsoleView.clear()
         time.sleep(6.0)
+        _LOG_LAST_TIMESTAMP = 0
         _clearing_field_flag = False
 
     _LOG_SAFE_QT_BUFFER = f'{_LOG_SAFE_QT_BUFFER}{message}'

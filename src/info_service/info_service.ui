@@ -8,7 +8,7 @@
     <x>0</x>
     <y>0</y>
     <width>904</width>
-    <height>703</height>
+    <height>622</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -586,19 +586,6 @@
             </item>
            </layout>
           </item>
-          <item row="3" column="1">
-           <spacer name="horizontalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
           <item row="6" column="1">
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
@@ -630,6 +617,22 @@
             </item>
            </layout>
           </item>
+          <item row="3" column="1">
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Expanding</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>110</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
          </layout>
         </widget>
         <widget class="QWidget" name="Results">
@@ -647,7 +650,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_16">
+             <widget class="QLabel" name="LabelInitialQuery">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -712,7 +715,7 @@ background-color: rgb(248, 233, 158);</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="CurPageTableAllResults">
+               <widget class="QLabel" name="CurPageTableInitialAllResults">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
@@ -732,7 +735,7 @@ background-color: rgb(248, 233, 158);</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="MaxPageTableAllResults">
+               <widget class="QLabel" name="MaxPageTableInitialAllResults">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
@@ -745,7 +748,7 @@ background-color: rgb(248, 233, 158);</string>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="ButtonFirstPageTableAllResults">
+               <widget class="QPushButton" name="ButtonFirstPageTableInitialAllResults">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -765,7 +768,7 @@ background-color: rgb(248, 233, 158);</string>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="ButtonPrevPageTableAllResults">
+               <widget class="QPushButton" name="ButtonPrevPageTableInitialAllResults">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -785,7 +788,7 @@ background-color: rgb(248, 233, 158);</string>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="ButtonNextPageTableAllResults">
+               <widget class="QPushButton" name="ButtonNextPageTableInitialAllResults">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -803,7 +806,7 @@ background-color: rgb(248, 233, 158);</string>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="ButtonLastPageTableAllResults">
+               <widget class="QPushButton" name="ButtonLastPageTableInitialAllResults">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -825,7 +828,7 @@ background-color: rgb(248, 233, 158);</string>
              </layout>
             </item>
             <item>
-             <widget class="QTableWidget" name="TableAllResults">
+             <widget class="QTableWidget" name="TableInitialAllResults">
               <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>false</bool>
               </attribute>
@@ -843,7 +846,7 @@ background-color: rgb(248, 233, 158);</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_17">
+             <widget class="QLabel" name="LabelModifiedQuery">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -908,7 +911,7 @@ background-color: rgb(191, 255, 138);</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="CurPageTableAllResults_2">
+               <widget class="QLabel" name="CurPageTableModifiedAllResults">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
@@ -928,7 +931,7 @@ background-color: rgb(191, 255, 138);</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="MaxPageTableAllResults_2">
+               <widget class="QLabel" name="MaxPageTableModifiedAllResults">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
@@ -941,7 +944,7 @@ background-color: rgb(191, 255, 138);</string>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="ButtonFirstPageTableAllResults_2">
+               <widget class="QPushButton" name="ButtonFirstPageTableModifiedAllResults">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -961,7 +964,7 @@ background-color: rgb(191, 255, 138);</string>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="ButtonPrevPageTableAllResults_2">
+               <widget class="QPushButton" name="ButtonPrevPageTableModifiedAllResults">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -981,7 +984,7 @@ background-color: rgb(191, 255, 138);</string>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="ButtonNextPageTableAllResults_2">
+               <widget class="QPushButton" name="ButtonNextPageTableModifiedAllResults">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -999,7 +1002,7 @@ background-color: rgb(191, 255, 138);</string>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="ButtonLastPageTableAllResults_2">
+               <widget class="QPushButton" name="ButtonLastPageTableModifiedAllResults">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -1021,7 +1024,7 @@ background-color: rgb(191, 255, 138);</string>
              </layout>
             </item>
             <item>
-             <widget class="QTableWidget" name="TableAllResults_2">
+             <widget class="QTableWidget" name="TableModifiedAllResults">
               <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>false</bool>
               </attribute>
