@@ -40,11 +40,6 @@ a = Analysis(['src\\info_service\\main.py'],
              datas=[
 
                 (pymorph_data, 'pymorphy2_dicts_ru/data'),
-
-                ('src/info_service/d3dcompiler_47.dll', '.'),
-                ('src/info_service/libEGL.dll', '.'),
-                ('src/info_service/libGLESv2.dll', '.'),
-
                 ('src/info_service/info_service.ui', '.'),
                 ('src/info_service/icon.png', '.'),
 
@@ -61,9 +56,10 @@ a = Analysis(['src\\info_service\\main.py'],
 
 
 
+a.datas += Tree('src/info_service/_redist_root', prefix='.')
+
+
 a.datas += Tree('M:/conda/miniconda-x64/envs/M-conda_study-natasha/Lib\site-packages/natasha/data', prefix='natasha/data')
-
-
 
 
 a.datas += Tree('src/info_service/datasets', prefix='datasets')
