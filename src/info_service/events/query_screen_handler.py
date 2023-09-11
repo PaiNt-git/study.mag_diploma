@@ -35,3 +35,6 @@ def main(main_window):
         _execute_initial_query()
         _execute_modified_query()
     ButtonClearAllQueryScreen.clicked.connect(_clear_all_queries)
+
+    ButtonAnalysisInitialQuery = main_window.ButtonAnalysisInitialQuery
+    ButtonAnalysisInitialQuery.clicked.connect(lambda x: actions.win_initial_query_syntax_analysis(main_window))

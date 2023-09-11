@@ -1,0 +1,151 @@
+import time
+import json
+import asyncio
+
+from collections import OrderedDict
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
+from natasha import (
+    Segmenter,
+    MorphVocab,
+    NewsEmbedding,
+    NewsMorphTagger,
+    NewsSyntaxParser,
+    NewsNERTagger,
+    PER,
+    NamesExtractor,
+    Doc
+)
+
+from ipymarkup import format_span_box_markup, format_span_line_markup, format_dep_markup
+
+from info_service.db_base import Session, QuestAnswerBase
+
+from info_service.db_utils import togudb_serializator
+
+# from info_service import actions
+
+
+from natasha.syntax import token_deps
+
+
+def main(main_window):
+
+    initial_query_text_widget = getattr(main_window, f'TextInitialQuery')
+    initial_query_text = initial_query_text_widget.toPlainText()
+
+    doc = Doc(initial_query_text)
+
+    segmenter = Segmenter()
+
+    emb = NewsEmbedding()
+
+    ner_tagger = NewsNERTagger(emb)
+
+    syntax_parser = NewsSyntaxParser(emb)
+
+    doc.segment(segmenter)
+    doc.parse_syntax(syntax_parser)
+    doc.tag_ner(ner_tagger)
+
+    html_spans = format_span_line_markup(initial_query_text, doc.spans)
+
+    html_syntax_tree = []
+
+    for sentence in doc.sents:
+        sent_tokens = sentence.tokens
+        token_deps_ = token_deps(sent_tokens)
+        html_syntax_tree.append(format_dep_markup([_.text for _ in sent_tokens], token_deps_))
+
+    enreturn = ''
+
+    enreturn += ('\n'.join(html_spans).replace('<div class="tex2jax_ignore" style="white-space: pre-wrap">', '<div class="tex2jax_ignore">'))
+
+    enreturn += '<br><br><br><br>'
+
+    for senthtmls in html_syntax_tree:
+
+        sent_html = list(senthtmls)
+
+        enreturn += ('\n'.join(sent_html) + '<br><br>')
+
+    enreturn = '''
+<!DOCTYPE HTML>
+<html><head></head><body>
+
+''' + enreturn + '''
+
+</body></html>
+'''
+
+    initial_query_analysis_widget = getattr(main_window, f'WebViewAnalysisPreview')
+    initial_query_analysis_widget.setHtml(enreturn)
+
+
+if __name__ == '__main__':
+
+    initial_query_text = '''
+Этого хватило, чтобы в зале воцарилась угнетающая тишина. Участники собрания, возможно, думали, что они находятся в каком-то дурном сне.
+
+— Где ты раздобыл столько денег?
+
+— Здание гильдий разве не общая зона?
+
+— Откуда у тебя такая огромная сумма?!
+
+— Это мы их проспонсировали, — ответил глава Океанических Систем Мититака «Сильные Руки». Его голос больше не дрожал, кажется, он быстрее всех оправился от потрясения.
+
+— То есть предприятие возглавляете вы, Сироэ-доно...
+
+— Да, и я собрал всех сегодня.
+
+— Неудивительно.
+    '''.strip()
+
+    doc = Doc(initial_query_text)
+
+    segmenter = Segmenter()
+
+    emb = NewsEmbedding()
+
+    ner_tagger = NewsNERTagger(emb)
+
+    syntax_parser = NewsSyntaxParser(emb)
+
+    doc.segment(segmenter)
+    doc.parse_syntax(syntax_parser)
+    doc.tag_ner(ner_tagger)
+
+    html_spans = format_span_line_markup(initial_query_text, doc.spans)
+
+    html_syntax_tree = []
+
+    for sentence in doc.sents:
+        sent_tokens = sentence.tokens
+        token_deps_ = token_deps(sent_tokens)
+        html_syntax_tree.append(format_dep_markup([_.text for _ in sent_tokens], token_deps_))
+
+    enreturn = ''
+
+    enreturn += ('\n'.join(html_spans).replace('<div class="tex2jax_ignore" style="white-space: pre-wrap">', '<div class="tex2jax_ignore">'))
+
+    enreturn += '<br><br><br><br>'
+
+    for senthtmls in html_syntax_tree:
+
+        sent_html = list(senthtmls)
+
+        enreturn += ('\n'.join(sent_html) + '<br><br>')
+
+    enreturn = '''
+<!DOCTYPE HTML>
+<html><head></head><body>
+
+''' + enreturn + '''
+
+</body></html>
+'''
+
+    print(enreturn)

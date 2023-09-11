@@ -13,8 +13,10 @@ from importlib import import_module
 
 from inspect import isfunction, iscoroutinefunction
 
+from PyQt5 import QtWebEngineWidgets
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import uic  # , pyrcc
+from PyQt5.QtWebEngineWidgets import QWebEngineView  # working with PyQt5 5.13.1
 
 
 if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
@@ -332,6 +334,12 @@ if __name__ == '__main__':
     window._program_init_thread = _program_init_thread
     window._program_init_thread.start()
 
+    del window
+
     qtapp = app.exec()
+
+    del qtapp
+
+    time.sleep(1)
 
     sys.exit()
