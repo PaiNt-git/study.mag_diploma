@@ -41,8 +41,13 @@ a = Analysis(['src\\info_service\\main.py'],
 
                 (pymorph_data, 'pymorphy2_dicts_ru/data'),
 
+                ('src/info_service/d3dcompiler_47.dll', '.'),
+                ('src/info_service/libEGL.dll', '.'),
+                ('src/info_service/libGLESv2.dll', '.'),
+
                 ('src/info_service/info_service.ui', '.'),
                 ('src/info_service/icon.png', '.'),
+
              ],
              hiddenimports=_tensorflow+_natasha+_modules_actions+_modules_events+_modules_initializators,
              hookspath=[],
