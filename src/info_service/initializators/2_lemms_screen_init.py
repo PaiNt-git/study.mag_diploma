@@ -12,7 +12,7 @@ def main(main_window):
     columns = OrderedDict(
         [
 
-            ('word', 'Лемма'),
+            ('word', 'Отстемленная Лемма'),
             ('weight', 'Вес (Pg)'),
             ('weight_norm', 'Вес'),
             ('ndoc', 'Вхождений в ответе'),

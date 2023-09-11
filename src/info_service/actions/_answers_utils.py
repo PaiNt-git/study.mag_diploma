@@ -11,7 +11,7 @@ def q_k_result_format_override(row):
 
 
 def cell_editable(queryset_row, qt_item):
-    return False
+    # return False
 
     column_inx = qt_item.column()
     if column_inx > 0:

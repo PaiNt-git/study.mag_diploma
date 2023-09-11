@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>904</width>
-    <height>622</height>
+    <width>1040</width>
+    <height>820</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -37,7 +37,7 @@
       <item>
        <widget class="QTabWidget" name="ProgramScreens">
         <property name="currentIndex">
-         <number>3</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="EntriesCRUD">
          <attribute name="title">
@@ -386,7 +386,7 @@
           <string>Анализ запроса</string>
          </attribute>
          <layout class="QGridLayout" name="gridLayout_5">
-          <item row="4" column="0">
+          <item row="5" column="0">
            <widget class="QTextEdit" name="TextQuerySynonims">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
@@ -405,75 +405,82 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="0">
-           <widget class="QTextEdit" name="TextModifiedQuery">
+          <item row="9" column="1">
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
+             <widget class="QPushButton" name="ButtonExecuteModifiedQuery">
+              <property name="text">
+               <string>Выполнить</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="5" column="1">
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <widget class="QPushButton" name="HighlightSynonyms">
+              <property name="text">
+               <string>&lt;- Выделить
+синонимы</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="ButtonClearAllQueryScreen">
+              <property name="text">
+               <string>Очистить
+всё</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="2" rowspan="11">
+           <widget class="QTextEdit" name="TextAnalysisPreview">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
             <property name="minimumSize">
              <size>
-              <width>300</width>
-              <height>70</height>
+              <width>420</width>
+              <height>0</height>
              </size>
             </property>
-            <property name="maximumSize">
-             <size>
-              <width>300</width>
-              <height>70</height>
-             </size>
-            </property>
-            <property name="baseSize">
-             <size>
-              <width>300</width>
-              <height>70</height>
-             </size>
+            <property name="readOnly">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
-          <item row="0" column="2" alignment="Qt::AlignBottom">
-           <widget class="QLabel" name="label_9">
+          <item row="6" column="0">
+           <widget class="QLabel" name="label_18">
             <property name="text">
-             <string>Результат анализа запроса</string>
+             <string>Лемматизация и стемминг с помощью NLP-модели:</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
             </property>
            </widget>
           </item>
-          <item row="3" column="0" alignment="Qt::AlignLeft|Qt::AlignBottom">
-           <widget class="QLabel" name="label_10">
+          <item row="3" column="0">
+           <widget class="QLabel" name="LabelPostgresQueryLexStemming">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="minimumSize">
-             <size>
-              <width>300</width>
-              <height>20</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>300</width>
-              <height>16777215</height>
-             </size>
+            <property name="styleSheet">
+             <string notr="true">border: 1px solid;
+border-color: rgb(134, 134, 134);
+border-radius: 4px;
+background-color: rgb(49, 193, 255);</string>
             </property>
             <property name="text">
-             <string>Выделенные леммы в запросе на которые присутсвуют синонимы в базе</string>
-            </property>
-            <property name="scaledContents">
-             <bool>false</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
@@ -495,6 +502,22 @@
              <bool>true</bool>
             </property>
            </widget>
+          </item>
+          <item row="4" column="1">
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Expanding</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>110</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item row="1" column="0">
            <widget class="QTextEdit" name="TextInitialQuery">
@@ -530,26 +553,17 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="2" rowspan="8">
-           <widget class="QTextEdit" name="TextAnalysisPreview">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+          <item row="0" column="2" alignment="Qt::AlignBottom">
+           <widget class="QLabel" name="label_9">
+            <property name="text">
+             <string>Результат анализа запроса</string>
             </property>
-            <property name="minimumSize">
-             <size>
-              <width>420</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
+            <property name="alignment">
+             <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
             </property>
            </widget>
           </item>
-          <item row="5" column="0">
+          <item row="8" column="0">
            <widget class="QLabel" name="label_11">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -559,6 +573,78 @@
             </property>
             <property name="text">
              <string>Рекомендованный вопрос (оптимизированный для базы)</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" alignment="Qt::AlignLeft|Qt::AlignBottom">
+           <widget class="QLabel" name="label_16">
+            <property name="text">
+             <string>Лемматизация и стемминг от Postgres:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="0">
+           <widget class="QTextEdit" name="TextModifiedQuery">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>300</width>
+              <height>70</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>300</width>
+              <height>70</height>
+             </size>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>300</width>
+              <height>70</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" alignment="Qt::AlignLeft|Qt::AlignBottom">
+           <widget class="QLabel" name="label_10">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>300</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>300</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Выделенные леммы в запросе на которые присутсвуют синонимы в базе</string>
+            </property>
+            <property name="scaledContents">
+             <bool>false</bool>
             </property>
             <property name="alignment">
              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -586,52 +672,24 @@
             </item>
            </layout>
           </item>
-          <item row="6" column="1">
-           <layout class="QVBoxLayout" name="verticalLayout_3">
-            <item>
-             <widget class="QPushButton" name="ButtonExecuteModifiedQuery">
-              <property name="text">
-               <string>Выполнить</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="4" column="1">
-           <layout class="QVBoxLayout" name="verticalLayout_4">
-            <item>
-             <widget class="QPushButton" name="HighlightSynonyms">
-              <property name="text">
-               <string>&lt;- Выделить
-синонимы</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="ButtonClearAllQueryScreen">
-              <property name="text">
-               <string>Очистить
-всё</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="3" column="1">
-           <spacer name="horizontalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+          <item row="7" column="0">
+           <widget class="QLabel" name="LabelNatashaQueryLexStemming">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Expanding</enum>
+            <property name="styleSheet">
+             <string notr="true">border: 1px solid;
+border-color: rgb(134, 134, 134);
+border-radius: 4px;
+background-color: rgb(255, 217, 236);</string>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>110</width>
-              <height>20</height>
-             </size>
+            <property name="text">
+             <string/>
             </property>
-           </spacer>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -1100,7 +1158,7 @@ background-color: rgb(191, 255, 138);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>904</width>
+     <width>1040</width>
      <height>21</height>
     </rect>
    </property>

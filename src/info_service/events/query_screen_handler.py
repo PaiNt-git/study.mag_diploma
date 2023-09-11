@@ -11,6 +11,7 @@ def main(main_window):
     ButtonExecuteInitialQuery = main_window.ButtonExecuteInitialQuery
 
     def _execute_initial_query():
+        actions.win_initial_query_pg_stemming(main_window)
         actions.win_initial_query_refresh_label(main_window)
         actions.win_initial_query_first_page(main_window)
     ButtonExecuteInitialQuery.clicked.connect(_execute_initial_query)
