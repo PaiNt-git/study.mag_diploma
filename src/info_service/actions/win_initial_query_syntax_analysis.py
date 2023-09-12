@@ -38,6 +38,8 @@ def main(main_window):
 
     doc = Doc(initial_query_text)
 
+    morph_vocab = MorphVocab()
+
     segmenter = Segmenter()
 
     emb = NewsEmbedding()
@@ -82,6 +84,44 @@ def main(main_window):
 
     initial_query_analysis_widget = getattr(main_window, f'WebViewAnalysisPreview')
     initial_query_analysis_widget.setHtml(enreturn)
+
+    # Исключениен именованых сущностей из подбора синонимов
+    doc_spans = list(doc.spans)
+
+    table_widget = getattr(main_window, f'TableInitialQueryExceptedTokens')
+
+    table_widget.clear()
+    time.sleep(0.2)
+    table_widget.setRowCount(0)
+
+    columns = OrderedDict(
+        [
+            ('normal', 'NE \n(нормальная форма)'),
+            ('start', 'StartChar'),
+            ('stop', 'EndChar'),
+            ('text', 'форма в тексте'),
+
+        ])
+
+    table_widget.setColumnCount(len(columns))
+
+    table_widget.setHorizontalHeaderLabels(columns.values())
+
+    for i, row in enumerate(doc_spans):
+
+        curc = table_widget.rowCount()
+        table_widget.insertRow(curc)
+
+        row.normalize(morph_vocab)
+
+        for k, col_key in enumerate(columns.keys()):
+
+            qtcell = QtWidgets.QTableWidgetItem(str(getattr(row, col_key, '')))
+            qtcell.setFlags(qtcell.flags() | QtCore.Qt.ItemIsEditable)
+
+            table_widget.setItem(curc, k, qtcell)
+
+    table_widget.setVerticalHeaderLabels(list(map(str, range(1, len(doc_spans) + 1))))
 
 
 if __name__ == '__main__':

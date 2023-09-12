@@ -110,3 +110,7 @@ def main():
     print('\n')
 
     pprint({_.normal: _.fact.as_dict for _ in doc.spans if _.type == PER})
+
+
+if __name__ == '__main__':
+    main()

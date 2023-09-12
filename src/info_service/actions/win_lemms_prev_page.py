@@ -22,11 +22,11 @@ def main(main_window):
 
     actions.win_CRUD_load_page(main_window, 'TableAllLemms', OrderedDict(
         [
-            ('word', 'Отстемленная Лемма'),
+            ('word', 'Отстемленная \nЛемма'),
             ('weight', 'Вес (Pg)'),
             ('weight_norm', 'Вес'),
-            ('ndoc', 'Вхождений в ответе'),
-            ('nentry', 'Вхождений за всю базу'),
+            ('ndoc', 'Вхождений \nв ответе'),
+            ('nentry', 'Вхождений \nза всю базу'),
             ('col_name', 'Колонка'),
 
         ]),
