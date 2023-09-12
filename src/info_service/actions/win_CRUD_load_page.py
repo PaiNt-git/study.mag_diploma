@@ -85,4 +85,12 @@ def main(main_window, table_widget_name, columns: OrderedDict, queryset, page_nu
     cur_page_widget.setText(str(page_num))
     max_page_widget.setText(str(max_page))
 
+    table_widget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+    table_widget.setWordWrap(True)
+    table_widget.resizeColumnsToContents()
+    table_widget.horizontalHeader().setStretchLastSection(True)
+    for i in range(table_widget.columnCount()):
+        if table_widget.columnWidth(i) > 200:
+            table_widget.setColumnWidth(i, 200)
+
     pass

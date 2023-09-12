@@ -123,6 +123,14 @@ def main(main_window):
 
     table_widget.setVerticalHeaderLabels(list(map(str, range(1, len(doc_spans) + 1))))
 
+    table_widget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+    table_widget.setWordWrap(True)
+    table_widget.resizeColumnsToContents()
+    table_widget.horizontalHeader().setStretchLastSection(True)
+    for i in range(table_widget.columnCount()):
+        if table_widget.columnWidth(i) > 200:
+            table_widget.setColumnWidth(i, 200)
+
 
 if __name__ == '__main__':
 
