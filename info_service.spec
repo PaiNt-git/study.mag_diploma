@@ -8,17 +8,17 @@ pymorph_data = pymorphy2_dicts_ru.get_path()
 import time
 import glob
 
-_modules_actions = glob.glob('M:\\home\\git\\study.mag_diploma\\src\\info_service\\actions\\*.py')
+_modules_actions = glob.glob('M:\\home\\git\\magistry2022\\study.mag_diploma\\src\\info_service\\actions\\*.py')
 _modules_actions = [os.path.basename(x)[:-3] for x in _modules_actions if os.path.isfile(x)]
 _modules_actions = ['info_service.actions.'+x for x in _modules_actions if not x.startswith('_')]
 _modules_actions = ['info_service.actions'] + _modules_actions
 
-_modules_events = glob.glob('M:\\home\\git\\study.mag_diploma\\src\\info_service\\events\\*.py')
+_modules_events = glob.glob('M:\\home\\git\\magistry2022\\study.mag_diploma\\src\\info_service\\events\\*.py')
 _modules_events = [os.path.basename(x)[:-3] for x in _modules_events if os.path.isfile(x)]
 _modules_events = ['info_service.events.'+x for x in _modules_events if not x.startswith('_')]
 _modules_events = ['info_service.events'] + _modules_events
 
-_modules_initializators = glob.glob('M:\\home\\git\\study.mag_diploma\\src\\info_service\\initializators\\*.py')
+_modules_initializators = glob.glob('M:\\home\\git\\magistry2022\\study.mag_diploma\\src\\info_service\\initializators\\*.py')
 _modules_initializators = [os.path.basename(x)[:-3] for x in _modules_initializators if os.path.isfile(x)]
 _modules_initializators = ['info_service.initializators.'+x for x in _modules_initializators if not x.startswith('_')]
 _modules_initializators = ['info_service.initializators'] + _modules_initializators
@@ -35,7 +35,7 @@ block_cipher = None
 
 
 a = Analysis(['src\\info_service\\main.py'],
-             pathex=['M:\\home\\git\\study.mag_diploma'],
+             pathex=['M:\\home\\git\\magistry2022\\study.mag_diploma'],
              binaries=[],
              datas=[
 
@@ -59,7 +59,7 @@ a = Analysis(['src\\info_service\\main.py'],
 a.datas += Tree('src/info_service/_redist_root', prefix='.')
 
 
-a.datas += Tree('M:/conda/miniconda-x64/envs/M-conda_study-natasha/Lib\site-packages/natasha/data', prefix='natasha/data')
+a.datas += Tree('M:/conda/miniconda-x64/envs/M-conda_study-natasha/Lib/site-packages/natasha/data', prefix='natasha/data')
 
 
 a.datas += Tree('src/info_service/datasets', prefix='datasets')
