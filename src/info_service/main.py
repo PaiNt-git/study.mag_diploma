@@ -41,7 +41,7 @@ _LOG_LAST_TIMESTAMP = 0
 _LOG_SAFE_QT_BUFFER = ''
 _LOG_SAFE_QT_BUFFER_INFIELD = ''
 _clearing_field_flag = False
-
+_all_inits_runned = False
 
 # Импорт динамических провайдеров, и их доимпортирование специально для pyInstaller
 
@@ -142,7 +142,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """
         Инициализаторы исполняющиеся в параллельном потоке программы
         """
-        global _LOG_LAST_TIMESTAMP
+        global _LOG_LAST_TIMESTAMP, _all_inits_runned
 
         ui_disable_clear_console = ACTION_PROVIDERS.get('ui_disable_clear_console', None)
         if ui_disable_clear_console:
@@ -164,6 +164,8 @@ class MainWindow(QtWidgets.QMainWindow):
         ui_enable_clear_console = ACTION_PROVIDERS.get('ui_enable_clear_console', None)
         if ui_enable_clear_console:
             ui_enable_clear_console(self)
+
+        _all_inits_runned = True
 
 
 def write_to_window_s(qtmain_wind, message, set_to_field=False):
@@ -334,12 +336,21 @@ if __name__ == '__main__':
     window._program_init_thread = _program_init_thread
     window._program_init_thread.start()
 
-    del window
+    # Подождем пока последний созданный поток не отработает все иниты
+    sleeper_count = 0
+    while not _all_inits_runned and sleeper_count < 12:
+        time.sleep(0.31)
+        sleeper_count += 1
 
-    qtapp = app.exec()
+    del window  # Создадим запрос на удаление window но он из-за связанности с app не разрушится в момент работы app,
+    #             но зато не произведет ошибку при выходе из программы (т.к. внутри QT ссылка на созданный поток)
+
+    qtapp = app.exec()  # Блокирующая операция
 
     del qtapp
 
     time.sleep(1)
+
+    del window
 
     sys.exit()
