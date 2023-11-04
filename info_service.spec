@@ -26,6 +26,8 @@ _modules_initializators = ['info_service.initializators'] + _modules_initializat
 
 
 _tensorflow = ['tensorflow', 'h5py', 'h5py.defs', 'h5py.utils', 'h5py.hSac', 'h5py._proxy', 'tensorflow.python._pywrap_tensorflow_internal']
+# Исключим _tensorflow, пока не нужон
+_tensorflow = []
 
 _natasha = [ 'pymorphy2', 'natasha', 'razdel', 'navec', 'slovnet', 'yargy', 'ipymarkup', 'nerus', 'corus', ]
 
