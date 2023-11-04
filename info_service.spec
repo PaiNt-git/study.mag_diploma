@@ -62,7 +62,7 @@ a.datas += Tree('src/info_service/_redist_root', prefix='.')
 a.datas += Tree('M:/conda/miniconda-x64/envs/M-conda_study-natasha/Lib/site-packages/natasha/data', prefix='natasha/data')
 
 
-a.datas += Tree('src/info_service/datasets', prefix='datasets')
+a.datas += Tree('src/info_service/data_for_program', prefix='data_for_program')
 a.datas += Tree('src/info_service/secrets', prefix='secrets')
 
 
