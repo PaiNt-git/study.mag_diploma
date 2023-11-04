@@ -20,8 +20,8 @@ class ModifNavec(Navec):
 
 def main():
 
-    mpath = os.path.join(os.path.expanduser('~'), 'data_for_program/_saved_models/gensim-model.kv')
-    navecpath = os.path.join(os.path.expanduser('~'), 'data_for_program/_saved_models/navec_hudlit_v1_12B_500K_300d_100q.tar')
+    mpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/gensim-model.kv')
+    navecpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/navec_hudlit_v1_12B_500K_300d_100q.tar')
 
     if os.path.isfile(mpath):
         gensim_model = gensim.models.KeyedVectors.load(mpath)

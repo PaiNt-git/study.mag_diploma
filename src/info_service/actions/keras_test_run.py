@@ -45,7 +45,7 @@ def __pixels_load(filepath, moduletdict):
                 counter += 1
 
 
-__pixels_load(os.path.join(os.path.expanduser('~'), 'data_for_program/_saved_models/lab3/etalon.txt'), ETALON_PIXEL_DATA)
+__pixels_load(os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/lab3/etalon.txt'), ETALON_PIXEL_DATA)
 
 
 if len(ETALON_PIXEL_DATA):
@@ -74,7 +74,7 @@ class NNDigitRecogniteModel:
         self.digits_in_line = digits_in_line
         self.encoder = DEFAULT_OH_ENCODER
 
-        modelpath = os.path.join(os.path.expanduser('~'), f'data_for_program/_saved_models/lab3/keras_train_model_{self.nn_key}{self.digits_in_line}.bin')
+        modelpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), f'data_for_program/_saved_models/lab3/keras_train_model_{self.nn_key}{self.digits_in_line}.bin')
 
         if os.path.isfile(modelpath):
             self.model = keras.models.load_model(modelpath)
@@ -109,7 +109,7 @@ class NNDigitRecogniteModel:
     def nn_fit(self):
         self._dataset_to_traintest()
         self.model.fit(self.X_train, self.y_train, epochs=60, batch_size=128)
-        self.model.save(os.path.join(os.path.expanduser('~'), f'data_for_program/_saved_models/lab3/keras_train_model_{self.nn_key}{self.digits_in_line}.bin'))
+        self.model.save(os.path.join('..' if __name__ == '__main__' else os.getcwd(), f'data_for_program/_saved_models/lab3/keras_train_model_{self.nn_key}{self.digits_in_line}.bin'))
         self.model.evaluate(self.X_test, self.y_test)
 
     def nn_predict(self, image_vectors=[]):
@@ -345,7 +345,7 @@ class Clock:
 
 def main():
     # Если в папке найдены образцы для обучения цифр
-    trrainpath = os.path.join(os.path.expanduser('~'), f'data_for_program/_saved_models/lab3/train_dataset/*.txt')
+    trrainpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), f'data_for_program/_saved_models/lab3/train_dataset/*.txt')
     training_samples = glob.glob(trrainpath)
     if len(training_samples):
         nn_digit = NNDigitRecogniteModel(1, 'main')
