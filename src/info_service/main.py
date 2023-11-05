@@ -338,7 +338,7 @@ if __name__ == '__main__':
 
     # Подождем пока последний созданный поток не отработает все иниты
     sleeper_count = 0
-    while not _all_inits_runned and sleeper_count < 5:
+    while not _all_inits_runned and sleeper_count < 10:
         time.sleep(0.31)
         sleeper_count += 1
 
