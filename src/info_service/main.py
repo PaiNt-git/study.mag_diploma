@@ -338,20 +338,22 @@ if __name__ == '__main__':
 
     # Подождем пока последний созданный поток не отработает все иниты
     sleeper_count = 0
-    while not _all_inits_runned and sleeper_count < 6:
+    while not _all_inits_runned and sleeper_count < 1:
         time.sleep(0.33)
         sleeper_count += 1
 
-    # del window  # Создадим запрос на удаление window но он из-за связанности с app не разрушится в момент работы app,
+    del window  # Создадим запрос на удаление window но он из-за связанности с app не разрушится в момент работы app,
     #             но зато не произведет ошибку при выходе из программы (т.к. внутри QT ссылка на созданный поток)
 
     qtapp = app.exec()  # Блокирующая операция
 
-    del window._forever_run_stdout_write_thread
-    del window._forever_run_actions_loop_thread
-    del window._program_init_thread
+    _forever_run_stdout_write_thread.join()
+    _forever_run_actions_loop_thread.join()
+    _program_init_thread.join()
 
-    del window
+    # del _forever_run_stdout_write_thread
+    # del _forever_run_actions_loop_thread
+    # del _program_init_thread
 
     time.sleep(1)
 
