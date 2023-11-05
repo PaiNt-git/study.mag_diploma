@@ -15,10 +15,8 @@ try:
 except ImportError:
     raise gs_utils.NO_CYTHON
 
-
 cdef public void initteacher():
     pass
-
 
 logger = logging.getLogger('gensim')
 logger.setLevel(logging.ERROR)
@@ -54,39 +52,53 @@ class CorpusWrapper:
 
 
 def load_train(
-    train=False,
-    train_kwargs={},
-    train_file_suffix='',
-    train_debug=False,
-    vector_size=100,
-    alpha=0.025,
-    window=5,
-    min_count=5,
-    max_vocab_size=None,
-    sample=1e-3,
-    seed=1,
-    workers=0,
-    min_alpha=0.0001,
-    sg=0,
-    hs=0,
-    negative=5,
-    ns_exponent=0.75,
-    cbow_mean=1,
-    hashfxn=hash,
-    epochs=5,
-    null_word=0,
-    trim_rule=None,
-    sorted_vocab=1,
-    batch_words=MAX_WORDS_IN_BATCH,
-    compute_loss=False,
-    callbacks=(),
-    comment=None,
-    max_final_vocab=None,
-    shrink_windows=True,
+**kwargs
 ):
-    func_arguments = {k:v for k, v in locals().items()}
+    """
+    Available kwargs
+    :param train:
+    :param train_kwargs:
+    :param train_file_suffixes:
+    :param train_debug:
+    :param vector_size:
+    :param alpha:
+    :param window:
+    :param min_count:
+    :param max_vocab_size:
+    :param sample:
+    :param seed:
+    :param workers:
+    :param min_alpha:
+    :param sg:
+    :param hs:
+    :param negative:
+    :param ns_exponent:
+    :param cbow_mean:
+    :param hashfxn:
+    :param epochs:
+    :param null_word:
+    :param trim_rule:
+    :param sorted_vocab:
+    :param batch_words:
+    :param compute_loss:
+    :param callbacks:
+    :param comment:
+    :param max_final_vocab:
+    :param shrink_windows:
+
+    Defaults:
+
+    train=False, train_kwargs={}, train_file_suffixes=None, train_debug=False, vector_size=100,
+    alpha=0.025, window=5, min_count=5, max_vocab_size=None, sample=1e-3, seed=1, workers=0, min_alpha=0.0001,
+    sg=0, hs=0, negative=5, ns_exponent=0.75, cbow_mean=1, hashfxn=hash, epochs=5, null_word=0, trim_rule=None,
+    sorted_vocab=1, batch_words=MAX_WORDS_IN_BATCH, compute_loss=False, callbacks=(),
+    comment=None, max_final_vocab=None, shrink_windows=True
+    """
+    func_arguments = {k:v for k, v in kwargs.items()}
+    print(func_arguments)
     train_ = func_arguments.pop("train") if "train" in func_arguments else False
-    train_file_suffix_ = func_arguments.pop("train_file_suffix") if "train_file_suffix" in func_arguments else ''
+    train_file_suffixes_ = func_arguments.pop("train_file_suffixes") if "train_file_suffixes" in func_arguments else None
+    train_file_suffixes_ = [] if not train_file_suffixes_ else train_file_suffixes_
     train_debug_ = func_arguments.pop("train_debug") if "train_debug" in func_arguments else False
     if train_ and train_debug_:
         logger.setLevel(logging.DEBUG)
@@ -94,6 +106,16 @@ def load_train(
 
     if 'workers' not in func_arguments or not func_arguments['workers']:
         func_arguments['workers'] = multiprocessing.cpu_count()-1
+
+    allready_trained_path = os.path.join(os.path.join(MAIN_PACKAGE_DIR, "corpuses"), 'allready_trained.txt')
+    if not os.path.isfile(allready_trained_path):
+        fp = open(allready_trained_path, 'w')
+        fp.close()
+
+    allready_trained = []
+    with open(allready_trained_path) as f:
+        allready_trained = f.readlines()
+    allready_trained = [x.strip() for x in  set(allready_trained)]
 
     corpuses = glob.glob(os.path.join(MAIN_PACKAGE_DIR, "corpuses", "*.gz"))
     for corpus in corpuses:
@@ -111,9 +133,6 @@ def load_train(
             model.save(modfname)
 
         if train_:
-            if train_file_suffix_:
-                copath = os.path.splitext(corpus)
-                sentences_ = CorpusWrapper(copath[0]+train_file_suffix_+copath[1])
 
             if 'total_examples' not in train_kwargs_:
                 train_kwargs_['total_examples'] = model.corpus_count
@@ -133,13 +152,40 @@ def load_train(
             if 'compute_loss' not in train_kwargs_:
                 train_kwargs_['compute_loss'] = model.compute_loss
 
-            model.train(corpus_iterable=sentences_, **train_kwargs)
-            model.save(modfname)
+            trained = False
+
+            # Дообучение
+            if len(train_file_suffixes_):
+                copath = os.path.splitext(corpus)
+                for suff in train_file_suffixes_:
+                    corppath = copath[0]+suff+copath[1]
+
+                    if allready_trained.count(os.path.basename(corppath))==0:
+                        sennces_ = CorpusWrapper(corppath)
+                        model.train(corpus_iterable=sennces_, **train_kwargs_)
+                        allready_trained.append(os.path.basename(corppath))
+                        trained = True
+
+            else:
+                if allready_trained.count(os.path.basename(corpus))==0:
+                    model.train(corpus_iterable=sentences_, **train_kwargs_)
+                    allready_trained.append(os.path.basename(corpus))
+                    trained = True
+
+            if trained:
+                model.save(modfname)
+
+    with open(allready_trained_path, 'w') as f:
+        f.seek(0)
+        f.truncate(0)
+        f.writelines(map(lambda x: x+'\n', allready_trained))
 
 
 def PyInit_teacher():
     initteacher()
 
 
-if __name__ == '__main__':
-    load_train()
+#===============================================================================
+# if __name__ == '__main__':
+#     load_train(train=True)
+#===============================================================================

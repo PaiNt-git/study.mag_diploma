@@ -1,4 +1,4 @@
 import teacher
 
 if __name__ == '__main__':
-    teacher.load_train()
+    teacher.load_train(train=True)
