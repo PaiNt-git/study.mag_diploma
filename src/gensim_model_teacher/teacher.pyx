@@ -34,18 +34,19 @@ def load_gz_lines(path, encoding='utf8'):
             yield line.decode(encoding).rstrip('\n')
 
 
-
-
 class CorpusWrapper:
     """
     https://habr.com/ru/companies/vk/articles/426113/
     """
-    def __init__(self, path):
+    def __init__(self, path, line_callback=None):
         self.path = path
+        self.line_callback = line_callback
 
     def __iter__(self):
         corpus_lines = load_gz_lines(self.path)
         for line in corpus_lines:
+            if self.line_callback:
+                line = self.line_callback(line)
             # assume there's one document per line, tokens separated by whitespace
             yield gs_utils.simple_preprocess(line)
 
@@ -60,6 +61,7 @@ def load_train(
     :param train_kwargs:
     :param train_file_suffixes:
     :param train_debug:
+    :param corpus_line_callback:
     :param vector_size:
     :param alpha:
     :param window:
@@ -88,8 +90,8 @@ def load_train(
 
     Defaults:
 
-    train=False, train_kwargs={}, train_file_suffixes=None, train_debug=False, vector_size=100,
-    alpha=0.025, window=5, min_count=5, max_vocab_size=None, sample=1e-3, seed=1, workers=0, min_alpha=0.0001,
+    train=False, train_kwargs={}, train_file_suffixes=None, train_debug=False, corpus_line_callback=None,
+    vector_size=100, alpha=0.025, window=5, min_count=5, max_vocab_size=None, sample=1e-3, seed=1, workers=0, min_alpha=0.0001,
     sg=0, hs=0, negative=5, ns_exponent=0.75, cbow_mean=1, hashfxn=hash, epochs=5, null_word=0, trim_rule=None,
     sorted_vocab=1, batch_words=MAX_WORDS_IN_BATCH, compute_loss=False, callbacks=(),
     comment=None, max_final_vocab=None, shrink_windows=True
@@ -103,6 +105,7 @@ def load_train(
     if train_ and train_debug_:
         logger.setLevel(logging.DEBUG)
     train_kwargs_ = func_arguments.pop("train_kwargs") if "train_kwargs" in func_arguments else {}
+    corpus_line_callback_ = func_arguments.pop("corpus_line_callback") if "corpus_line_callback" in func_arguments else None
 
     if 'workers' not in func_arguments or not func_arguments['workers']:
         func_arguments['workers'] = multiprocessing.cpu_count()-1
@@ -124,7 +127,7 @@ def load_train(
         base_name = os.path.basename(corpus)
         modfname = os.path.join(dirname, f"{base_name}.bin")
 
-        sentences_ = CorpusWrapper(corpus) if train_ or not os.path.isfile(modfname) else None
+        sentences_ = CorpusWrapper(corpus, line_callback=corpus_line_callback_) if train_ or not os.path.isfile(modfname) else None
 
         if os.path.isfile(modfname):
             model = gs_models.Word2Vec.load(modfname)
@@ -161,7 +164,7 @@ def load_train(
                     corppath = copath[0]+suff+copath[1]
 
                     if allready_trained.count(os.path.basename(corppath))==0:
-                        sennces_ = CorpusWrapper(corppath)
+                        sennces_ = CorpusWrapper(corppath, line_callback=corpus_line_callback_)
                         model.train(corpus_iterable=sennces_, **train_kwargs_)
                         allready_trained.append(os.path.basename(corppath))
                         trained = True
@@ -187,5 +190,5 @@ def PyInit_teacher():
 
 #===============================================================================
 # if __name__ == '__main__':
-#     load_train(train=True)
+#     load_train(train=True, corpus_line_callback=lambda x: x.replace('|', ' _').replace('_I-', '_I _').replace('_B-', '_B _'))
 #===============================================================================
