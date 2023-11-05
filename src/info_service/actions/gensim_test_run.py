@@ -31,7 +31,16 @@ def main():
         del navec_model
         gensim_model.save(mpath)
 
+    syn = gensim_model.most_similar('специальность')
+    print(syn)
+
+    syn = gensim_model.most_similar('кровь')
+    print(syn)
+
     syn = gensim_model.most_similar('вино')
+    print(syn)
+
+    syn = gensim_model.most_similar('ведьмак')
     print(syn)
 
 
