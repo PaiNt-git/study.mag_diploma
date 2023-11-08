@@ -20,9 +20,11 @@ def main(user_search_term):
 
     print(sql)
 
-    res = [x[0] for x in session.execute(sql)]
+    resultset = session.execute(sql)
 
-    return ' '.join(res)
+    res = [x[0] for x in resultset]
+
+    return ' '.join(res) if len(res) else ''
 
 
 if __name__ == '__main__':

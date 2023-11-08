@@ -1,6 +1,9 @@
+import os
 import time
 import json
 import asyncio
+
+import gensim
 
 from itertools import chain
 
@@ -20,20 +23,25 @@ from natasha import (
     NamesExtractor,
     Doc
 )
+from natasha.syntax import token_deps
+
+from navec import Navec
 
 from ipymarkup import format_span_box_markup, format_span_line_markup, format_dep_markup
 
-# from info_service.db_base import Session, QuestAnswerBase
 
-# from info_service.db_utils import togudb_serializator
-
-# from info_service import actions
-
-
-from natasha.syntax import token_deps
+class ModifNavec(Navec):
+    @property
+    def as_gensim(self):
+        from gensim.models import KeyedVectors
+        model = KeyedVectors(self.pq.dim)
+        weights = self.pq.unpack()  # warning! memory heavy
+        model.add_vectors(self.vocab.words, weights)
+        return model
 
 
 def main(main_window):
+    from info_service import actions
 
     initial_query_text_widget = getattr(main_window, f'TextInitialQuery')
     initial_query_text = initial_query_text_widget.toPlainText()
@@ -126,21 +134,54 @@ def main(main_window):
         if table_widget.columnWidth(i) > 200:
             table_widget.setColumnWidth(i, 200)
 
-    print('=====прямая лемматизация')
+    print('=====нахождение синонимов всем токенам запроса и приведение ')
+    mpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/gensim-model.bin')
+    navecpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/navec_hudlit_v1_12B_500K_300d_100q.tar')
+    # navecpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/navec_news_v1_1B_250K_300d_100q.tar')
+
+    if os.path.isfile(mpath):
+        gensim_model = gensim.models.KeyedVectors.load(mpath)
+    else:
+        navec_model = ModifNavec.load(navecpath)
+        gensim_model = navec_model.as_gensim
+        del navec_model
+        gensim_model.save(mpath)
+
+    all_tokens_with_synonims = []
     for sentence in doc.sents:
         for token in sentence.tokens:
+            print(token.text)
             token.lemmatize(morph_vocab)
-            print(token)
 
-    print('=====обратная лемматизация из постгрес')
-    initial_query_pgstemming_label_widget = getattr(main_window, f'LabelPostgresQueryLexStemming')
-    pg_query = initial_query_pgstemming_label_widget.toPlainText()
-    for word in pg_query.split(' '):
-        normals = morph_vocab.normal_forms(word)
-        print(normals)
+            token_info = {
+                '_natasha_token': token,
+            }
+            try:
+                token_info['_gensim_synonyms'] = (gensim_model.most_similar(token.lemma) if token.lemma and len(token.text) > 2 else [])
+            except KeyError:
+                token_info['_gensim_synonyms'] = []
+            token_info['synonyms'] = []
+
+            token_info['text'] = token.text
+            token_info['lemma'] = token.lemma
+            token_info['pg_lexem'] = actions.db_get_searchterm_get_stemming(token.lemma) if token.lemma else None
+            token_info['weight'] = 1.0
+
+            for syn, weight in token_info['_gensim_synonyms']:
+                syn_norm = morph_vocab.lemmatize(syn, token.pos, token.feats)
+                syn_info = {}
+                syn_info['text'] = syn
+                syn_info['lemma'] = syn_norm
+                syn_info['pg_lexem'] = actions.db_get_searchterm_get_stemming(syn_norm)
+                syn_info['weight'] = weight
+                token_info['synonyms'].append(syn_info)
+                print(syn_info)
+
+            all_tokens_with_synonims.append(token_info)
 
 
 if __name__ == '__main__':
+    from info_service import actions
 
     initial_query_text = '''В синтаксисе предложения принято делить на части, эти части образуют небольшое множество грамматических классов — членов предложения. Член предложения определяется и опознается по той функции, которую он выполняет в составе предложения.'''.strip()
 
@@ -160,6 +201,54 @@ if __name__ == '__main__':
     doc.tag_morph(morph_tagger)
     doc.parse_syntax(syntax_parser)
     doc.tag_ner(ner_tagger)
+
+    print('=====нахождение синонимов всем токенам запроса и приведение ')
+    mpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/gensim-model.bin')
+    navecpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/navec_hudlit_v1_12B_500K_300d_100q.tar')
+    # navecpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/navec_news_v1_1B_250K_300d_100q.tar')
+
+    if os.path.isfile(mpath):
+        gensim_model = gensim.models.KeyedVectors.load(mpath)
+    else:
+        navec_model = ModifNavec.load(navecpath)
+        gensim_model = navec_model.as_gensim
+        del navec_model
+        gensim_model.save(mpath)
+
+    all_tokens_with_synonims = []
+    for sentence in doc.sents:
+        for token in sentence.tokens:
+            print(token.text)
+            if token.text == 'опознается':
+                print(1)
+
+            token.lemmatize(morph_vocab)
+
+            token_info = {
+                '_natasha_token': token,
+            }
+            try:
+                token_info['_gensim_synonyms'] = (gensim_model.most_similar(token.lemma) if token.lemma and len(token.text) > 2 else [])
+            except KeyError:
+                token_info['_gensim_synonyms'] = []
+            token_info['synonyms'] = []
+
+            token_info['text'] = token.text
+            token_info['lemma'] = token.lemma
+            token_info['pg_lexem'] = actions.db_get_searchterm_get_stemming(token.lemma) if token.lemma else None
+            token_info['weight'] = 1.0
+
+            for syn, weight in token_info['_gensim_synonyms']:
+                syn_norm = morph_vocab.lemmatize(syn, token.pos, token.feats)
+                syn_info = {}
+                syn_info['text'] = syn
+                syn_info['lemma'] = syn_norm
+                syn_info['pg_lexem'] = actions.db_get_searchterm_get_stemming(syn_norm)
+                syn_info['weight'] = weight
+                token_info['synonyms'].append(syn_info)
+                print(syn_info)
+
+            all_tokens_with_synonims.append(token_info)
 
     html_NER_spans = format_span_line_markup(initial_query_text, doc.spans)
     html_NER_spans = map(lambda x: x, html_NER_spans)
@@ -182,11 +271,6 @@ if __name__ == '__main__':
 
 </body></html>
 '''.replace('<div class="tex2jax_ignore" style="white-space: pre-wrap">', '<div class="tex2jax_ignore">')
-
-    for sentence in doc.sents:
-        for token in sentence.tokens:
-            token.lemmatize(morph_vocab)
-            print(token)
 
     with open('output.html', 'w', encoding='utf-8') as f:
         f.write(enreturn)
