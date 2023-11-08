@@ -2,6 +2,8 @@ import time
 import json
 import asyncio
 
+from itertools import chain
+
 from collections import OrderedDict
 
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -21,15 +23,14 @@ from natasha import (
 
 from ipymarkup import format_span_box_markup, format_span_line_markup, format_dep_markup
 
-from info_service.db_base import Session, QuestAnswerBase
+# from info_service.db_base import Session, QuestAnswerBase
 
-from info_service.db_utils import togudb_serializator
+# from info_service.db_utils import togudb_serializator
 
 # from info_service import actions
 
 
 from natasha.syntax import token_deps
-from itertools import chain
 
 
 def main(main_window):
@@ -40,16 +41,17 @@ def main(main_window):
     doc = Doc(initial_query_text)
 
     morph_vocab = MorphVocab()
-
     segmenter = Segmenter()
 
     emb = NewsEmbedding()
 
+    morph_tagger = NewsMorphTagger(emb)
+    syntax_parser = NewsSyntaxParser(emb)
     ner_tagger = NewsNERTagger(emb)
 
-    syntax_parser = NewsSyntaxParser(emb)
-
     doc.segment(segmenter)
+
+    doc.tag_morph(morph_tagger)
     doc.parse_syntax(syntax_parser)
     doc.tag_ner(ner_tagger)
 
@@ -124,6 +126,19 @@ def main(main_window):
         if table_widget.columnWidth(i) > 200:
             table_widget.setColumnWidth(i, 200)
 
+    print('=====прямая лемматизация')
+    for sentence in doc.sents:
+        for token in sentence.tokens:
+            token.lemmatize(morph_vocab)
+            print(token)
+
+    print('=====обратная лемматизация из постгрес')
+    initial_query_pgstemming_label_widget = getattr(main_window, f'LabelPostgresQueryLexStemming')
+    pg_query = initial_query_pgstemming_label_widget.toPlainText()
+    for word in pg_query.split(' '):
+        normals = morph_vocab.normal_forms(word)
+        print(normals)
+
 
 if __name__ == '__main__':
 
@@ -131,15 +146,18 @@ if __name__ == '__main__':
 
     doc = Doc(initial_query_text)
 
+    morph_vocab = MorphVocab()
     segmenter = Segmenter()
 
     emb = NewsEmbedding()
 
+    morph_tagger = NewsMorphTagger(emb)
+    syntax_parser = NewsSyntaxParser(emb)
     ner_tagger = NewsNERTagger(emb)
 
-    syntax_parser = NewsSyntaxParser(emb)
-
     doc.segment(segmenter)
+
+    doc.tag_morph(morph_tagger)
     doc.parse_syntax(syntax_parser)
     doc.tag_ner(ner_tagger)
 
@@ -165,4 +183,10 @@ if __name__ == '__main__':
 </body></html>
 '''.replace('<div class="tex2jax_ignore" style="white-space: pre-wrap">', '<div class="tex2jax_ignore">')
 
-    print(enreturn)
+    for sentence in doc.sents:
+        for token in sentence.tokens:
+            token.lemmatize(morph_vocab)
+            print(token)
+
+    with open('output.html', 'w', encoding='utf-8') as f:
+        f.write(enreturn)
