@@ -159,34 +159,26 @@ if __name__ == '__main__':
     doc.parse_syntax(syntax_parser)
     doc.tag_ner(ner_tagger)
 
-    html_spans = format_span_line_markup(initial_query_text, doc.spans)
+    html_NER_spans = format_span_line_markup(initial_query_text, doc.spans)
+    html_NER_spans = map(lambda x: x, html_NER_spans)
+    html_NER_spans = '\n'.join(html_NER_spans) + '<br>'
 
     html_syntax_tree = []
-
     for sentence in doc.sents:
         sent_tokens = sentence.tokens
         token_deps_ = token_deps(sent_tokens)
-        html_syntax_tree.append(format_dep_markup([_.text for _ in sent_tokens], token_deps_))
-
-    enreturn = ''
-
-    enreturn += ('\n'.join(html_spans).replace('<div class="tex2jax_ignore" style="white-space: pre-wrap">', '<div class="tex2jax_ignore">'))
-
-    enreturn += '<br><br><br><br>'
-
-    for senthtmls in html_syntax_tree:
-
-        sent_html = list(senthtmls)
-
-        enreturn += ('\n'.join(sent_html) + '<br><br>')
+        html_syntax_tree.append(list(format_dep_markup([_.text for _ in sent_tokens], token_deps_, arc_gap=18)))
+    html_syntax_tree = '\n'.join(chain.from_iterable(html_syntax_tree)) + '<br>'
 
     enreturn = '''
 <!DOCTYPE HTML>
 <html><head></head><body>
+<h4>Синтаксический анализ</h4>
+''' + html_syntax_tree + '''
+<h5>Члены предложения:</h5>
 
-''' + enreturn + '''
 
 </body></html>
-'''
+'''.replace('<div class="tex2jax_ignore" style="white-space: pre-wrap">', '<div class="tex2jax_ignore">')
 
     print(enreturn)
