@@ -1,0 +1,25 @@
+SET SESSION group_concat_max_len = 18000;
+SELECT p.name, REPLACE(REPLACE(j.notes, CHAR(13), " "), CHAR(10), " ") answer,
+group_concat(
+REPLACE(REPLACE(REPLACE(concat(ri.description), CHAR(13), " "), CHAR(10), " "), "(no subject)", '')
+ORDER BY concat(subject, '\n\n',  ri.description) SEPARATOR '====='
+)
+questions,  count(j.id) rcounts
+FROM redmine1.issues ri
+join projects p on p.id = ri.project_id
+LEFT join journals j ON j.id = (
+    SELECT id
+    FROM journals jo
+    WHERE (jo.journalized_id = ri.id  and jo.journalized_type ='Issue') and (length(jo.notes)>63 or jo.notes in (select distinct crr.content from canned_responses crr)) and jo.notes not LIKE 'http%'
+    ORDER BY jo.created_on DESC
+    LIMIT 1
+)
+WHERE
+TRIM(ri.description) != '' and
+project_id in(95, 54, 97, 98, 94, 90, 89, 87, 86, 79, 65, 83) and closed_on is not NULL and ri.created_on >= '2020-01-01' and ri.created_on <= '2024-01-01'
+and (length(j.notes)>60 or j.notes in (select distinct cr.content from canned_responses cr)) and j.notes not LIKE 'http%'
+group by p.name, j.notes
+HAVING rcounts>1
+order by p.name, j.notes
+
+
