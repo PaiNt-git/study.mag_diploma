@@ -3,6 +3,8 @@ import os
 import gensim
 
 from navec import Navec
+from natasha.morph.vocab import MorphVocab
+from snowballstemmer import stemmer
 
 
 class ModifNavec(Navec):
@@ -31,6 +33,17 @@ def main():
         gensim_model = navec_model.as_gensim
         del navec_model
         gensim_model.save(mpath)
+
+    morph_vocab = MorphVocab()
+
+    phrase = list(map(lambda x: morph_vocab.lemmatize(x, 'NOUN', {}), 'Кота за яйца'.split()))
+
+    ru_stemmer = stemmer('russian')
+
+    ff = ru_stemmer.stemWord('Кота')
+
+    syn = gensim_model.most_similar(positive=phrase)
+    print(syn)
 
     syn = gensim_model.most_similar('специальность')
     print(syn)
