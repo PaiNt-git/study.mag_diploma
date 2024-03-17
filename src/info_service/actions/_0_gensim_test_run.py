@@ -4,7 +4,7 @@ import gensim
 
 from navec import Navec
 from natasha.morph.vocab import MorphVocab
-from snowballstemmer import stemmer
+import snowballstemmer
 
 
 class ModifNavec(Navec):
@@ -38,7 +38,7 @@ def main():
 
     phrase = list(map(lambda x: morph_vocab.lemmatize(x, 'NOUN', {}), 'Кота за яйца'.split()))
 
-    ru_stemmer = stemmer('russian')
+    ru_stemmer = snowballstemmer.stemmer('russian')
 
     ff = ru_stemmer.stemWord('Кота')
 
