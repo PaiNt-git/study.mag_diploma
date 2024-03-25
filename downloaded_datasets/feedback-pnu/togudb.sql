@@ -1,8 +1,0 @@
-SELECT fc."name", regexp_replace(answer_text, E'[\\n\\r]+', ' ', 'g' ) answer, string_agg(regexp_replace(message_text, E'[\\n\\r]+', ' ', 'g' ), '=====' ) questions,  count(f.id) rcounts
-FROM public.feedback f
-join feedback_category fc on fc.id=f.category_id
-where  f.date_answer is not NULL and f.date_answer >= '2020-01-01' and f.date_answer <= '2024-01-01'
-group by fc."name", f.answer_text
-HAVING count(f.id)>1
-order by fc."name", f.answer_text 
-;
