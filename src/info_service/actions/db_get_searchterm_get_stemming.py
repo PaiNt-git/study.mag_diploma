@@ -6,7 +6,7 @@ from info_service.db_base import Session, QuestAnswerBase
 from info_service.db_utils import togudb_serializator
 
 
-def main(user_search_term):
+def main(user_search_term, logging=True):
 
     session = Session()
 
@@ -17,8 +17,8 @@ def main(user_search_term):
     ORDER  BY positions[1]
 
     '''
-
-    print(sql)
+    if logging:
+        print(sql)
 
     resultset = session.execute(sql)
 

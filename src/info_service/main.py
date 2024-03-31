@@ -347,9 +347,14 @@ if __name__ == '__main__':
 
     qtapp = app.exec()  # Блокирующая операция
 
+    time.sleep(0.2)
+
     _forever_run_stdout_write_thread.join()
+    time.sleep(0.1)
     _forever_run_actions_loop_thread.join()
+    time.sleep(0.1)
     _program_init_thread.join()
+    time.sleep(0.1)
 
     # del _forever_run_stdout_write_thread
     # del _forever_run_actions_loop_thread
