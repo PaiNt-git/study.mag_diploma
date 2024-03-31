@@ -158,27 +158,32 @@ def main(main_window):
             print(token.text)
             token.lemmatize(morph_vocab)
 
+            _gensim_synonyms = []
+            if token.pos not in (
+                'PUNCT',    # знаки препинания
+                'ADP',      # предлог
+                'CCONJ',    # союз
+                'DET',      # местоимение
+            ):
+                try:
+                    spchains = itertools.chain.from_iterable(map(lambda x: getattr(x, 'tokens', []), doc_spans))
+                    if token.id not in [x.id for x in spchains]:
+                        _gensim_synonyms = (gensim_model.most_similar(positive=[token.lemma]) if token.lemma and len(token.text) > 2 else [])
+                except KeyError:
+                    pass
+                pprint(f'Весь набор предположительных синонимов ({token.pos})')
+                _gensim_synonyms.sort(key=lambda x: x[1], reverse=True)
+                pprint(_gensim_synonyms)
+
             token_info = {}
             token_info['_natasha_token'] = token
-
-            _gensim_synonyms = []
-            try:
-                spchains = itertools.chain.from_iterable(map(lambda x: getattr(x, 'tokens', []), doc_spans))
-                if token.id not in [x.id for x in spchains]:
-                    _gensim_synonyms = (gensim_model.most_similar(positive=[token.lemma]) if token.lemma and len(token.text) > 2 else [])
-            except KeyError:
-                pass
-
-            pprint('Весь набор предположительных синонимов')
-            _gensim_synonyms.sort(key=lambda x: x[1], reverse=True)
-            pprint(_gensim_synonyms)
+            token_info['POS'] = token.pos
 
             token_info['text'] = token.text
             token_info['ann_lemma'] = token.lemma
             token_info['ann_lexem'] = ru_stemmer.stemWord(token.text).lower()
             token_info['pg_lexem'] = actions.db_get_searchterm_get_stemming(token.lemma, logging=False) if token.lemma else None
             token_info['weight'] = 1.0
-
             token_info['synonyms'] = []
 
             _has_that_lemma = []
@@ -188,13 +193,14 @@ def main(main_window):
                 if syn_norm in _has_that_lemma:
                     continue
                 syn_info = {}
+                syn_info['POS'] = token.pos
                 syn_info['text'] = syn
                 syn_info['ann_lemma'] = syn_norm
                 syn_info['ann_lexem'] = ru_stemmer.stemWord(syn_norm).lower()
                 syn_info['pg_lexem'] = actions.db_get_searchterm_get_stemming(syn_norm, logging=False) if syn_norm else None
                 syn_info['weight'] = weight
-
                 token_info['synonyms'].append(syn_info)
+
                 _has_that_lemma.append(syn_norm)
 
             all_tokens_with_synonims.append(token_info)
