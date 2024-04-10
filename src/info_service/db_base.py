@@ -5,12 +5,13 @@ import json
 import sqlalchemy as sa
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import scoped_session, sessionmaker, column_property
+from sqlalchemy.orm import scoped_session, sessionmaker, column_property,\
+    relationship
 from sqlalchemy.pool import NullPool
 from sqlalchemy_utils.types.ts_vector import TSVectorType
 from sqlalchemy_searchable import vectorizer
-from sqlalchemy.sql.schema import Column
-from sqlalchemy.sql.sqltypes import Integer, String, Unicode, UnicodeText
+from sqlalchemy.sql.schema import Column, ForeignKey, UniqueConstraint
+from sqlalchemy.sql.sqltypes import Integer, String, Unicode, UnicodeText, Float
 from sqlalchemy.dialects.postgresql.array import ARRAY
 from sqlalchemy.dialects.postgresql.json import JSONB
 from sqlalchemy.orm.session import object_session
@@ -71,7 +72,7 @@ class QuestAnswerBase(Base):
     )
 
     search_vector = sa.Column(
-        TSVectorType('questions', 'name', 'abstract', 'keywords',
+        TSVectorType('questions', 'abstract', 'keywords', 'name',
                      weights={'questions': 'A', 'abstract': 'B', 'keywords': 'C', 'name': 'D'},
                      regconfig='pg_catalog.russian',
                      ),
@@ -184,3 +185,30 @@ def keywords_vectorizer(column):
 @vectorizer(QuestAnswerBase.questions)
 def questions_vectorizer(column):
     return sa.cast(sa.func.array_to_string(column, ' '), sa.Text)
+
+
+class QuestAnswerBaseRelevQuery(Base):
+    __tablename__ = 'telegram_bot_link_base_relev_query'
+    __table_args__ = {'extend_existing': True}
+
+    id = Column(Integer, primary_key=True)
+
+    query = column_property(Column(Unicode, nullable=False),
+                            info={'verbose_name': 'Запрос'})
+
+
+class QuestAnswerBaseRelevQueryRel(Base):
+    __tablename__ = 'telegram_bot_link_base_relev_query_rel'
+    __table_args__ = {'extend_existing': True}
+
+    id = Column(Integer, primary_key=True)
+
+    query_id = Column(Integer, ForeignKey('telegram_bot_link_base_relev_query.id', ondelete='CASCADE'), nullable=False)
+    query = relationship('QuestAnswerBaseRelevQuery', info={'verbose_name': 'Запрос'}, )
+
+    answer_id = Column(Integer, ForeignKey('telegram_bot_link_base.id', ondelete='CASCADE'), nullable=False)
+    answer = relationship('QuestAnswerBase', info={'verbose_name': 'Ответ'}, )
+
+    relevantion_part = column_property(Column(Float, nullable=False, default=1.0),
+                                       info={'verbose_name': 'Доля релевантности',
+                                             })
