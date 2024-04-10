@@ -81,10 +81,20 @@ def main(main_window):
 
     enreturn = '''
 <!DOCTYPE HTML>
-<html><head></head><body>
+<html><head>
+
+<style>
+.zoomed {
+    zoom: 1.5;
+    -moz-transform: scale(1.5);
+    -moz-transform-origin: 0 0;
+}
+</style>
+
+</head><body>
 <h4>Синтаксический анализ</h4>
-''' + html_syntax_tree + '''
-<h5>Члены предложения:</h5>
+<div class="zoomed">''' + html_syntax_tree + '''</div>
+<h4>Члены предложения:</h4>
 
 
 </body></html>

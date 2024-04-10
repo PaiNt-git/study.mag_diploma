@@ -28,13 +28,8 @@ def main(main_window):
     columns = OrderedDict(
         [
             ('id', 'id'),
-            ('category', 'Категория'),
             ('questions', 'Вопросы \n(через точку с запятой)'),
-            ('name', 'Наименование \nзнания'),
             ('abstract', 'Контент\nАбстракт\nОтвет'),
-            ('keywords', 'Ключевые слова \n(через запятую)'),
-            ('result', 'Результат, \nссылка и т.д. (JSON)'),
-
         ])
 
     actions.win_CRUD_load_page(main_window, 'TableAllAnswers',
@@ -42,5 +37,5 @@ def main(main_window):
                                actions.db_list_entries(),
                                page_num=1,
                                row_map_callback=lambda x: q_k_result_format_override(togudb_serializator(x, include=columns.keys())),
-                               cell_editable=cell_editable,
+                               cell_editable=lambda q, i: False,
                                )

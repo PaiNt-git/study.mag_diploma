@@ -2,11 +2,16 @@ import json
 
 
 def q_k_result_format_override(row):
-    row.category = row.category or ''
-    row.name = row.name or ''
-    row.questions = '; '.join(row.questions) if row.questions and len(row.questions) else ''
-    row.keywords = ', '.join(row.keywords) if row.keywords and len(row.keywords) else ''
-    row.result = json.dumps(row.result, ensure_ascii=False) if row.result and len(row.result) else ''
+    if hasattr(row, 'category'):
+        row.category = row.category or ''
+    if hasattr(row, 'name'):
+        row.name = row.name or ''
+    if hasattr(row, 'questions'):
+        row.questions = '; '.join(row.questions) if row.questions and len(row.questions) else ''
+    if hasattr(row, 'keywords'):
+        row.keywords = ', '.join(row.keywords) if row.keywords and len(row.keywords) else ''
+    if hasattr(row, 'result'):
+        row.result = json.dumps(row.result, ensure_ascii=False) if row.result and len(row.result) else ''
     return row
 
 

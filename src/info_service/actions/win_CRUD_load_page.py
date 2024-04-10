@@ -54,6 +54,8 @@ def main(main_window, table_widget_name, columns: OrderedDict, queryset, page_nu
 
     table_widget.setHorizontalHeaderLabels(columns.values())
 
+    table_widget.verticalHeader().setDefaultSectionSize(60)
+
     for i, row in enumerate(queryset):
 
         if row_map_callback:
@@ -92,5 +94,7 @@ def main(main_window, table_widget_name, columns: OrderedDict, queryset, page_nu
     for i in range(table_widget.columnCount()):
         if table_widget.columnWidth(i) > 200:
             table_widget.setColumnWidth(i, 200)
+
+            table_widget.verticalHeader().setDefaultSectionSize(100)
 
     pass
