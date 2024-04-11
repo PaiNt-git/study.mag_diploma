@@ -149,7 +149,7 @@ def main(main_window):
         if table_widget.columnWidth(i) > 200:
             table_widget.setColumnWidth(i, 200)
 
-    print('=====нахождение синонимов всем токенам запроса и приведение ')
+    pprint('===>Нахождение синонимов всем токенам запроса и приведение: ')
     mpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/gensim-model.bin')
     navecpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/navec_hudlit_v1_12B_500K_300d_100q.tar')
     # navecpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/navec_news_v1_1B_250K_300d_100q.tar')
@@ -181,7 +181,7 @@ def main(main_window):
                         _gensim_synonyms = (gensim_model.most_similar(positive=[token.lemma]) if token.lemma and len(token.text) > 2 else [])
                 except KeyError:
                     pass
-                pprint(f'Весь набор предположительных синонимов ({token.pos})')
+                pprint(f'====>Весь набор предположительных синонимов ({token.pos}): ')
                 _gensim_synonyms.sort(key=lambda x: x[1], reverse=True)
                 pprint(_gensim_synonyms)
 
@@ -215,7 +215,12 @@ def main(main_window):
 
             all_tokens_with_synonims.append(token_info)
 
+    pprint(f'=====>Итоговый массив токенов: ')
     pprint(all_tokens_with_synonims)
+
+    main_window.MAINWINDOW_LOCAL_STORAGE['all_tokens_with_synonims'] = all_tokens_with_synonims
+
+    pprint(f'=>Токены анализа записаны в локал-сторадж... ')
 
 
 if __name__ == '__main__':

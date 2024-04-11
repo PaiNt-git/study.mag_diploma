@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1280</width>
-    <height>829</height>
+    <width>1284</width>
+    <height>888</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -213,6 +213,9 @@
               <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>false</bool>
               </attribute>
+              <attribute name="verticalHeaderCascadingSectionResizes">
+               <bool>true</bool>
+              </attribute>
              </widget>
             </item>
            </layout>
@@ -387,6 +390,186 @@
               <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>false</bool>
               </attribute>
+              <attribute name="verticalHeaderCascadingSectionResizes">
+               <bool>true</bool>
+              </attribute>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="RelevantManagement">
+         <attribute name="title">
+          <string>Релевантность и запросы</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="0" column="0">
+           <layout class="QVBoxLayout" name="verticaltintab_5">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalintab_5">
+              <item>
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_19">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="baseSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Страница </string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="CurPageTableRelevManage">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_20">
+                <property name="text">
+                 <string>из</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="MaxPageTableRelevManage">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="ButtonFirstPageTableRelevManage">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>13</pointsize>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>«</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="ButtonPrevPageTableRelevManage">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>‹</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="ButtonNextPageTableRelevManage">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>›</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="ButtonLastPageTableRelevManage">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>13</pointsize>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>»</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QTableWidget" name="TableRelevManage">
+              <property name="sizeAdjustPolicy">
+               <enum>QAbstractScrollArea::AdjustToContents</enum>
+              </property>
+              <attribute name="horizontalHeaderCascadingSectionResizes">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="verticalHeaderCascadingSectionResizes">
+               <bool>true</bool>
+              </attribute>
              </widget>
             </item>
            </layout>
@@ -408,7 +591,7 @@
          </attribute>
          <layout class="QGridLayout" name="gridLayout_5">
           <item row="12" column="2">
-           <widget class="QPushButton" name="HighlightSynonyms">
+           <widget class="QPushButton" name="ButtonHighlightSynonyms">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -417,14 +600,14 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>80</width>
-              <height>32</height>
+              <width>120</width>
+              <height>38</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>200</width>
-              <height>16777215</height>
+              <width>120</width>
+              <height>38</height>
              </size>
             </property>
             <property name="text">
@@ -760,7 +943,7 @@ background-color: rgb(255, 217, 236);</string>
                </size>
               </property>
               <property name="text">
-               <string>Рекомендованный вопрос (оптимизированный для базы)</string>
+               <string>Рекомендованный поисковой запрос (оптимизированный для базы знаний)</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -873,18 +1056,21 @@ background-color: rgb(255, 217, 236);</string>
             </property>
             <property name="minimumSize">
              <size>
-              <width>200</width>
-              <height>0</height>
+              <width>240</width>
+              <height>50</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>320</width>
+              <width>240</width>
               <height>16777215</height>
              </size>
             </property>
             <property name="text">
              <string>Таблица исключений токенов исходного запроса (NamedEntities)</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -901,19 +1087,22 @@ background-color: rgb(255, 217, 236);</string>
             </property>
             <property name="minimumSize">
              <size>
-              <width>320</width>
+              <width>240</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>400</width>
+              <width>240</width>
               <height>16777215</height>
              </size>
             </property>
             <property name="sizeAdjustPolicy">
              <enum>QAbstractScrollArea::AdjustToContents</enum>
             </property>
+            <attribute name="verticalHeaderCascadingSectionResizes">
+             <bool>true</bool>
+            </attribute>
            </widget>
           </item>
           <item row="20" column="2">
@@ -926,14 +1115,14 @@ background-color: rgb(255, 217, 236);</string>
             </property>
             <property name="minimumSize">
              <size>
-              <width>80</width>
-              <height>32</height>
+              <width>120</width>
+              <height>38</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>200</width>
-              <height>16777215</height>
+              <width>120</width>
+              <height>38</height>
              </size>
             </property>
             <property name="text">
@@ -952,14 +1141,14 @@ background-color: rgb(255, 217, 236);</string>
             </property>
             <property name="minimumSize">
              <size>
-              <width>80</width>
-              <height>32</height>
+              <width>120</width>
+              <height>38</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>200</width>
-              <height>16777215</height>
+              <width>120</width>
+              <height>38</height>
              </size>
             </property>
             <property name="text">
@@ -977,14 +1166,14 @@ background-color: rgb(255, 217, 236);</string>
             </property>
             <property name="minimumSize">
              <size>
-              <width>80</width>
-              <height>32</height>
+              <width>120</width>
+              <height>38</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>200</width>
-              <height>16777215</height>
+              <width>120</width>
+              <height>38</height>
              </size>
             </property>
             <property name="text">
@@ -1002,14 +1191,14 @@ background-color: rgb(255, 217, 236);</string>
             </property>
             <property name="minimumSize">
              <size>
-              <width>80</width>
-              <height>32</height>
+              <width>120</width>
+              <height>38</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>200</width>
-              <height>16777215</height>
+              <width>120</width>
+              <height>38</height>
              </size>
             </property>
             <property name="text">
@@ -1229,6 +1418,9 @@ background-color: rgb(248, 233, 158);</string>
               <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>false</bool>
               </attribute>
+              <attribute name="verticalHeaderCascadingSectionResizes">
+               <bool>true</bool>
+              </attribute>
              </widget>
             </item>
            </layout>
@@ -1438,6 +1630,9 @@ background-color: rgb(191, 255, 138);</string>
               <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>false</bool>
               </attribute>
+              <attribute name="verticalHeaderCascadingSectionResizes">
+               <bool>true</bool>
+              </attribute>
              </widget>
             </item>
            </layout>
@@ -1510,8 +1705,8 @@ background-color: rgb(191, 255, 138);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1280</width>
-     <height>21</height>
+     <width>1284</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="File">

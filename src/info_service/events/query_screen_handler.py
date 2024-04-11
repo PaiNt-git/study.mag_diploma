@@ -38,3 +38,6 @@ def main(main_window):
 
     ButtonAnalysisInitialQuery = main_window.ButtonAnalysisInitialQuery
     ButtonAnalysisInitialQuery.clicked.connect(lambda x: actions.win_initial_query_syntax_analysis(main_window))
+
+    ButtonHighlightSynonyms = main_window.ButtonHighlightSynonyms
+    ButtonHighlightSynonyms.clicked.connect(lambda x: actions.win_initial_query_highlight_synonyms(main_window))
