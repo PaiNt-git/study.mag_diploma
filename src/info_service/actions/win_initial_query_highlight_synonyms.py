@@ -115,7 +115,7 @@ def get_has_in_postgres_TF_IDF(lexem):
         return None, 0
     results = map(dict, results)
 
-    sum_tf = sum([x['num_in_doc'] / x['summa'] for x in results])
+    bydocs_tf = [x['num_in_doc'] / x['summa'] for x in results]
 
     # ndoc - Ответов с вхождением
     # nentry - Вхождений за всю базу
@@ -141,9 +141,12 @@ def get_has_in_postgres_TF_IDF(lexem):
     results = dict(results)
 
     idf = math.log(alldocs / results['ndoc'])
-    tf_idf = float(sum_tf) * float(idf)
 
-    return results, tf_idf
+    bydocs_tf_idf = [float(tf) * float(idf) for tf in bydocs_tf]
+
+    mean_tf_idf = sum(bydocs_tf_idf) / float(len(bydocs_tf_idf))
+
+    return results, mean_tf_idf
 
 
 def main(main_window):
