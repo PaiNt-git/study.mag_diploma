@@ -1,4 +1,5 @@
 import json
+import time
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -14,18 +15,5 @@ from info_service.actions._answers_utils import *
 
 
 def main(main_window):
-
-    columns = OrderedDict(
-        [
-            ('id', 'id'),
-            ('questions', 'Вопросы \n(через точку с запятой)'),
-            ('abstract', 'Контент\nАбстракт\nОтвет'),
-        ])
-
-    actions.win_CRUD_load_page(main_window, 'TableAllAnswers',
-                               columns,
-                               actions.db_list_entries(),
-                               page_num=1,
-                               row_map_callback=lambda x: q_k_result_format_override(togudb_serializator(x, include=columns.keys())),
-                               cell_editable=lambda q, i: False,
-                               )
+    time.sleep(0.2)
+    actions.win_answers_first_page(main_window)

@@ -114,11 +114,7 @@ def main(main_window):
 
     columns = OrderedDict(
         [
-            ('normal', 'NE \n(нормальная форма)'),
-            ('start', 'StartChar'),
-            ('stop', 'EndChar'),
-            ('text', 'форма в тексте'),
-
+            ('text', 'NER токены'),
         ])
 
     table_widget.setColumnCount(len(columns))

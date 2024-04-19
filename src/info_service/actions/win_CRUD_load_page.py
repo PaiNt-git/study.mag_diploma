@@ -91,10 +91,11 @@ def main(main_window, table_widget_name, columns: OrderedDict, queryset, page_nu
     table_widget.setWordWrap(True)
     table_widget.resizeColumnsToContents()
     table_widget.horizontalHeader().setStretchLastSection(True)
+
     for i in range(table_widget.columnCount()):
         if table_widget.columnWidth(i) > 200:
-            table_widget.setColumnWidth(i, 200)
-
-            table_widget.verticalHeader().setDefaultSectionSize(100)
+            if i <= len(columns) - 1:
+                table_widget.setColumnWidth(i, 200)
+                table_widget.verticalHeader().setDefaultSectionSize(100)
 
     pass

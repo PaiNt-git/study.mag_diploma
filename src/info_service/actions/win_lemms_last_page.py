@@ -23,7 +23,7 @@ def main(main_window):
     actions.win_CRUD_load_page(main_window, 'TableAllLemms', OrderedDict(
         [
 
-            ('word', 'Отстемленная \nЛемма'),
+            ('word', 'Лексема Pg \n'),
             ('weight', 'Вес (Pg)'),
             ('weight_norm', 'Вес'),
             ('ndoc', 'Ответов с вхождением'),
