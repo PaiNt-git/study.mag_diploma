@@ -98,12 +98,15 @@ if not len(EVENT_PROVIDERS):
 
 
 class SecondWindow(QtWidgets.QDialog):
-    def __init__(self):
+    def __init__(self, dialog_ui=None):
         super().__init__()
         self.setWindowTitle('Диалоговое окно')
         super(SecondWindow, self).__init__()
-        uic.loadUi(f'{PACKAGE_NAME}_dialog.ui', self)
-        time.sleep(0.5)
+        if not dialog_ui:
+            self.setGeometry(100, 100, 200, 100)
+        else:
+            uic.loadUi(dialog_ui, self)
+        time.sleep(0.2)
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -121,8 +124,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self._load_events_handlers()
         time.sleep(0.5)
 
-    def open_second_window(self, ok_callback=None, cancel_callback=None):
-        second_window = SecondWindow()
+    def open_second_window(self, ok_callback=None, cancel_callback=None, dialog_ui=None):
+        second_window = SecondWindow(dialog_ui=dialog_ui)
         setattr(second_window, 'main_window', self)
 
         if ok_callback:

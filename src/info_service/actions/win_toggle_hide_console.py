@@ -13,7 +13,7 @@ def main(main_window):
             main_window.ButtonClearConsole.show()
             main_window.TextConsoleView.show()
 
-        main_window.open_second_window(ok_callback=lambda dialog: print(1), cancel_callback=lambda dialog: print(2))
+        main_window.open_second_window(ok_callback=lambda dialog: print(1), cancel_callback=lambda dialog: print(2), dialog_ui='info_service_dialog_bottom.ui')
 
     except Exception as e:
         print(e)
