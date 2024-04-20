@@ -1,0 +1,14 @@
+
+def main(main_window):
+    is_checked = main_window.HideConsoleCheckBox.isChecked()
+    try:
+        if is_checked:
+            main_window.ConsoleLabel.hide()
+            main_window.ButtonClearConsole.hide()
+            main_window.TextConsoleView.hide()
+        else:
+            main_window.ConsoleLabel.show()
+            main_window.ButtonClearConsole.show()
+            main_window.TextConsoleView.show()
+    except Exception as e:
+        print(e)
