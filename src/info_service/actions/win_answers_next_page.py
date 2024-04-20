@@ -37,5 +37,5 @@ def main(main_window):
                                actions.db_list_entries(),
                                page_num=cur_page + 1,
                                row_map_callback=lambda x: q_k_result_format_override(togudb_serializator(x, include=columns.keys())),
-                               cell_editable=lambda q, i: False,
+                               cell_editable=cell_editable,
                                )

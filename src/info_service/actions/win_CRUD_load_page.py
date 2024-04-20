@@ -1,14 +1,32 @@
 import asyncio
+import time
+
+from typing import Callable
 
 from collections import OrderedDict
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import time
 
 from info_service import actions
 
+from ._answers_utils import get_cell_edit_callback, update_entity
 
-def main(main_window, table_widget_name, columns: OrderedDict, queryset, page_num=1, row_map_callback=None, cell_editable=lambda queryset_row, qt_item: False, cell_edit_callback=None):
+
+def main(main_window, table_widget_name, columns: OrderedDict,
+         queryset, page_num=1, row_map_callback=None,
+         cell_editable=(lambda queryset_row, qt_item: False)):
+    """
+
+    :param main_window:
+    :param table_widget_name:
+    :param columns:
+    :param queryset:
+    :param page_num:
+    :param row_map_callback:
+    :param cell_editable:
+    """
+    main_window.MAINWINDOW_LOCAL_STORAGE[f'_{table_widget_name}_paginate'] = 1
+
     cur_page_widget = getattr(main_window, f'CurPage{table_widget_name}')
     cur_page = int(cur_page_widget.text())
 
@@ -98,4 +116,4 @@ def main(main_window, table_widget_name, columns: OrderedDict, queryset, page_nu
                 table_widget.setColumnWidth(i, 200)
                 table_widget.verticalHeader().setDefaultSectionSize(100)
 
-    pass
+    main_window.MAINWINDOW_LOCAL_STORAGE[f'_{table_widget_name}_paginate'] = 0
