@@ -97,6 +97,15 @@ if not len(EVENT_PROVIDERS):
 # / Импорт динамических провайдеров, и их доимпортирование специально для pyInstaller
 
 
+class SecondWindow(QtWidgets.QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle('Диалоговое окно')
+        super(SecondWindow, self).__init__()
+        uic.loadUi(f'{PACKAGE_NAME}_dialog.ui', self)
+        time.sleep(0.5)
+
+
 class MainWindow(QtWidgets.QMainWindow):
     """
     Основное универсальное окно програмы
@@ -111,6 +120,20 @@ class MainWindow(QtWidgets.QMainWindow):
         uic.loadUi(f'{PACKAGE_NAME}.ui', self)
         self._load_events_handlers()
         time.sleep(0.5)
+
+    def open_second_window(self, ok_callback=None, cancel_callback=None):
+        second_window = SecondWindow()
+        setattr(second_window, 'main_window', self)
+
+        if ok_callback:
+            setattr(second_window.__class__, f'ok_callback', ok_callback)
+            second_window.accepted.connect(getattr(second_window, f'ok_callback'))
+
+        if cancel_callback:
+            setattr(second_window.__class__, f'cancel_callback', cancel_callback)
+            second_window.rejected.connect(getattr(second_window, f'cancel_callback'))
+
+        second_window.exec_()
 
     def closeEvent(self, event):
         """
