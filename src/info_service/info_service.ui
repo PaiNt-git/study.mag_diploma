@@ -216,6 +216,9 @@
               <attribute name="verticalHeaderCascadingSectionResizes">
                <bool>true</bool>
               </attribute>
+              <attribute name="verticalHeaderStretchLastSection">
+               <bool>true</bool>
+              </attribute>
               <column>
                <property name="text">
                 <string/>
@@ -398,6 +401,9 @@
               <attribute name="verticalHeaderCascadingSectionResizes">
                <bool>true</bool>
               </attribute>
+              <attribute name="verticalHeaderStretchLastSection">
+               <bool>true</bool>
+              </attribute>
               <column>
                <property name="text">
                 <string/>
@@ -578,6 +584,9 @@
                <bool>false</bool>
               </attribute>
               <attribute name="verticalHeaderCascadingSectionResizes">
+               <bool>true</bool>
+              </attribute>
+              <attribute name="verticalHeaderStretchLastSection">
                <bool>true</bool>
               </attribute>
               <column>
@@ -1023,6 +1032,14 @@ background-color: rgb(255, 217, 236);</string>
                <width>180</width>
                <height>162</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>8</pointsize>
+              </font>
+             </property>
+             <property name="lineWidth">
+              <number>1</number>
              </property>
              <property name="sizeAdjustPolicy">
               <enum>QAbstractScrollArea::AdjustToContents</enum>
@@ -1854,7 +1871,7 @@ background-color: rgb(191, 255, 138);</string>
      <x>0</x>
      <y>0</y>
      <width>1705</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="File">

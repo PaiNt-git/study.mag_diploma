@@ -41,10 +41,11 @@ SENT_MEMBERS = {
     'advmod': 'обстоятельство',
     'nmod': 'дополнение',
     'obl': 'обособление',
-    'obj': 'обособленное дополнение',
+    'obj': 'обособленое дополнение',
     'xcomp': 'открытое глагольное или прилагательное дополнение',
     'acl': 'отношение(подлежащее)',
     'advcl': 'отношение(сказуемое)',
+    'det': 'определитель, уточнение',
 }
 
 
@@ -152,6 +153,12 @@ def main(main_window):
 
     sentence_members = []
 
+    def get_childs(parent_token, alltokens, nesting_level=0):
+        rt = list(filter(lambda x: (x.head_id == parent_token.id), alltokens))
+        if nesting_level > 0:
+            rt.extend(itertools.chain.from_iterable([get_childs(x, alltokens, nesting_level=nesting_level - 1) for x in rt]))
+        return rt
+
     all_tokens_with_synonims = []
     for sentence in doc.sents:
 
@@ -177,14 +184,21 @@ def main(main_window):
                             setattr(virt_token, 'id', token.id)
                             setattr(virt_token, 'head_id', token.head_id)
 
-                if virt_token.rel in ('root', 'nsubj'):
+                has_root = len([x for x in sentence.tokens if x.rel == 'root']) > 0
+                has_nsubj = len([x for x in sentence.tokens if x.rel == 'nsubj']) > 0
+
+                if (virt_token.rel in ('root', 'nsubj')) or (not has_root and virt_token.rel == 'advcl') or (not has_nsubj and virt_token.rel == 'acl'):
                     sentence_members[-1]['main'].append(virt_token)
                 else:
                     sentence_members[-1]['additional'].append(virt_token)
 
-                if virt_token.rel == 'main':
+                if (virt_token.rel == 'root') or (not has_root and virt_token.rel == 'advcl'):
                     sentence_members[-1]['first_level_cut'].append(virt_token)
-                    sentence_members[-1]['first_level_cut'].extend(filter(lambda x: (x.head_id == virt_token.id and x.rel in SENT_MEMBERS.keys()), sentence.tokens))
+                    # sentence_members[-1]['first_level_cut'].extend(filter(lambda x: (x.head_id == virt_token.id and x.rel in SENT_MEMBERS.keys()), sentence.tokens))
+                    sentence_members[-1]['first_level_cut'].extend(get_childs(virt_token, sentence.tokens, nesting_level=2))
+                    sentence_members[-1]['first_level_cut'] = filter(lambda x: (x.rel in SENT_MEMBERS.keys() and
+                                                                                x.pos in ('NOUN', 'ADJ', 'VERB', 'INFN', 'PROPN')),
+                                                                     sentence_members[-1]['first_level_cut'])
                     sentence_members[-1]['first_level_cut'] = sorted(sentence_members[-1]['first_level_cut'], key=lambda x: x.start)
 
             token.lemmatize(morph_vocab)
@@ -240,17 +254,21 @@ def main(main_window):
 
     main_sm_str = ''
     for i, sent in enumerate(sentence_members):
-        main_sm_str += f'<hr><i>{i+1}-е предложение</i><br>'
+        main_sm_str += f'<hr><i>{i+1}-е предложение</i><br><br>'
 
         def get_smname(rel):
             return SENT_MEMBERS.get(rel, rel)
 
-        main_sm_str += '&nbsp;&nbsp;<b>Основные члены предложения:</b><ul>'
+        main_sm_str += '&nbsp;&nbsp;<b>Основные члены предложения:</b><ul class="topsmallul">'
         main_sm_str += ''.join([f'<li><b>{x.text}</b> - {get_smname(x.rel)}</li>' for x in sent['main']])
         main_sm_str += '</ul>'
 
-        main_sm_str += '&nbsp;&nbsp;<b>Второстепенные члены предложения:</b><ul>'
+        main_sm_str += '&nbsp;&nbsp;<b>Второстепенные члены предложения:</b><ul class="topsmallul">'
         main_sm_str += ''.join([f'<li><b>{x.text}</b> - {get_smname(x.rel)}</li>' for x in sent['additional']])
+        main_sm_str += '</ul>'
+
+        main_sm_str += '&nbsp;&nbsp;<b>Сокращение предложения, до 3 уровня связи членов предложения (только с существительными, глаголами, прилагательными, NER):</b><ul class="topsmallul divblue">'
+        main_sm_str += ' '.join([f'<b>{x.text}</b>' for x in sent['first_level_cut']])
         main_sm_str += '</ul>'
 
     enreturn = '''
@@ -267,6 +285,13 @@ def main(main_window):
     zoom: 1.1;
     -moz-transform: scale(1.1);
     -moz-transform-origin: 0 0;
+}
+.topsmallul {
+    padding-top: 2px;
+    margin-top: 2px;
+}
+.divblue {
+    color: blue;
 }
 </style>
 
