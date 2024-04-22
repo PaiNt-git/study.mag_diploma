@@ -31,6 +31,21 @@ from navec import Navec
 
 from ipymarkup import format_span_box_markup, format_span_line_markup, format_dep_markup
 import itertools
+from copy import copy
+
+
+SENT_MEMBERS = {
+    'root': 'сказуемое',
+    'nsubj': 'подлежащее',
+    'amod': 'определение',
+    'advmod': 'обстоятельство',
+    'nmod': 'дополнение',
+    'obl': 'обособление',
+    'obj': 'обособленное дополнение',
+    'xcomp': 'открытое глагольное или прилагательное дополнение',
+    'acl': 'отношение(подлежащее)',
+    'advcl': 'отношение(сказуемое)',
+}
 
 
 class ModifNavec(Navec):
@@ -79,32 +94,9 @@ def main(main_window):
         html_syntax_tree.append(list(format_dep_markup([_.text for _ in sent_tokens], token_deps_, arc_gap=18)))
     html_syntax_tree = '\n'.join(chain.from_iterable(html_syntax_tree)) + '<br>'
 
-    enreturn = '''
-<!DOCTYPE HTML>
-<html><head>
-
-<style>
-.zoomed {
-    zoom: 1.5;
-    -moz-transform: scale(1.5);
-    -moz-transform-origin: 0 0;
-}
-</style>
-
-</head><body>
-<h4>Синтаксический анализ</h4>
-<div class="zoomed">''' + html_syntax_tree + '''</div>
-<h4>Члены предложения:</h4>
-
-
-</body></html>
-'''.replace('<div class="tex2jax_ignore" style="white-space: pre-wrap">', '<div class="tex2jax_ignore">')
-
-    initial_query_analysis_widget = getattr(main_window, f'WebViewAnalysisPreview')
-    initial_query_analysis_widget.setHtml(enreturn)
-
     # Исключениен именованых сущностей из подбора синонимов
     doc_spans = list(doc.spans)
+    spchains = list(itertools.chain.from_iterable(map(lambda x: getattr(x, 'tokens', []), doc_spans)))
 
     table_widget = getattr(main_window, f'TableInitialQueryExceptedTokens')
 
@@ -158,10 +150,43 @@ def main(main_window):
         del navec_model
         gensim_model.save(mpath)
 
+    sentence_members = []
+
     all_tokens_with_synonims = []
     for sentence in doc.sents:
+
+        sentence_members.append({
+            'main': [],
+            'additional': [],
+            'first_level_cut': [],
+        })
+
         for token in sentence.tokens:
             print(token.text)
+
+            # синтаксический разбор членов предлоежения
+            if token.rel in SENT_MEMBERS.keys():
+
+                virt_token = token
+                if token.id in [x.id for x in spchains]:
+                    for span in doc_spans:
+                        if token.id in [x.id for x in span.tokens]:
+                            virt_token = copy(span)
+                            setattr(virt_token, 'rel', token.rel)
+                            setattr(virt_token, 'start', token.start)
+                            setattr(virt_token, 'id', token.id)
+                            setattr(virt_token, 'head_id', token.head_id)
+
+                if virt_token.rel in ('root', 'nsubj'):
+                    sentence_members[-1]['main'].append(virt_token)
+                else:
+                    sentence_members[-1]['additional'].append(virt_token)
+
+                if virt_token.rel == 'main':
+                    sentence_members[-1]['first_level_cut'].append(virt_token)
+                    sentence_members[-1]['first_level_cut'].extend(filter(lambda x: (x.head_id == virt_token.id and x.rel in SENT_MEMBERS.keys()), sentence.tokens))
+                    sentence_members[-1]['first_level_cut'] = sorted(sentence_members[-1]['first_level_cut'], key=lambda x: x.start)
+
             token.lemmatize(morph_vocab)
 
             _gensim_synonyms = []
@@ -172,7 +197,6 @@ def main(main_window):
                 'DET',      # местоимение
             ):
                 try:
-                    spchains = itertools.chain.from_iterable(map(lambda x: getattr(x, 'tokens', []), doc_spans))
                     if token.id not in [x.id for x in spchains]:
                         _gensim_synonyms = (gensim_model.most_similar(positive=[token.lemma]) if token.lemma and len(token.text) > 2 else [])
                 except KeyError:
@@ -213,6 +237,49 @@ def main(main_window):
 
     print(f'=====>Итоговый массив токенов: ')
     pprint(all_tokens_with_synonims)
+
+    main_sm_str = ''
+    for i, sent in enumerate(sentence_members):
+        main_sm_str += f'<hr><i>{i+1}-е предложение</i><br>'
+
+        def get_smname(rel):
+            return SENT_MEMBERS.get(rel, rel)
+
+        main_sm_str += '&nbsp;&nbsp;<b>Основные члены предложения:</b><ul>'
+        main_sm_str += ''.join([f'<li><b>{x.text}</b> - {get_smname(x.rel)}</li>' for x in sent['main']])
+        main_sm_str += '</ul>'
+
+        main_sm_str += '&nbsp;&nbsp;<b>Второстепенные члены предложения:</b><ul>'
+        main_sm_str += ''.join([f'<li><b>{x.text}</b> - {get_smname(x.rel)}</li>' for x in sent['additional']])
+        main_sm_str += '</ul>'
+
+    enreturn = '''
+<!DOCTYPE HTML>
+<html><head>
+
+<style>
+.zoomed {
+    zoom: 1.5;
+    -moz-transform: scale(1.5);
+    -moz-transform-origin: 0 0;
+}
+.minzoomed {
+    zoom: 1.1;
+    -moz-transform: scale(1.1);
+    -moz-transform-origin: 0 0;
+}
+</style>
+
+</head><body>
+<h4>Синтаксический анализ</h4>
+<div class="zoomed">''' + html_syntax_tree + '''</div>
+<h4>Члены предложения:</h4>
+<div class="minzoomed">''' + main_sm_str + '''</div>
+</body></html>
+'''.replace('<div class="tex2jax_ignore" style="white-space: pre-wrap">', '<div class="tex2jax_ignore">')
+
+    initial_query_analysis_widget = getattr(main_window, f'WebViewAnalysisPreview')
+    initial_query_analysis_widget.setHtml(enreturn)
 
     main_window.MAINWINDOW_LOCAL_STORAGE['all_tokens_with_synonims'] = all_tokens_with_synonims
 
