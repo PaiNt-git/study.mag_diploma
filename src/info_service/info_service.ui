@@ -1838,7 +1838,7 @@ background-color: rgb(191, 255, 138);</string>
       <item alignment="Qt::AlignLeft|Qt::AlignTop">
        <widget class="QCheckBox" name="OnlyQuestionsCheckBox">
         <property name="text">
-         <string>Поиск только по вопросам</string>
+         <string>Поиск и лексемизация только по вопросам</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -1871,7 +1871,7 @@ background-color: rgb(191, 255, 138);</string>
      <x>0</x>
      <y>0</y>
      <width>1705</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="File">

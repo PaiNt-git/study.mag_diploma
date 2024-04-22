@@ -11,6 +11,7 @@ from info_service.actions._lemms_utils import *
 
 
 def main(main_window):
+    only_questions = main_window.MAINWINDOW_LOCAL_STORAGE['only_questions']
 
     table_widget_name = 'TableAllLemms'
 
@@ -30,6 +31,6 @@ def main(main_window):
             ('col_name', 'Колонка'),
 
         ]),
-        actions.db_list_all_lemms(),
+        actions.db_list_all_lemms(only_questions),
         page_num=cur_page - 1,
     )

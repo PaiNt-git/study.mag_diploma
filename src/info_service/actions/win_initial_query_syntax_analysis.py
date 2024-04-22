@@ -46,6 +46,7 @@ SENT_MEMBERS = {
     'acl': 'отношение(подлежащее)',
     'advcl': 'отношение(сказуемое)',
     'det': 'определитель, уточнение',
+    'flat:name': 'обращение',
 }
 
 
@@ -107,7 +108,8 @@ def main(main_window):
 
     columns = OrderedDict(
         [
-            ('text', 'NER токены'),
+            ('text', 'NER'),
+            ('start', 'Начало'),
         ])
 
     table_widget.setColumnCount(len(columns))
@@ -124,7 +126,7 @@ def main(main_window):
         for k, col_key in enumerate(columns.keys()):
 
             qtcell = QtWidgets.QTableWidgetItem(str(getattr(row, col_key, '')))
-            qtcell.setFlags(qtcell.flags() | QtCore.Qt.ItemIsEditable)
+            qtcell.setFlags(qtcell.flags() & ~QtCore.Qt.ItemIsEditable)
 
             table_widget.setItem(curc, k, qtcell)
 

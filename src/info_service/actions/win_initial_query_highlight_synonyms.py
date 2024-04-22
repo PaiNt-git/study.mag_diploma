@@ -185,6 +185,8 @@ def get_has_in_postgres_TF_IDF(lexem, only_questions=False):
 def main(main_window):
     from info_service import actions
 
+    only_questions = main_window.MAINWINDOW_LOCAL_STORAGE['only_questions']
+
     all_tokens_with_synonims = main_window.MAINWINDOW_LOCAL_STORAGE.get('all_tokens_with_synonims', [])
 
     allstr = ''
@@ -195,7 +197,7 @@ def main(main_window):
 
         if token['pg_lexem'] and len(synonyms):
 
-            pg_lexem, tf_idf = get_has_in_postgres_TF_IDF(token['pg_lexem'], True)
+            pg_lexem, tf_idf = get_has_in_postgres_TF_IDF(token['pg_lexem'], only_questions)
 
             rupos = RUS_POS.get(token["POS"], token["POS"])
 
@@ -203,7 +205,7 @@ def main(main_window):
 
             has_tf_idf_tokens = False
             for synonym in synonyms:
-                pg_lexem_syn, tf_idf_syn = get_has_in_postgres_TF_IDF(synonym["pg_lexem"], True)
+                pg_lexem_syn, tf_idf_syn = get_has_in_postgres_TF_IDF(synonym["pg_lexem"], only_questions)
                 if pg_lexem_syn:
                     allstr += f'    -{synonym["ann_lemma"]}<{synonym["pg_lexem"]}>, [tf_idf: {tf_idf_syn:.2f}][сходство: {synonym["weight"]:.2f}]\n'
                     has_tf_idf_tokens = True
