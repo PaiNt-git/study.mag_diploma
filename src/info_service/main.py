@@ -124,15 +124,20 @@ class MainWindow(QtWidgets.QMainWindow):
         self._load_events_handlers()
         time.sleep(0.5)
 
-    def open_second_window(self, ok_callback=None, cancel_callback=None, dialog_ui=None):
+    def open_second_window(self, init_callback=None, ok_callback=None, cancel_callback=None, dialog_ui=None):
         """
         Диалоговое окно
+        :param init_callback:
         :param ok_callback:
         :param cancel_callback:
         :param dialog_ui:
         """
         second_window = SecondWindow(dialog_ui=dialog_ui)
         setattr(second_window, 'main_window', self)
+
+        if init_callback:
+            setattr(second_window.__class__, f'init_callback', init_callback)
+            second_window.accepted.connect(getattr(second_window, f'init_callback'))
 
         if ok_callback:
             setattr(second_window.__class__, f'ok_callback', ok_callback)

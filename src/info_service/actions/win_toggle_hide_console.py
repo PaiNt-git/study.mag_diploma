@@ -1,5 +1,13 @@
 import time
 
+from collections import OrderedDict
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
+from info_service import actions
+from info_service.db_base import Session, QuestAnswerBase
+
 
 def main(main_window):
     is_checked = main_window.HideConsoleCheckBox.isChecked()
@@ -13,4 +21,10 @@ def main(main_window):
         main_window.ButtonClearConsole.show()
         main_window.TextConsoleView.show()
 
-    # main_window.open_second_window(ok_callback=lambda dialog: print(1), cancel_callback=lambda dialog: print(2))
+    columns = OrderedDict(
+        [
+            ('questions', 'Вопросы \n(через точку с запятой)'),
+            ('abstract', 'Контент\nАбстракт\nОтвет'),
+        ])
+
+    actions.win_CRUD_new_instance(main_window, QuestAnswerBase, columns)

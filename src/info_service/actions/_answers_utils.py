@@ -78,7 +78,7 @@ def get_cell_edit_callback(main_window, table_widget_name, queryset, row_map_cal
     return tablecell_edit_callback
 
 
-def update_entity(table_widget, session, instance, row_map_callback, rowNum, colNum):
+def update_entity(table_widget, session, instance, row_map_callback, rowNum, colNum, session_add=True):
     main_window = table_widget.window()
     table_widget_name = table_widget.objectName()
 
@@ -94,6 +94,7 @@ def update_entity(table_widget, session, instance, row_map_callback, rowNum, col
     elif typesql == 'VARCHAR[]':
         cell_val = [x.strip() for x in cell_val.split(';')]
     setattr(instance, attr_name, cell_val)
-    session.add(instance)
-    session.flush()
-    session.commit()
+    if session_add:
+        session.add(instance)
+        session.flush()
+        session.commit()
