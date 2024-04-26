@@ -23,4 +23,4 @@ def main(user_search_term, search_on='all'):
 
 
 if __name__ == '__main__':
-    print(main('fdgdfgd'))
+    main('Какой уровень образования лучше?')

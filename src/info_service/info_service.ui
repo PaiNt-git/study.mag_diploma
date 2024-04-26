@@ -43,7 +43,7 @@
       <item>
        <widget class="QTabWidget" name="ProgramScreens">
         <property name="currentIndex">
-         <number>3</number>
+         <number>4</number>
         </property>
         <widget class="QWidget" name="EntriesCRUD">
          <attribute name="title">
@@ -1446,7 +1446,7 @@ border-radius: 4px;
 background-color: rgb(248, 233, 158);</string>
               </property>
               <property name="text">
-               <string>&lt;запрос&gt;</string>
+               <string/>
               </property>
               <property name="wordWrap">
                <bool>true</bool>
@@ -1663,7 +1663,7 @@ border-radius: 4px;
 background-color: rgb(191, 255, 138);</string>
               </property>
               <property name="text">
-               <string>&lt;запрос&gt;</string>
+               <string/>
               </property>
               <property name="wordWrap">
                <bool>true</bool>

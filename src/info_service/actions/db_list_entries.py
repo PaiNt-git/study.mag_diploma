@@ -6,9 +6,6 @@ from info_service.db_utils import togudb_serializator
 
 
 def main():
-
     session = Session()
-
     query = session.query(QuestAnswerBase).order_by(QuestAnswerBase.id)
-
     return query

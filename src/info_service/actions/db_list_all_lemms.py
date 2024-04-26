@@ -13,15 +13,10 @@ class AttrDict(dict):
 
 
 def main(only_questions=True):
-
     session = Session()
-
     results = QuestAnswerBase.get_all_lemms(return_is_dict=True, only_questions=only_questions)
-
     results = map(lambda x: AttrDict(x.items()), results)
-
     results = list(results)
-
     return results
 
 

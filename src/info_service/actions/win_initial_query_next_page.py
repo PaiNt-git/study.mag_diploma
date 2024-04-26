@@ -16,9 +16,29 @@ from info_service.actions._answers_utils import *
 
 
 def main(main_window):
+    only_questions = main_window.MAINWINDOW_LOCAL_STORAGE['only_questions']
+
     table_widget_name = 'TableInitialAllResults'
 
     initial_query_label_widget = getattr(main_window, f'LabelInitialQuery')
-    initial_query_label_text = initial_query_label_widget.text()
+    user_search_term = initial_query_label_widget.text()
 
-    print(initial_query_label_text)
+    cur_page_widget = getattr(main_window, f'CurPage{table_widget_name}')
+    cur_page = int(cur_page_widget.text())
+
+    max_page_widget = getattr(main_window, f'MaxPage{table_widget_name}')
+    max_page = int(max_page_widget.text())
+
+    columns = OrderedDict(
+        [
+            ('id', 'id'),
+            ('questions', 'Вопросы \n(через точку с запятой)'),
+            ('abstract', 'Контент\nАбстракт\nОтвет'),
+        ])
+
+    actions.win_CRUD_load_page(main_window, table_widget_name,
+                               columns,
+                               actions.db_list_search_entries(user_search_term, category=None, sort=True, only_questions=only_questions),
+                               page_num=cur_page + 1,
+                               row_map_callback=lambda x: q_k_result_format_override(togudb_serializator(x, include=columns.keys())),
+                               )

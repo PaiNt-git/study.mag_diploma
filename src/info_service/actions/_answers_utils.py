@@ -16,6 +16,8 @@ def q_k_result_format_override(row):
         row.keywords = ', '.join(row.keywords) if row.keywords and len(row.keywords) else ''
     if hasattr(row, 'result'):
         row.result = json.dumps(row.result, ensure_ascii=False) if row.result and len(row.result) else ''
+    if hasattr(row, 'rank'):
+        row.rank = f'{row.rank:.2f}' if row.rank else ''
     return row
 
 

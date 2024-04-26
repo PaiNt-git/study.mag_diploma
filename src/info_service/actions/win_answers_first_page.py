@@ -32,7 +32,7 @@ def main(main_window):
             ('abstract', 'Контент\nАбстракт\nОтвет'),
         ])
 
-    actions.win_CRUD_load_page(main_window, 'TableAllAnswers',
+    actions.win_CRUD_load_page(main_window, table_widget_name,
                                columns,
                                actions.db_list_entries(),
                                page_num=1,

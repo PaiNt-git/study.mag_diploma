@@ -21,7 +21,7 @@ def main(main_window):
     max_page_widget = getattr(main_window, f'MaxPage{table_widget_name}')
     max_page = int(max_page_widget.text())
 
-    actions.win_CRUD_load_page(main_window, 'TableAllLemms', OrderedDict(
+    actions.win_CRUD_load_page(main_window, table_widget_name, OrderedDict(
         [
             ('word', 'Лексема Pg \n'),
             ('weight', 'Вес (Pg)'),
