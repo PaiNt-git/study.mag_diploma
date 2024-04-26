@@ -21,10 +21,17 @@ def main(main_window):
         main_window.ButtonClearConsole.show()
         main_window.TextConsoleView.show()
 
-    columns = OrderedDict(
-        [
-            ('questions', 'Вопросы \n(через точку с запятой)'),
-            ('abstract', 'Контент\nАбстракт\nОтвет'),
-        ])
+    #===========================================================================
+    # columns = OrderedDict(
+    #     [
+    #         ('questions', 'Вопросы \n(через точку с запятой)'),
+    #         ('abstract', 'Контент\nАбстракт\nОтвет'),
+    #     ])
+    # actions.win_CRUD_new_instance(main_window, QuestAnswerBase, columns, 'Новое знание')
+    # actions.win_answers_first_page(main_window)
+    #===========================================================================
 
-    actions.win_CRUD_new_instance(main_window, QuestAnswerBase, columns)
+    #===========================================================================
+    # actions.win_CRUD_del_instance(main_window, 'TableAllAnswers', QuestAnswerBase, 0, dialog_title='Удалить экземпляр')
+    # actions.win_answers_first_page(main_window)
+    #===========================================================================

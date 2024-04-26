@@ -12,7 +12,14 @@ from info_service.actions._answers_utils import q_k_result_format_override
 from ._answers_utils import update_entity
 
 
-def main(main_window, entity, columns):
+def main(main_window, entity, columns, dialog_title='Новый экземпляр'):
+    """
+
+    :param main_window:
+    :param entity:
+    :param columns:
+    :param dialog_title:
+    """
 
     session = Session()
 
@@ -20,6 +27,8 @@ def main(main_window, entity, columns):
 
     def init_dialog(dialog):
         table_widget = getattr(dialog, f'{table_widget_name}')
+
+        dialog.setWindowTitle(dialog_title)
 
         table_widget.clear()
         time.sleep(0.2)
@@ -29,7 +38,7 @@ def main(main_window, entity, columns):
 
         table_widget.setHorizontalHeaderLabels(columns.values())
 
-        table_widget.verticalHeader().setDefaultSectionSize(60)
+        table_widget.verticalHeader().setDefaultSectionSize(120)
 
         table_widget.insertRow(0)
 
@@ -48,7 +57,7 @@ def main(main_window, entity, columns):
 
             qtcell.setFlags(qtcell.flags() | QtCore.Qt.ItemIsEditable)
 
-        table_widget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        # table_widget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         table_widget.setWordWrap(True)
         table_widget.resizeColumnsToContents()
         table_widget.horizontalHeader().setStretchLastSection(True)
@@ -57,21 +66,33 @@ def main(main_window, entity, columns):
             if table_widget.columnWidth(i) > 200:
                 if i <= len(columns) - 1:
                     table_widget.setColumnWidth(i, 200)
-                    table_widget.verticalHeader().setDefaultSectionSize(100)
+                    table_widget.verticalHeader().setDefaultSectionSize(120)
         pass
 
     def ok_dialog(dialog):
         table_widget = getattr(dialog, f'{table_widget_name}')
         instance = entity()
 
-        def row_map_callback(x): return q_k_result_format_override(togudb_serializator(x, include=columns.keys()))
+        def row_map_callback(x): return q_k_result_format_override(togudb_serializator(x, include=columns.keys(), exclude=['id']))
 
-        for i, key in enumerate(columns.keys):
-            update_entity(table_widget, session, instance, row_map_callback, 0, i)
+        has_notempty = False
+        for i, key in enumerate(columns.keys()):
+            try:
+                ret = update_entity(table_widget, session, instance, row_map_callback, 0, i, session_add=False)
+                if ret:
+                    has_notempty = True
+            except Exception as e:
+                print(e)
 
-        session.add(instance)
-        session.flush()
-        session.commit()
+        try:
+            if has_notempty:
+                session.add(instance)
+                session.flush()
+                session.commit()
+        except Exception as e:
+            print(e)
+
+        main_window = dialog.main_window
         pass
 
     def cancel_dialog(dialog):

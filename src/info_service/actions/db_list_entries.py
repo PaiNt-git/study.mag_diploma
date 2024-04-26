@@ -9,6 +9,6 @@ def main():
 
     session = Session()
 
-    query = session.query(QuestAnswerBase)
+    query = session.query(QuestAnswerBase).order_by(QuestAnswerBase.id)
 
     return query

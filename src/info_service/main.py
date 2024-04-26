@@ -137,7 +137,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         if init_callback:
             setattr(second_window.__class__, f'init_callback', init_callback)
-            second_window.accepted.connect(getattr(second_window, f'init_callback'))
+            init_callback(second_window)
 
         if ok_callback:
             setattr(second_window.__class__, f'ok_callback', ok_callback)

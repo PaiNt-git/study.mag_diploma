@@ -98,3 +98,5 @@ def update_entity(table_widget, session, instance, row_map_callback, rowNum, col
         session.add(instance)
         session.flush()
         session.commit()
+
+    return cell_val

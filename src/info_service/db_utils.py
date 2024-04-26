@@ -83,7 +83,7 @@ def togudb_serializator(togudb_obj, include=None, exclude=None):
     _temp = AttrOrderedDict()
 
     if include:
-        attrs_keys = filter(lambda x: x in include, attrs_keys)
+        attrs_keys = list(filter(lambda x: x in include, attrs_keys))
 
     if exclude:
         for exc in exclude:
