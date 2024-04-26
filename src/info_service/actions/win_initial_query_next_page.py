@@ -32,6 +32,7 @@ def main(main_window):
     columns = OrderedDict(
         [
             ('id', 'id'),
+            ('rank', 'Ранк (Pg)'),
             ('questions', 'Вопросы \n(через точку с запятой)'),
             ('abstract', 'Контент\nАбстракт\nОтвет'),
         ])
@@ -40,5 +41,5 @@ def main(main_window):
                                columns,
                                actions.db_list_search_entries(user_search_term, category=None, sort=True, only_questions=only_questions),
                                page_num=cur_page + 1,
-                               row_map_callback=lambda x: q_k_result_format_override(togudb_serializator(x, include=columns.keys())),
+                               row_map_callback=lambda x: q_k_result_format_override(x),
                                )

@@ -32,7 +32,7 @@ def main(main_window):
     columns = OrderedDict(
         [
             ('id', 'id'),
-            ('rank', 'Ранк'),
+            ('rank', 'Ранк (Pg)'),
             ('questions', 'Вопросы \n(через точку с запятой)'),
             ('abstract', 'Контент\nАбстракт\nОтвет'),
         ])
