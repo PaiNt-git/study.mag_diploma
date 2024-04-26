@@ -43,6 +43,8 @@ a = Analysis(['src\\info_service\\main.py'],
 
                 (pymorph_data, 'pymorphy2_dicts_ru/data'),
                 ('src/info_service/info_service.ui', '.'),
+                ('src/info_service/info_service_del_instance.ui', '.'),
+                ('src/info_service/info_service_new_instance.ui', '.'),
                 ('src/info_service/icon.png', '.'),
 
              ],
