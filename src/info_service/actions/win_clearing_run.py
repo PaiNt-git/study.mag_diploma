@@ -4,6 +4,9 @@ from info_service import actions
 
 
 def main(main_window):
+
+    main_window.MAINWINDOW_LOCAL_STORAGE['all_tokens_with_synonims'] = []
+
     # Очистим все поля в запросах
     main_window.TextInitialQuery.clear()
     main_window.TextModifiedQuery.clear()
