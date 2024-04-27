@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1705</width>
-    <height>1022</height>
+    <width>1709</width>
+    <height>1031</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -1608,6 +1608,12 @@ background-color: rgb(248, 233, 158);</string>
             </item>
             <item>
              <widget class="QTableWidget" name="TableInitialAllResults">
+              <property name="maximumSize">
+               <size>
+                <width>900</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="sizeAdjustPolicy">
                <enum>QAbstractScrollArea::AdjustToContents</enum>
               </property>
@@ -1825,6 +1831,12 @@ background-color: rgb(191, 255, 138);</string>
             </item>
             <item>
              <widget class="QTableWidget" name="TableModifiedAllResults">
+              <property name="maximumSize">
+               <size>
+                <width>900</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="sizeAdjustPolicy">
                <enum>QAbstractScrollArea::AdjustToContents</enum>
               </property>
@@ -1886,7 +1898,7 @@ background-color: rgb(191, 255, 138);</string>
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>115</height>
+          <height>175</height>
          </size>
         </property>
         <property name="font">
@@ -1950,8 +1962,8 @@ background-color: rgb(191, 255, 138);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1705</width>
-     <height>22</height>
+     <width>1709</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="File">

@@ -41,3 +41,6 @@ def main(main_window):
 
     ButtonHighlightSynonyms = main_window.ButtonHighlightSynonyms
     ButtonHighlightSynonyms.clicked.connect(lambda x: actions.win_initial_query_highlight_synonyms(main_window))
+
+    OptimizeQueryButton = main_window.OptimizeQueryButton
+    OptimizeQueryButton.clicked.connect(lambda x: actions.win_initial_query_optimize_query(main_window))

@@ -47,6 +47,7 @@ SENT_MEMBERS = {
     'advcl': 'отношение(сказуемое)',
     'det': 'определитель, уточнение',
     'flat:name': 'обращение',
+    'appos': ' ',
 }
 
 
@@ -175,7 +176,6 @@ def main(main_window):
 
             # синтаксический разбор членов предлоежения
             if token.rel in SENT_MEMBERS.keys():
-
                 virt_token = token
                 if token.id in [x.id for x in spchains]:
                     for span in doc_spans:
@@ -201,7 +201,6 @@ def main(main_window):
                     sentence_members[-1]['first_level_cut'] = filter(lambda x: (x.rel in SENT_MEMBERS.keys() and
                                                                                 x.pos in ('NOUN', 'ADJ', 'VERB', 'INFN', 'PROPN')),
                                                                      sentence_members[-1]['first_level_cut'])
-                    sentence_members[-1]['first_level_cut'] = sorted(sentence_members[-1]['first_level_cut'], key=lambda x: x.start)
 
             token.lemmatize(morph_vocab)
 
@@ -228,7 +227,7 @@ def main(main_window):
             token_info['text'] = token.text
             token_info['ann_lemma'] = token.lemma
             token_info['ann_lexem'] = ru_stemmer.stemWord(token.text).lower()
-            token_info['pg_lexem'] = actions.db_get_searchterm_get_stemming(token.lemma, logging=False) if token.lemma else None
+            token_info['pg_lexem'] = actions.db_get_searchterm_get_stemming(token.text, logging=False) if token.text else None
             token_info['weight'] = 1.0
             token_info['synonyms'] = []
 
@@ -250,6 +249,20 @@ def main(main_window):
                 _has_that_lemma.append(syn_norm)
 
             all_tokens_with_synonims.append(token_info)
+
+        try:
+            sentence_members[-1]['first_level_cut'] = sorted(sentence_members[-1]['first_level_cut'], key=lambda x: x.start)
+            _uniq_tokens_ids = []
+            _uniq_tokens = []
+            for tk in sentence_members[-1]['first_level_cut']:
+                if tk.id not in _uniq_tokens_ids:
+                    _uniq_tokens_ids.append(tk.id)
+                    _uniq_tokens.append(tk)
+
+        except Exception as e:
+            print(e)
+
+        sentence_members[-1]['first_level_cut'] = _uniq_tokens
 
     print(f'=====>Итоговый массив токенов: ')
     pprint(all_tokens_with_synonims)
@@ -309,6 +322,8 @@ def main(main_window):
     initial_query_analysis_widget.setHtml(enreturn)
 
     main_window.MAINWINDOW_LOCAL_STORAGE['all_tokens_with_synonims'] = all_tokens_with_synonims
+
+    main_window.MAINWINDOW_LOCAL_STORAGE['sentence_members'] = sentence_members
 
     print(f'=>Токены анализа записаны в локал-сторадж... ')
 
