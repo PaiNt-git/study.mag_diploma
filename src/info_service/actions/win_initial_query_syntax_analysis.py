@@ -48,6 +48,7 @@ SENT_MEMBERS = {
     'det': 'определитель, уточнение',
     'flat:name': 'обращение',
     'appos': ' ',
+    'nsubj:pass': ' ',
 }
 
 
@@ -196,8 +197,14 @@ def main(main_window):
 
                 if (virt_token.rel == 'root') or (not has_root and virt_token.rel == 'advcl'):
                     sentence_members[-1]['first_level_cut'].append(virt_token)
-                    # sentence_members[-1]['first_level_cut'].extend(filter(lambda x: (x.head_id == virt_token.id and x.rel in SENT_MEMBERS.keys()), sentence.tokens))
-                    sentence_members[-1]['first_level_cut'].extend(get_childs(virt_token, sentence.tokens, nesting_level=2))
+
+                    if (virt_token.rel == 'root' and not has_nsubj):
+                        sentence_members[-1]['first_level_cut'].extend(get_childs(virt_token, sentence.tokens, nesting_level=2))
+                    elif has_root and has_nsubj:
+                        sentence_members[-1]['first_level_cut'].extend(get_childs(virt_token, sentence.tokens, nesting_level=0))
+                    elif has_root and not has_nsubj:
+                        sentence_members[-1]['first_level_cut'].extend(get_childs(virt_token, sentence.tokens, nesting_level=0))
+
                     sentence_members[-1]['first_level_cut'] = filter(lambda x: (x.rel in SENT_MEMBERS.keys() and
                                                                                 x.pos in ('NOUN', 'ADJ', 'VERB', 'INFN', 'PROPN')),
                                                                      sentence_members[-1]['first_level_cut'])

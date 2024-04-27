@@ -195,7 +195,7 @@ def main(main_window):
 
         synonyms = list(filter(lambda x: (bool(x['pg_lexem']) and x['pg_lexem'] != token['pg_lexem']), token['synonyms']))
 
-        if token['pg_lexem'] and len(synonyms):
+        if token['pg_lexem']:
 
             pg_lexem, tf_idf = get_has_in_postgres_TF_IDF(token['pg_lexem'], only_questions)
 
@@ -204,11 +204,12 @@ def main(main_window):
             allstr += f'{token["text"]}<{token["pg_lexem"]}> [tf_idf: {tf_idf:.2f}][часть речи: {token["POS"]}({rupos})]:\n'
 
             has_tf_idf_tokens = False
-            for synonym in synonyms:
-                pg_lexem_syn, tf_idf_syn = get_has_in_postgres_TF_IDF(synonym["pg_lexem"], only_questions)
-                if pg_lexem_syn:
-                    allstr += f'    -{synonym["ann_lemma"]}<{synonym["pg_lexem"]}>, [tf_idf: {tf_idf_syn:.2f}][сходство: {synonym["weight"]:.2f}]\n'
-                    has_tf_idf_tokens = True
+            if len(synonyms):
+                for synonym in synonyms:
+                    pg_lexem_syn, tf_idf_syn = get_has_in_postgres_TF_IDF(synonym["pg_lexem"], only_questions)
+                    if pg_lexem_syn:
+                        allstr += f'    -{synonym["ann_lemma"]}<{synonym["pg_lexem"]}>, [tf_idf: {tf_idf_syn:.2f}][сходство: {synonym["weight"]:.2f}]\n'
+                        has_tf_idf_tokens = True
 
             if not has_tf_idf_tokens:
                 allstr += f'    -[для данного токена не удалось найти синонимов лексемы которых присутвуют в базе]\n'

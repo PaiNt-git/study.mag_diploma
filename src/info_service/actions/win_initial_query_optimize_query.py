@@ -38,11 +38,11 @@ def main(main_window):
 
         for token in opt_tokens_:
 
+            pg_lexem, tf_idf = get_has_in_postgres_TF_IDF(token['pg_lexem'], only_questions)
+
             synonyms = list(filter(lambda x: (bool(x['pg_lexem']) and x['pg_lexem'] != token['pg_lexem']), token['synonyms']))
 
             if token['pg_lexem'] and len(synonyms):
-
-                pg_lexem, tf_idf = get_has_in_postgres_TF_IDF(token['pg_lexem'], only_questions)
 
                 has_tf_idf_tokens = False
                 for synonym in synonyms:
@@ -50,12 +50,15 @@ def main(main_window):
                     if pg_lexem_syn and tf_idf_syn > tf_idf:
                         opt_tokens.append(synonym)
                         has_tf_idf_tokens = True
+                        break
 
                 if not has_tf_idf_tokens:
-                    opt_tokens.append(token)
+                    if tf_idf > 0.0:
+                        opt_tokens.append(token)
 
             else:
-                opt_tokens.append(token)
+                if tf_idf > 0.0:
+                    opt_tokens.append(token)
 
         allstr = ' '.join([x['pg_lexem'] for x in opt_tokens])
         main_window.TextModifiedQuery.setText(str(allstr))
