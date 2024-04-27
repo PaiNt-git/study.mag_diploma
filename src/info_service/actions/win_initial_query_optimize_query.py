@@ -61,6 +61,41 @@ def main(main_window):
                     opt_tokens.append(token)
 
         allstr = ' '.join([x['pg_lexem'] for x in opt_tokens])
+        first_allstr = allstr
+        res = actions.db_list_search_entries(allstr, category=None, sort=False, only_questions=only_questions)
+
+        # Проверка и Обрезка дополнительных членов предложения
+        if not len(res):
+            for add_sm in itertools.chain.from_iterable(map(lambda x: x['additional'], sentence_members)):
+
+                add_sm = get_ext_token_by_id(add_sm.id)
+
+                if add_sm['id'] in [x['id'] for x in opt_tokens]:
+                    # Проверим исходный член предлоежения
+                    opt_tokens_prime = [(x.get('_prime_token_info', x) if (x['id'] == add_sm['id']) else x) for x in opt_tokens]
+                    allstr = ' '.join([x['pg_lexem'] for x in opt_tokens_prime])
+                    res = actions.db_list_search_entries(allstr, category=None, sort=False, only_questions=only_questions)
+                    if not len(res):
+                        # Уберем дополнительный член предлоежения
+                        opt_tokens = list(filter(lambda x: x['id'] != add_sm['id'], opt_tokens))
+                        allstr = ' '.join([x['pg_lexem'] for x in opt_tokens])
+                        res = actions.db_list_search_entries(allstr, category=None, sort=False, only_questions=only_questions)
+                        if len(res):
+                            break
+                    else:
+                        break
+
+        # Оставшиеся члены предложения по пробуем заменить исходными токенами
+        if not len(res):
+            for i in range(opt_tokens):
+                opt_tokens = [(x.get('_prime_token_info', x) if (x['id'] == opt_tokens[i]['id']) else x) for x in opt_tokens]
+                allstr = ' '.join([x['pg_lexem'] for x in opt_tokens])
+                res = actions.db_list_search_entries(allstr, category=None, sort=False, only_questions=only_questions)
+                if len(res):
+                    break
+            else:
+                allstr = first_allstr
+
         main_window.TextModifiedQuery.setText(str(allstr))
 
     except Exception as e:

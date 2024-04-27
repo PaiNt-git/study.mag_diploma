@@ -67,10 +67,16 @@ def main(user_search_term, category=None, sort=False, only_questions=True):
     # print(str(query.statement.compile(dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True})))
 
     results = query.all()
-    results = map(lambda x: AttrDict({'id': x[0],
-                                      'questions': x[1],
-                                      'abstract': x[2],
-                                      'rank': x[3],
-                                      }.items()), results)
+    if sort:
+        results = map(lambda x: AttrDict({'id': x[0],
+                                          'questions': x[1],
+                                          'abstract': x[2],
+                                          'rank': x[3],
+                                          }.items()), results)
+    else:
+        results = map(lambda x: AttrDict({'id': x[0],
+                                          'questions': x[1],
+                                          'abstract': x[2],
+                                          }.items()), results)
     results = list(results)
     return results

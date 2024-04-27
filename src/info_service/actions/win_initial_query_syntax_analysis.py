@@ -42,13 +42,14 @@ SENT_MEMBERS = {
     'nmod': 'дополнение',
     'obl': 'обособление',
     'obj': 'обособленое дополнение',
-    'xcomp': 'открытое глагольное или прилагательное дополнение',
+    'xcomp': 'инфинитивный комплемент (открытый клаузальный комплемент) / дополнение вторичной предикации',
     'acl': 'отношение(подлежащее)',
     'advcl': 'отношение(сказуемое)',
     'det': 'определитель, уточнение',
     'flat:name': 'обращение',
-    'appos': ' ',
-    'nsubj:pass': ' ',
+    'appos': 'уточнение',
+    'nsubj:pass': 'подлежащее пассива',
+    'ccomp': 'клаузальный комплемент',
 }
 
 
@@ -190,20 +191,24 @@ def main(main_window):
                 has_root = len([x for x in sentence.tokens if x.rel == 'root']) > 0
                 has_nsubj = len([x for x in sentence.tokens if x.rel == 'nsubj']) > 0
 
-                if (virt_token.rel in ('root', 'nsubj')) or (not has_root and virt_token.rel == 'advcl') or (not has_nsubj and virt_token.rel == 'acl'):
+                print(' '.join([f'{x.text}|{x.rel}' for x in sentence.tokens]))
+
+                if (virt_token.rel in ('root', 'nsubj', 'nsubj:pass')) or (not has_root and virt_token.rel == 'advcl') or (not has_nsubj and virt_token.rel == 'acl'):
                     sentence_members[-1]['main'].append(virt_token)
                 else:
                     sentence_members[-1]['additional'].append(virt_token)
 
-                if (virt_token.rel == 'root') or (not has_root and virt_token.rel == 'advcl'):
+                if (virt_token.rel == 'root') or (not has_root and virt_token.rel == 'advcl') or (virt_token.id == virt_token.head_id and virt_token.rel != 'punct'):
                     sentence_members[-1]['first_level_cut'].append(virt_token)
 
                     if (virt_token.rel == 'root' and not has_nsubj):
                         sentence_members[-1]['first_level_cut'].extend(get_childs(virt_token, sentence.tokens, nesting_level=2))
                     elif has_root and has_nsubj:
-                        sentence_members[-1]['first_level_cut'].extend(get_childs(virt_token, sentence.tokens, nesting_level=0))
+                        sentence_members[-1]['first_level_cut'].extend(get_childs(virt_token, sentence.tokens, nesting_level=1))
                     elif has_root and not has_nsubj:
                         sentence_members[-1]['first_level_cut'].extend(get_childs(virt_token, sentence.tokens, nesting_level=0))
+                    elif not has_root and virt_token.id == virt_token.head_id and virt_token.rel != 'punct':
+                        sentence_members[-1]['first_level_cut'].extend(get_childs(virt_token, sentence.tokens, nesting_level=1))
 
                     sentence_members[-1]['first_level_cut'] = filter(lambda x: (x.rel in SENT_MEMBERS.keys() and
                                                                                 x.pos in ('NOUN', 'ADJ', 'VERB', 'INFN', 'PROPN')),
@@ -230,6 +235,7 @@ def main(main_window):
             token_info = {}
             token_info['_natasha_token'] = token
             token_info['POS'] = token.pos
+            token_info['id'] = token.id
 
             token_info['text'] = token.text
             token_info['ann_lemma'] = token.lemma
@@ -245,12 +251,18 @@ def main(main_window):
                 if syn_norm in _has_that_lemma:
                     continue
                 syn_info = {}
+
+                syn_info['_prime_token_info'] = token_info
+
                 syn_info['POS'] = token.pos
+                syn_info['id'] = token.id
+
                 syn_info['text'] = syn
                 syn_info['ann_lemma'] = syn_norm
                 syn_info['ann_lexem'] = ru_stemmer.stemWord(syn_norm).lower()
                 syn_info['pg_lexem'] = actions.db_get_searchterm_get_stemming(syn_norm, logging=False) if syn_norm else None
                 syn_info['weight'] = weight
+
                 token_info['synonyms'].append(syn_info)
 
                 _has_that_lemma.append(syn_norm)
