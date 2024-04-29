@@ -31,8 +31,9 @@ def main(main_window):
             ('id', 'id'),
             ('query_id', 'query_id'),
             ('answer_id', 'answer_id'),
+            ('query_name', 'Вопрос'),
             ('answer_name', 'Ответ'),
-            ('relevantion_part', 'Доля релевантности'),
+            ('relevantion_part', 'Доля'),
         ])
 
     actions.win_CRUD_load_page(main_window, table_widget_name,

@@ -22,6 +22,8 @@ def q_k_result_format_override(row):
 
 
 def relev_manage_result_format_override(row):
+    if hasattr(row, 'query'):
+        setattr(row, 'query_name', row.query.query)
     if hasattr(row, 'answer'):
         setattr(row, 'answer_name', row.answer.abstract)
     return row
@@ -46,7 +48,7 @@ def cell_editable_relev_manage(queryset_row, qt_item):
     column_inx = qt_item.column()
     vert = table_widget.horizontalHeaderItem(column_inx)
     column_name = vert.text()
-    if column_name == 'id' or column_name == 'Ответ':
+    if column_name == 'id' or column_name == 'Ответ' or column_name == 'Вопрос':
         return False
     return True
 

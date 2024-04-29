@@ -74,6 +74,8 @@ def main(main_window, table_widget_name, columns: OrderedDict,
 
     table_widget.verticalHeader().setDefaultSectionSize(60)
 
+    table_widget.verticalHeader().setDefaultSectionSize(60)
+
     for i, row in enumerate(queryset):
 
         if row_map_callback:
@@ -111,9 +113,11 @@ def main(main_window, table_widget_name, columns: OrderedDict,
     table_widget.horizontalHeader().setStretchLastSection(True)
 
     for i in range(table_widget.columnCount()):
-        if table_widget.columnWidth(i) > 200:
+        if table_widget.columnWidth(i) > 180:
             if i <= len(columns) - 1:
-                table_widget.setColumnWidth(i, 200)
+                table_widget.setColumnWidth(i, 180)
                 table_widget.verticalHeader().setDefaultSectionSize(100)
+
+    table_widget.horizontalHeader().setStretchLastSection(True)
 
     main_window.MAINWINDOW_LOCAL_STORAGE[f'_{table_widget_name}_paginate'] = 0

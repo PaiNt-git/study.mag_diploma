@@ -98,6 +98,7 @@ def main(main_window):
                     ('id', 'id'),
                     ('query_id', 'query_id'),
                     ('answer_id', 'answer_id'),
+                    ('query_name', 'Вопрос'),
                     ('answer_name', 'Ответ'),
                     ('relevantion_part', 'Доля релевантности'),
                 ])

@@ -746,13 +746,13 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>600</width>
+                <width>710</width>
                 <height>0</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>600</width>
+                <width>710</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -1042,7 +1042,7 @@
              <widget class="QTableWidget" name="TableRelevQueryManage">
               <property name="maximumSize">
                <size>
-                <width>330</width>
+                <width>315</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -1654,7 +1654,7 @@ background-color: rgb(255, 217, 236);</string>
            <rect>
             <x>320</x>
             <y>10</y>
-            <width>122</width>
+            <width>140</width>
             <height>201</height>
            </rect>
           </property>
@@ -1725,6 +1725,32 @@ background-color: rgb(255, 217, 236);</string>
              </property>
              <property name="text">
               <string>Анализ -&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="ButtonAddQueryToList">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>120</width>
+               <height>38</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>120</width>
+               <height>38</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Добавить
+вопрос в список</string>
              </property>
             </widget>
            </item>
@@ -2404,7 +2430,7 @@ background-color: rgb(191, 255, 138);</string>
      <x>0</x>
      <y>0</y>
      <width>1589</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="File">
