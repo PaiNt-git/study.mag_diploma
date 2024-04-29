@@ -40,6 +40,8 @@ def main(main_window):
 
             pg_lexem, tf_idf = get_has_in_postgres_TF_IDF(token['pg_lexem'], only_questions)
 
+            ten_pers = 0 if tf_idf <= 0 else tf_idf * 0.1
+
             synonyms = list(filter(lambda x: (bool(x['pg_lexem']) and x['pg_lexem'] != token['pg_lexem']), token['synonyms']))
 
             if token['pg_lexem'] and len(synonyms):
@@ -47,7 +49,7 @@ def main(main_window):
                 has_tf_idf_tokens = False
                 for synonym in synonyms:
                     pg_lexem_syn, tf_idf_syn = get_has_in_postgres_TF_IDF(synonym["pg_lexem"], only_questions)
-                    if pg_lexem_syn and tf_idf_syn > tf_idf:
+                    if pg_lexem_syn and tf_idf_syn > tf_idf + ten_pers:
                         opt_tokens.append(synonym)
                         has_tf_idf_tokens = True
                         break

@@ -12,13 +12,18 @@ from info_service.actions._answers_utils import q_k_result_format_override
 from ._answers_utils import update_entity
 
 
-def main(main_window, entity, columns, dialog_title='Новый экземпляр'):
+def main(main_window, entity, columns, dialog_title='Новый экземпляр',
+         override_init_dialog=None, override_ok_dialog=None, override_cancel_dialog=None,
+         ):
     """
 
     :param main_window:
     :param entity:
     :param columns:
     :param dialog_title:
+    :param override_init_dialog:
+    :param override_ok_dialog:
+    :param override_cancel_dialog:
     """
 
     session = Session()
@@ -97,6 +102,15 @@ def main(main_window, entity, columns, dialog_title='Новый экземпля
 
     def cancel_dialog(dialog):
         pass
+
+    if override_init_dialog:
+        init_dialog = override_init_dialog
+
+    if override_ok_dialog:
+        ok_dialog = override_ok_dialog
+
+    if override_cancel_dialog:
+        cancel_dialog = override_cancel_dialog
 
     main_window.open_second_window(init_callback=init_dialog,
                                    ok_callback=ok_dialog,

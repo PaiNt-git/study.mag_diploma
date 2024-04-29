@@ -21,6 +21,12 @@ def q_k_result_format_override(row):
     return row
 
 
+def relev_manage_result_format_override(row):
+    if hasattr(row, 'answer'):
+        setattr(row, 'answer_name', row.answer.abstract)
+    return row
+
+
 def cell_editable(queryset_row, qt_item):
     # return False
     table_widget = qt_item.tableWidget()
@@ -31,9 +37,16 @@ def cell_editable(queryset_row, qt_item):
     if column_inx > 0:
         return True
 
+
+def cell_editable_relev_manage(queryset_row, qt_item):
+    table_widget = qt_item.tableWidget()
+    main_window = table_widget.window()
+    table_widget_name = table_widget.objectName()
+
+    column_inx = qt_item.column()
     vert = table_widget.horizontalHeaderItem(column_inx)
     column_name = vert.text()
-    if column_name == 'id':
+    if column_name == 'id' or column_name == 'Ответ':
         return False
     return True
 

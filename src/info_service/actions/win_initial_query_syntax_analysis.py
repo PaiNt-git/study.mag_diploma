@@ -199,6 +199,7 @@ def main(main_window):
                     sentence_members[-1]['additional'].append(virt_token)
 
                 if (virt_token.rel == 'root') or (not has_root and virt_token.rel == 'advcl') or (virt_token.id == virt_token.head_id and virt_token.rel != 'punct'):
+
                     sentence_members[-1]['first_level_cut'].append(virt_token)
 
                     if (virt_token.rel == 'root' and not has_nsubj):
@@ -210,9 +211,9 @@ def main(main_window):
                     elif not has_root and virt_token.id == virt_token.head_id and virt_token.rel != 'punct':
                         sentence_members[-1]['first_level_cut'].extend(get_childs(virt_token, sentence.tokens, nesting_level=1))
 
-                    sentence_members[-1]['first_level_cut'] = filter(lambda x: (x.rel in SENT_MEMBERS.keys() and
-                                                                                x.pos in ('NOUN', 'ADJ', 'VERB', 'INFN', 'PROPN')),
-                                                                     sentence_members[-1]['first_level_cut'])
+                    sentence_members[-1]['first_level_cut'] = list(filter(lambda x: (x.rel in SENT_MEMBERS.keys() and
+                                                                                     x.pos in ('NOUN', 'ADJ', 'VERB', 'INFN', 'PROPN')),
+                                                                          sentence_members[-1]['first_level_cut']))
 
             token.lemmatize(morph_vocab)
 

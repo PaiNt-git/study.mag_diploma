@@ -7,7 +7,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1642</width>
+    <width>1589</width>
     <height>1031</height>
    </rect>
   </property>
@@ -104,6 +104,27 @@
                 </property>
                 <property name="text">
                  <string>+</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="ButtonAddRelevQuery">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>7</pointsize>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Задать релевантный запрос
+на выделенный ответ</string>
                 </property>
                </widget>
               </item>
@@ -260,7 +281,7 @@
                <bool>true</bool>
               </attribute>
               <attribute name="verticalHeaderStretchLastSection">
-               <bool>true</bool>
+               <bool>false</bool>
               </attribute>
               <column>
                <property name="text">
@@ -448,7 +469,7 @@
                <bool>true</bool>
               </attribute>
               <attribute name="verticalHeaderStretchLastSection">
-               <bool>true</bool>
+               <bool>false</bool>
               </attribute>
               <column>
                <property name="text">
@@ -725,7 +746,7 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>500</width>
+                <width>600</width>
                 <height>0</height>
                </size>
               </property>
@@ -748,7 +769,7 @@
                <bool>true</bool>
               </attribute>
               <attribute name="verticalHeaderStretchLastSection">
-               <bool>true</bool>
+               <bool>false</bool>
               </attribute>
               <column>
                <property name="text">
@@ -1038,7 +1059,7 @@
                <bool>true</bool>
               </attribute>
               <attribute name="verticalHeaderStretchLastSection">
-               <bool>true</bool>
+               <bool>false</bool>
               </attribute>
               <column>
                <property name="text">
@@ -2029,7 +2050,7 @@ background-color: rgb(248, 233, 158);</string>
                <bool>true</bool>
               </attribute>
               <attribute name="verticalHeaderStretchLastSection">
-               <bool>true</bool>
+               <bool>false</bool>
               </attribute>
               <column>
                <property name="text">
@@ -2258,7 +2279,7 @@ background-color: rgb(191, 255, 138);</string>
                <bool>true</bool>
               </attribute>
               <attribute name="verticalHeaderStretchLastSection">
-               <bool>true</bool>
+               <bool>false</bool>
               </attribute>
               <column>
                <property name="text">
@@ -2308,6 +2329,12 @@ background-color: rgb(191, 255, 138);</string>
        <widget class="QPlainTextEdit" name="TextConsoleView">
         <property name="enabled">
          <bool>true</bool>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>175</height>
+         </size>
         </property>
         <property name="maximumSize">
          <size>
@@ -2376,7 +2403,7 @@ background-color: rgb(191, 255, 138);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1642</width>
+     <width>1589</width>
      <height>25</height>
     </rect>
    </property>
