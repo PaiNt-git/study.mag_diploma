@@ -7,7 +7,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1709</width>
+    <width>1642</width>
     <height>1031</height>
    </rect>
   </property>
@@ -43,7 +43,7 @@
       <item>
        <widget class="QTabWidget" name="ProgramScreens">
         <property name="currentIndex">
-         <number>4</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="EntriesCRUD">
          <attribute name="title">
@@ -253,6 +253,9 @@
               <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>false</bool>
               </attribute>
+              <attribute name="horizontalHeaderStretchLastSection">
+               <bool>true</bool>
+              </attribute>
               <attribute name="verticalHeaderCascadingSectionResizes">
                <bool>true</bool>
               </attribute>
@@ -272,7 +275,7 @@
         </widget>
         <widget class="QWidget" name="LemmsOfAllBase">
          <attribute name="title">
-          <string>Все Леммы базы</string>
+          <string>Все Лексемы базы</string>
          </attribute>
          <layout class="QGridLayout" name="gridLayout">
           <item row="0" column="0">
@@ -438,6 +441,9 @@
               <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>false</bool>
               </attribute>
+              <attribute name="horizontalHeaderStretchLastSection">
+               <bool>true</bool>
+              </attribute>
               <attribute name="verticalHeaderCascadingSectionResizes">
                <bool>true</bool>
               </attribute>
@@ -460,30 +466,30 @@
           <string>Релевантность и запросы</string>
          </attribute>
          <layout class="QGridLayout" name="gridLayout_4">
-          <item row="0" column="0">
-           <layout class="QVBoxLayout" name="verticaltintab_5">
+          <item row="2" column="5">
+           <layout class="QVBoxLayout" name="verticaltintab_6">
             <item>
-             <layout class="QHBoxLayout" name="horizontalintab_5">
-              <item>
-               <spacer name="horizontalSpacer_4">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
+             <widget class="QLabel" name="label_18">
+              <property name="text">
+               <string>Релевантность запросов ответам</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalintab_6">
+              <item alignment="Qt::AlignRight">
                <widget class="QPushButton" name="ButtonDelRelev">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>40</width>
+                  <height>16777215</height>
+                 </size>
                 </property>
                 <property name="font">
                  <font>
@@ -504,6 +510,314 @@
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>40</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>10</pointsize>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>+</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_21">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>65</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="baseSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Страница </string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="CurPageTableRelevManage">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_22">
+                <property name="maximumSize">
+                 <size>
+                  <width>16</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>из</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="MaxPageTableRelevManage">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="ButtonFirstPageTableRelevManage">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>40</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>13</pointsize>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>«</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="ButtonPrevPageTableRelevManage">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>40</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>‹</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="ButtonNextPageTableRelevManage">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>40</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>›</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="ButtonLastPageTableRelevManage">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>40</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>13</pointsize>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>»</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QTableWidget" name="TableRelevManage">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>500</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>600</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="sizeAdjustPolicy">
+               <enum>QAbstractScrollArea::AdjustToContents</enum>
+              </property>
+              <attribute name="horizontalHeaderCascadingSectionResizes">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="horizontalHeaderStretchLastSection">
+               <bool>true</bool>
+              </attribute>
+              <attribute name="verticalHeaderCascadingSectionResizes">
+               <bool>true</bool>
+              </attribute>
+              <attribute name="verticalHeaderStretchLastSection">
+               <bool>true</bool>
+              </attribute>
+              <column>
+               <property name="text">
+                <string/>
+               </property>
+              </column>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="4">
+           <layout class="QVBoxLayout" name="verticaltintab_5">
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="maximumSize">
+               <size>
+                <width>300</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Запросы для метрик релевантности</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalintab_5">
+              <property name="sizeConstraint">
+               <enum>QLayout::SetMinimumSize</enum>
+              </property>
+              <item alignment="Qt::AlignRight">
+               <widget class="QPushButton" name="ButtonDelRelevQuery">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>30</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>10</pointsize>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>-</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="ButtonNewRelevQuery">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>30</width>
+                  <height>16777215</height>
+                 </size>
                 </property>
                 <property name="font">
                  <font>
@@ -531,6 +845,12 @@
                   <height>0</height>
                  </size>
                 </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>60</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
                 <property name="baseSize">
                  <size>
                   <width>0</width>
@@ -543,12 +863,18 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="CurPageTableRelevManage">
+               <widget class="QLabel" name="CurPageTableRelevQueryManage">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16</width>
+                  <height>16777215</height>
+                 </size>
                 </property>
                 <property name="text">
                  <string>0</string>
@@ -557,18 +883,30 @@
               </item>
               <item>
                <widget class="QLabel" name="label_20">
+                <property name="maximumSize">
+                 <size>
+                  <width>16</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
                 <property name="text">
                  <string>из</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="MaxPageTableRelevManage">
+               <widget class="QLabel" name="MaxPageTableRelevQueryManage">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16</width>
+                  <height>16777215</height>
+                 </size>
                 </property>
                 <property name="text">
                  <string>0</string>
@@ -576,12 +914,18 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="ButtonFirstPageTableRelevManage">
+               <widget class="QPushButton" name="ButtonFirstPageTableRelevQueryManage">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>30</width>
+                  <height>16777215</height>
+                 </size>
                 </property>
                 <property name="font">
                  <font>
@@ -596,12 +940,18 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="ButtonPrevPageTableRelevManage">
+               <widget class="QPushButton" name="ButtonPrevPageTableRelevQueryManage">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>30</width>
+                  <height>16777215</height>
+                 </size>
                 </property>
                 <property name="font">
                  <font>
@@ -616,12 +966,18 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="ButtonNextPageTableRelevManage">
+               <widget class="QPushButton" name="ButtonNextPageTableRelevQueryManage">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>30</width>
+                  <height>16777215</height>
+                 </size>
                 </property>
                 <property name="font">
                  <font>
@@ -634,12 +990,18 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="ButtonLastPageTableRelevManage">
+               <widget class="QPushButton" name="ButtonLastPageTableRelevQueryManage">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>30</width>
+                  <height>16777215</height>
+                 </size>
                 </property>
                 <property name="font">
                  <font>
@@ -656,12 +1018,21 @@
              </layout>
             </item>
             <item>
-             <widget class="QTableWidget" name="TableRelevManage">
+             <widget class="QTableWidget" name="TableRelevQueryManage">
+              <property name="maximumSize">
+               <size>
+                <width>330</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="sizeAdjustPolicy">
                <enum>QAbstractScrollArea::AdjustToContents</enum>
               </property>
               <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>false</bool>
+              </attribute>
+              <attribute name="horizontalHeaderStretchLastSection">
+               <bool>true</bool>
               </attribute>
               <attribute name="verticalHeaderCascadingSectionResizes">
                <bool>true</bool>
@@ -674,6 +1045,37 @@
                 <string/>
                </property>
               </column>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="8">
+           <layout class="QGridLayout" name="gridLayout_6">
+            <item row="4" column="0">
+             <widget class="QWebEngineView" name="WebViewRelevPreview" native="true">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(255, 255, 255);</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QPushButton" name="ButtonRelevMetricRefresh">
+              <property name="text">
+               <string>Посчитать метрики для базовых запросов</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QProgressBar" name="MetricRefreshProgressBar">
+              <property name="value">
+               <number>0</number>
+              </property>
              </widget>
             </item>
            </layout>
@@ -1610,7 +2012,7 @@ background-color: rgb(248, 233, 158);</string>
              <widget class="QTableWidget" name="TableInitialAllResults">
               <property name="maximumSize">
                <size>
-                <width>900</width>
+                <width>940</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -1620,7 +2022,13 @@ background-color: rgb(248, 233, 158);</string>
               <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>false</bool>
               </attribute>
+              <attribute name="horizontalHeaderStretchLastSection">
+               <bool>true</bool>
+              </attribute>
               <attribute name="verticalHeaderCascadingSectionResizes">
+               <bool>true</bool>
+              </attribute>
+              <attribute name="verticalHeaderStretchLastSection">
                <bool>true</bool>
               </attribute>
               <column>
@@ -1833,7 +2241,7 @@ background-color: rgb(191, 255, 138);</string>
              <widget class="QTableWidget" name="TableModifiedAllResults">
               <property name="maximumSize">
                <size>
-                <width>900</width>
+                <width>940</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -1843,7 +2251,13 @@ background-color: rgb(191, 255, 138);</string>
               <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>false</bool>
               </attribute>
+              <attribute name="horizontalHeaderStretchLastSection">
+               <bool>true</bool>
+              </attribute>
               <attribute name="verticalHeaderCascadingSectionResizes">
+               <bool>true</bool>
+              </attribute>
+              <attribute name="verticalHeaderStretchLastSection">
                <bool>true</bool>
               </attribute>
               <column>
@@ -1962,8 +2376,8 @@ background-color: rgb(191, 255, 138);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1709</width>
-     <height>26</height>
+     <width>1642</width>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="File">
