@@ -6,6 +6,13 @@ from info_service.db_utils import togudb_serializator
 
 
 def main(text_query: str, K=10, only_questions=True):
+    """
+    https://www.evidentlyai.com/ranking-metrics/mean-average-precision-map
+    https://www.evidentlyai.com/ranking-metrics/ndcg-metric
+    :param text_query:
+    :param K:
+    :param only_questions:
+    """
     from info_service import actions
 
     N = 0
