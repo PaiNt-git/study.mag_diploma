@@ -45,6 +45,8 @@ a = Analysis(['src\\info_service\\main.py'],
                 ('src/info_service/info_service.ui', '.'),
                 ('src/info_service/info_service_del_instance.ui', '.'),
                 ('src/info_service/info_service_new_instance.ui', '.'),
+                ('src/info_service/polyfill.min.js', '.'),
+                ('src/info_service/tex-mml-chtml.js', '.'),
                 ('src/info_service/icon.png', '.'),
 
              ],
