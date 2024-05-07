@@ -135,7 +135,7 @@ $$ap@K = \frac{1}{K}\sum_{k=1}^{K}{r^{true}(\pi^{-1}(k))}\cdot p@k = \left[ ''' 
 $$map@K = \frac{1}{N}\sum_{j=1}^{N}{ap@K_{j}} = ''' + str(apks) + r''' = ''' + str(map_at_K) + r'''$$
 
 <br>
-<i>где K = ''' + str(K) + r''', N = ''' + str(map_at_K['count_queries']) + r'''  запросов \(U=\left\{u_{i}\right\}_{i=1}^{N}\), M ответов в выдаче \(E=\left\{e_{j}\right\}_{j=1}^{M}\). </i>
+<i>где K = ''' + str(K) + r''', N = ''' + str(count_queries) + r'''  запросов \(U=\left\{u_{i}\right\}_{i=1}^{N}\), M ответов в выдаче \(E=\left\{e_{j}\right\}_{j=1}^{M}\). </i>
 
 
 </body></html>
