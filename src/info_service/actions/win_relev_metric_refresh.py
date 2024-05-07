@@ -72,12 +72,29 @@ def main(main_window, optimize=False):
         p_at_K = '' + ', '.join([f'{actions.metrics_getPrecisionAtK(x.query, K, only_questions, optimize)}' for x in all_queries]) + ''
         MetricRefreshProgressBar.setValue(1)
         time.sleep(0.2)
-        ap_at_K = '' + ', '.join([f'{actions.metrics_getAvgPrecisionOfKres(x.query, K, only_questions, optimize)}' for x in all_queries]) + ''
+
+        ap_at_K = [actions.metrics_getAvgPrecisionOfKresDecomp(x.query, K, only_questions, optimize) for x in all_queries]
+
+        r_dot_pk = [' +'.join(map(str, x['precKs'])) for x in ap_at_K]
+        apKfrct = []
+        for i in range(len(r_dot_pk)):
+            apKfrct.append((r'\frac{' + str(r_dot_pk[i]) + r'}{' + str(ap_at_K[i]['relev_from_res']) + r'}') if ap_at_K[i]['relev_from_res'] else '0.0')
+
+        apKfrct = '' + ', '.join(apKfrct) + ''
+
+        ap_at_K = '' + ', '.join([f'{x["all"]}' for x in ap_at_K]) + ''
         MetricRefreshProgressBar.setValue(2)
         time.sleep(0.2)
-        map_at_K = f'{actions.metrics_getMeanAvgPrecisionAtK(K, only_questions, optimize)}'
+
+        map_at_K = actions.metrics_getMeanAvgPrecisionAtKDecomp(K, only_questions, optimize)
+
+        apks = ' +'.join(map(str, map_at_K['SumApAtKs']))
+        apks = r'\frac{' + apks + '}{' + str(map_at_K['count_queries']) + '}'
+
+        map_at_K = f'{map_at_K["all"]}'
         MetricRefreshProgressBar.setValue(3)
         time.sleep(0.2)
+
     except Exception as e:
         print(e)
 
@@ -109,16 +126,16 @@ $$p@K = \frac{\sum_{k=1}^{K}{r^{true}(\pi^{-1}(k))}}{K} = \frac{релевант
 <br>
 <h4>Average precision at K (ap@K)</h4>
 <div>Равна сумме p@k по индексам k от 1 до K только для релевантных элементов, деленому на K.</div>
-$$ap@K = \frac{1}{K}\sum_{k=1}^{K}{r^{true}(\pi^{-1}(k))}\cdot p@k = \left[ ''' + str(ap_at_K) + r''' \right]$$
+$$ap@K = \frac{1}{K}\sum_{k=1}^{K}{r^{true}(\pi^{-1}(k))}\cdot p@k = \left[ ''' + str(apKfrct) + r''' \right] = \left[ ''' + str(ap_at_K) + r''' \right]$$
 <br>
 <h4>Mean average precision at K (map@K)</h4>
 <div>одна из наиболее часто используемых метрик качества ранжирования.
 В p@K и ap@K качество ранжирования оценивается для отдельно взятого объекта (поискового запроса).
 Идея map@K заключается в том, чтобы посчитать ap@K для каждого объекта(запроса) и усреднить.</div>
-$$map@K = \frac{1}{N}\sum_{j=1}^{N}{ap@K_{j}} = ''' + str(map_at_K) + r'''$$
+$$map@K = \frac{1}{N}\sum_{j=1}^{N}{ap@K_{j}} = ''' + str(apks) + r''' = ''' + str(map_at_K) + r'''$$
 
 <br>
-<i>где K = ''' + str(K) + r''', N  запросов \(U=\left\{u_{i}\right\}_{i=1}^{N}\), M ответов в выдаче \(E=\left\{e_{j}\right\}_{j=1}^{M}\). </i>
+<i>где K = ''' + str(K) + r''', N = ''' + str(map_at_K['count_queries']) + r'''  запросов \(U=\left\{u_{i}\right\}_{i=1}^{N}\), M ответов в выдаче \(E=\left\{e_{j}\right\}_{j=1}^{M}\). </i>
 
 
 </body></html>
