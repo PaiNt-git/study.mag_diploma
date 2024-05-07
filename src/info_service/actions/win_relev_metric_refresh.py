@@ -53,6 +53,10 @@ def main(main_window):
 }
 </style>
 
+<script src="polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="tex-mml-chtml.js"></script>
+
+
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
@@ -63,13 +67,13 @@ def main(main_window):
 $$p@K = \frac{\sum_{k=1}^{K}{r^{true}(\pi^{-1})(k))}}{K} = \frac{релевантных элементов}{K} = ''' + p_at_K + '''$$
 
 <h4>Average precision at K (ap@K)</h4>
-<div>Равна сумме p@k по индексам k от 1 до K только для релевантных элементов, деленому на K</div>
+<div>Равна сумме p@k по индексам k от 1 до K только для релевантных элементов, деленому на K.</div>
 $$ap@K = \frac{1}{K}\sum_{k=1}^{K}{r^{true}(\pi^{-1})(k))}\cdot p@k = ''' + ap_at_K + '''$$
 
 <h4>Mean average precision at K (map@K)</h4>
 <div>одна из наиболее часто используемых метрик качества ранжирования.
-В p@K и ap@K качество ранжирования оценивается для отдельно взятого объекта (пользователя, поискового запроса).
-На практике объектов множество: мы имеем дело с сотнями тысяч пользователей, миллионами поисковых запросов и т.д. Идея map@K заключается в том, чтобы посчитать ap@K для каждого объекта и усреднить</div>
+В p@K и ap@K качество ранжирования оценивается для отдельно взятого объекта (поискового запроса).
+Идея map@K заключается в том, чтобы посчитать ap@K для каждого объекта(запроса) и усреднить.</div>
 $$map@K = \frac{1}{N}\sum_{j=1}^{N}{ap@K_{j}} = ''' + map_at_K + '''$$
 
 
