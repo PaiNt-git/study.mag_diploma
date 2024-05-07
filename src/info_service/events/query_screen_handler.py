@@ -31,6 +31,9 @@ def main(main_window):
         initial_query_text_widget.setPlainText('')
         modified_query_text_widget = main_window.TextModifiedQuery
         modified_query_text_widget.setPlainText('')
+        main_window.TextQuerySynonims.setText('')
+        initial_query_analysis_widget = getattr(main_window, f'WebViewAnalysisPreview')
+        initial_query_analysis_widget.setHtml('')
         _execute_initial_query()
         _execute_modified_query()
     ButtonClearAllQueryScreen.clicked.connect(_clear_all_queries)
