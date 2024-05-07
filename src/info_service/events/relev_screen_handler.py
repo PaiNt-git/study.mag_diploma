@@ -55,6 +55,36 @@ def main(main_window):
     ButtonNewRelev = getattr(main_window, f'ButtonNewRelev')
     ButtonNewRelev.clicked.connect(new_relev)
 
+    def relev_to_analysis():
+        ButtonClearAllQueryScreen = main_window.ButtonClearAllQueryScreen
+        ButtonClearAllQueryScreen.clicked.emit()
+
+        initial_query_text_widget = main_window.TextInitialQuery
+
+        table_widget = getattr(main_window, f'TableRelevQueryManage')
+        cur_row = table_widget.currentRow()
+        cur_rows = []
+
+        selected = table_widget.selectedItems()
+        if selected:
+            for item in selected:
+                rrow = item.row()
+                query = str(table_widget.item(rrow, 1).text())
+                cur_rows.append(query)
+
+        cur_rows = list(set(cur_rows))
+        if len(cur_rows):
+            initial_query_text_widget.setPlainText(cur_rows[0])
+        else:
+            initial_query_text_widget.setPlainText('')
+
+        ProgramScreens = main_window.ProgramScreens
+        ProgramScreens.setCurrentIndex(3)
+        pass
+
+    ButtonRelevQueryToAnalysis = getattr(main_window, f'ButtonRelevQueryToAnalysis')
+    ButtonRelevQueryToAnalysis.clicked.connect(relev_to_analysis)
+
     ButtonRelevMetricRefresh = main_window.ButtonRelevMetricRefresh
     ButtonRelevMetricRefresh.clicked.connect(lambda x: actions.win_relev_metric_refresh(main_window))
 

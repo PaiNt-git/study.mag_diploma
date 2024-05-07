@@ -7,7 +7,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1207</width>
+    <width>1389</width>
     <height>1031</height>
    </rect>
   </property>
@@ -853,6 +853,32 @@
                </widget>
               </item>
               <item>
+               <widget class="QPushButton" name="ButtonRelevQueryToAnalysis">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>30</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>10</pointsize>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>➦</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QLabel" name="label_19">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -879,7 +905,7 @@
                  </size>
                 </property>
                 <property name="text">
-                 <string>Страница </string>
+                 <string>Стр.</string>
                 </property>
                </widget>
               </item>
@@ -2454,8 +2480,8 @@ background-color: rgb(191, 255, 138);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1207</width>
-     <height>26</height>
+     <width>1389</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="File">
