@@ -5,7 +5,7 @@ from info_service.db_base import Session, QuestAnswerBase, QuestAnswerBaseRelevQ
 from info_service.db_utils import togudb_serializator
 
 
-def main(K=10, only_questions=True):
+def main(K=10, only_questions=True, optimize=False):
     """
     https://www.evidentlyai.com/ranking-metrics/mean-average-precision-map
     https://habr.com/ru/companies/econtenta/articles/303458/
@@ -22,6 +22,6 @@ def main(K=10, only_questions=True):
     if count_queries == 0:
         return 0.0
     for query in all_queries:
-        SumApAtK += actions.metrics_getAvgPrecisionOfKres(query.query, K, only_questions=only_questions)
+        SumApAtK += actions.metrics_getAvgPrecisionOfKres(query.query, K, only_questions=only_questions, optimize=optimize)
 
-    return SumApAtK / count_queries
+    return SumApAtK / count_queries if count_queries else 0.0

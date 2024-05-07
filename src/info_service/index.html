@@ -14,13 +14,27 @@
 }
 </style>
 
-<script src="polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="tex-mml-chtml.js"></script>
+<script src="file:///M:/home/git/magistry2022/study.mag_diploma/src/info_service/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="file:///M:/home/git/magistry2022/study.mag_diploma/src/info_service/tex-mml-chtml.js"></script>
 
-</head><body class="zoomed">
+</head><body class="minzoomed">
 
-$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}$$
+<h4>Precision at K (p@K)</h4>
+<div>Tочность на K элементах — базовая метрика качества ранжирования для одного объекта.</div>
+$$p@K = \frac{\sum_{k=1}^{K}{r^{true}(\pi^{-1}(k))}}{K} = \frac{релевантных элементов}{K} = \left[ 1.0, 0.0, 1.0, 0.0, 0.0 \right]$$
+<br>
+<h4>Average precision at K (ap@K)</h4>
+<div>Равна сумме p@k по индексам k от 1 до K только для релевантных элементов, деленому на K.</div>
+$$ap@K = \frac{1}{K}\sum_{k=1}^{K}{r^{true}(\pi^{-1}(k))}\cdot p@k = \left[ 1.0, 0.0, 1.0, 0.0, 0.0 \right]$$
+<br>
+<h4>Mean average precision at K (map@K)</h4>
+<div>одна из наиболее часто используемых метрик качества ранжирования.
+В p@K и ap@K качество ранжирования оценивается для отдельно взятого объекта (поискового запроса).
+Идея map@K заключается в том, чтобы посчитать ap@K для каждого объекта(запроса) и усреднить.</div>
+$$map@K = \frac{1}{N}\sum_{j=1}^{N}{ap@K_{j}} = 0.4$$
 
-$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+<br>
+<i>где K = 10, N  запросов \(U=\left\{u_{i}\right\}_{i=1}^{N}\), M ответов в выдаче \(E=\left\{e_{j}\right\}_{j=1}^{M}\). </i>
+
 
 </body></html>

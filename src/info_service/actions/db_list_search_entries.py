@@ -63,7 +63,7 @@ def main(user_search_term, category=None, sort=False, only_questions=True):
         )
 
     query = query.params(term=search_query)
-    print(query)
+    # print(query)
     # print(str(query.statement.compile(dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True})))
 
     results = query.all()

@@ -7,7 +7,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1589</width>
+    <width>1207</width>
     <height>1031</height>
    </rect>
   </property>
@@ -1072,7 +1072,46 @@
           </item>
           <item row="2" column="8">
            <layout class="QGridLayout" name="gridLayout_6">
-            <item row="4" column="0">
+            <item row="0" column="0">
+             <widget class="QProgressBar" name="MetricRefreshProgressBar">
+              <property name="value">
+               <number>0</number>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <widget class="QPushButton" name="ButtonRelevMetricRefresh">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Посчитать метрики 
+для базовых запросов</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="ButtonOptRelevMetricRefresh">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Посчитать метрики 
+для оптимизирвоанных запросов</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="6" column="0">
              <widget class="QWebEngineView" name="WebViewRelevPreview" native="true">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -1082,20 +1121,6 @@
               </property>
               <property name="styleSheet">
                <string notr="true">background-color: rgb(255, 255, 255);</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QPushButton" name="ButtonRelevMetricRefresh">
-              <property name="text">
-               <string>Посчитать метрики для базовых запросов</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <widget class="QProgressBar" name="MetricRefreshProgressBar">
-              <property name="value">
-               <number>0</number>
               </property>
              </widget>
             </item>
@@ -2429,7 +2454,7 @@ background-color: rgb(191, 255, 138);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1589</width>
+     <width>1207</width>
      <height>26</height>
     </rect>
    </property>

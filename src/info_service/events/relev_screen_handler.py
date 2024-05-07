@@ -58,6 +58,9 @@ def main(main_window):
     ButtonRelevMetricRefresh = main_window.ButtonRelevMetricRefresh
     ButtonRelevMetricRefresh.clicked.connect(lambda x: actions.win_relev_metric_refresh(main_window))
 
+    ButtonOptRelevMetricRefresh = main_window.ButtonOptRelevMetricRefresh
+    ButtonOptRelevMetricRefresh.clicked.connect(lambda x: actions.win_relev_metric_refresh(main_window, True))
+
     for crud_name in ('TableRelevQueryManage', 'TableRelevManage'):
 
         if crud_name == 'TableRelevQueryManage':
