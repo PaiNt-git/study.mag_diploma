@@ -48,7 +48,8 @@ a = Analysis(['src\\info_service\\main.py'],
                 ('src/info_service/polyfill.min.js', '.'),
                 ('src/info_service/tex-mml-chtml.js', '.'),
                 ('src/info_service/icon.png', '.'),
-
+                ('src/info_service/icon.ico', '.'),
+                
              ],
              hiddenimports=_tensorflow+_natasha+_modules_actions+_modules_events+_modules_initializators,
              hookspath=[],
