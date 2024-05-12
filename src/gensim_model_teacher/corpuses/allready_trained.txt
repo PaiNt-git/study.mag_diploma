@@ -1,3 +1,0 @@
-aij-wikiner-ru-wp3.gz
-corpus1.txt.gz
-corpus2.txt.gz
