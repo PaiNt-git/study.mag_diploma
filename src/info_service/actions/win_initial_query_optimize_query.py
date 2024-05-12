@@ -89,7 +89,7 @@ def main(main_window):
 
         # Оставшиеся члены предложения по пробуем заменить исходными токенами
         if not len(res):
-            for i in range(opt_tokens):
+            for i in range(len(opt_tokens)):
                 opt_tokens = [(x.get('_prime_token_info', x) if (x['id'] == opt_tokens[i]['id']) else x) for x in opt_tokens]
                 allstr = ' '.join([x['pg_lexem'] for x in opt_tokens])
                 res = actions.db_list_search_entries(allstr, category=None, sort=False, only_questions=only_questions)

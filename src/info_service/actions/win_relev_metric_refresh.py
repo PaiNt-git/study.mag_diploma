@@ -78,7 +78,7 @@ def main(main_window, optimize=False):
         r_dot_pk = [' +'.join(map(str, x['precKs'])) for x in ap_at_K]
         apKfrct = []
         for i in range(len(r_dot_pk)):
-            apKfrct.append((r'\frac{' + str(r_dot_pk[i]) + r'}{' + str(ap_at_K[i]['relev_from_res']) + r'}') if ap_at_K[i]['relev_from_res'] else '0.0')
+            apKfrct.append((r'\frac{' + str(r_dot_pk[i]) + r'}{' + str(ap_at_K[i]['lenk']) + r'}') if ap_at_K[i]['lenk'] else '0.0')
 
         apKfrct = '' + ', '.join(apKfrct) + ''
 

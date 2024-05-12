@@ -26,9 +26,10 @@ def main(text_query: str, K=10, only_questions=True, optimize=False, optimized_t
     results = actions.db_list_search_entries(text_query_search, category=None, sort=True, only_questions=only_questions)
     len_res = len(results)
     if len_res:
+        lenk = len_res if len_res < K else K
+        return_vals['lenk'] = lenk
         sum_pec = 0.0
-        relev_from_res = actions.metrics_getTopKrelevN(text_query, K, only_questions, optimized_text_query=optimized_text_query)
-        return_vals['relev_from_res'] = relev_from_res
+        # relev_from_res = actions.metrics_getTopKrelevN(text_query, K, only_questions, optimized_text_query=optimized_text_query)
         for num in range(1, K + 1):
             precK = actions.metrics_getPrecisionOfKres(text_query, num, K, only_questions=only_questions, search_results=results, optimized_text_query=optimized_text_query)
             if precK != 0.0:
@@ -37,7 +38,7 @@ def main(text_query: str, K=10, only_questions=True, optimize=False, optimized_t
 
         return_vals['sum_pec'] = sum_pec
 
-        return_vals['all'] = (sum_pec / relev_from_res) if relev_from_res else 0.0
+        return_vals['all'] = (sum_pec / lenk) if lenk else 0.0
 
         return return_vals
 

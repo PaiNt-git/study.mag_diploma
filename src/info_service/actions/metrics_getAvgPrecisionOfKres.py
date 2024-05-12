@@ -19,12 +19,13 @@ def main(text_query: str, K=10, only_questions=True, optimize=False, optimized_t
     results = actions.db_list_search_entries(text_query_search, category=None, sort=True, only_questions=only_questions)
     len_res = len(results)
     if len_res:
+        lenk = len_res if len_res < K else K
         sum_pec = 0.0
-        relev_from_res = actions.metrics_getTopKrelevN(text_query, K, only_questions, optimized_text_query=optimized_text_query)
+        # relev_from_res = actions.metrics_getTopKrelevN(text_query, K, only_questions, optimized_text_query=optimized_text_query)
         for num in range(1, K + 1):
             precK = actions.metrics_getPrecisionOfKres(text_query, num, K, only_questions=only_questions, search_results=results, optimized_text_query=optimized_text_query)
             sum_pec += precK
 
-        return (sum_pec / relev_from_res) if relev_from_res else 0.0
+        return (sum_pec / lenk) if lenk else 0.0
 
     return 0.0
