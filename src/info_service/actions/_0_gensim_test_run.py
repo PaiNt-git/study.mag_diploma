@@ -59,7 +59,7 @@ if __name__ == '__main__':
     from gensim.models.word2vec import Text8Corpus
     from gensim.models.phrases import Phrases, Phraser
 
-    # Load training data.
+    # Load training data. https://stackoverflow.com/questions/46148182/issues-in-getting-trigrams-using-gensim
     sentences = Text8Corpus(datapath('testcorpus.txt'))
     # The training corpus must be a sequence (stream, generator) of sentences,
     # with each sentence a list of tokens:
