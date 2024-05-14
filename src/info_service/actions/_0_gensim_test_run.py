@@ -66,15 +66,15 @@ if __name__ == '__main__':
     print(list(sentences)[0][:10])
 
     # Train a toy bigram model.
-    phrases = Phrases(sentences, min_count=1, threshold=1)
+    phrases = Phrases(sentences, min_count=1, delimiter=' ', threshold=1)
     # Apply the trained phrases model to a new, unseen sentence.
-    print(phrases[['trees', 'graph', 'minors']])
+    print(phrases[['trees', 'graph', 'sun']])
     # The toy model considered "trees graph" a single phrase => joined the two
     # tokens into a single token, `trees_graph`.
     # Update the model with two new sentences on the fly.
     phrases.add_vocab([["hello", "world"], ["meow"]])
 
-    triphrases = Phrases(phrases[sentences], min_count=1, delimiter=b' ')
+    triphrases = Phrases(phrases[sentences], min_count=1, delimiter=' ', threshold=1)
 
     # Export the trained model = use less RAM, faster processing. Model updates no longer possible.
     bigram = Phraser(phrases)
