@@ -55,4 +55,40 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    from gensim.test.utils import datapath
+    from gensim.models.word2vec import Text8Corpus
+    from gensim.models.phrases import Phrases, Phraser
+
+    # Load training data.
+    sentences = Text8Corpus(datapath('testcorpus.txt'))
+    # The training corpus must be a sequence (stream, generator) of sentences,
+    # with each sentence a list of tokens:
+    print(list(sentences)[0][:10])
+
+    # Train a toy bigram model.
+    phrases = Phrases(sentences, min_count=1, threshold=1)
+    # Apply the trained phrases model to a new, unseen sentence.
+    print(phrases[['trees', 'graph', 'minors']])
+    # The toy model considered "trees graph" a single phrase => joined the two
+    # tokens into a single token, `trees_graph`.
+    # Update the model with two new sentences on the fly.
+    phrases.add_vocab([["hello", "world"], ["meow"]])
+
+    triphrases = Phrases(phrases[sentences], min_count=1, delimiter=b' ')
+
+    # Export the trained model = use less RAM, faster processing. Model updates no longer possible.
+    bigram = Phraser(phrases)
+    print(bigram[['trees', 'graph', 'minors']])  # apply the exported model to a sentence
+
+    # Export the trained model = use less RAM, faster processing. Model updates no longer possible.
+    trigram = Phraser(triphrases)
+    print(trigram[['trees', 'graph', 'minors']])  # apply the exported model to a sentence
+
+    # Apply the exported model to each sentence of a corpus:
+    for sent in bigram[sentences]:
+        pass
+
+    # Save / load an exported collocation model.
+    bigram.save("/tmp/my_bigram_model.pkl")
+    bigram_reloaded = Phraser.load("/tmp/my_bigram_model.pkl")
+    print(bigram_reloaded[['trees', 'graph', 'minors']])  # apply the exported model to a sentence
