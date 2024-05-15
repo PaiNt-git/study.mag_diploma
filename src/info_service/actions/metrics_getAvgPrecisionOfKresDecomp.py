@@ -17,7 +17,7 @@ def main(text_query: str, K=10, only_questions=True, optimize=False, optimized_t
 
     return_vals = {
         'all': 0.0,
-        'relev_from_res': 0.0,
+        'lenk': 0.0,
         'precKs': [],
         'sum_pec': 0.0
     }
