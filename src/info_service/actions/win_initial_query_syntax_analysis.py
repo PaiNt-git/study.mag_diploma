@@ -2,11 +2,16 @@ import os
 import time
 import json
 import asyncio
+import itertools
 
 from pprint import pprint
 
 import gensim
 import snowballstemmer
+
+from copy import copy
+
+from gensim.models.phrases import Phrases, Phraser
 
 from itertools import chain
 from collections import OrderedDict
@@ -30,8 +35,6 @@ from natasha.syntax import token_deps
 from navec import Navec
 
 from ipymarkup import format_span_box_markup, format_span_line_markup, format_dep_markup
-import itertools
-from copy import copy
 
 
 SENT_MEMBERS = {
@@ -104,7 +107,6 @@ def main(main_window):
     spchains = list(itertools.chain.from_iterable(map(lambda x: getattr(x, 'tokens', []), doc_spans)))
 
     table_widget = getattr(main_window, f'TableInitialQueryExceptedTokens')
-
     table_widget.clear()
     time.sleep(0.2)
     table_widget.setRowCount(0)
@@ -114,9 +116,7 @@ def main(main_window):
             ('text', 'NER'),
             ('start', 'Начало'),
         ])
-
     table_widget.setColumnCount(len(columns))
-
     table_widget.setHorizontalHeaderLabels(columns.values())
 
     for i, row in enumerate(doc_spans):
@@ -134,7 +134,66 @@ def main(main_window):
             table_widget.setItem(curc, k, qtcell)
 
     table_widget.setVerticalHeaderLabels(list(map(str, range(1, len(doc_spans) + 1))))
+    table_widget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+    table_widget.setWordWrap(True)
+    table_widget.resizeColumnsToContents()
+    table_widget.horizontalHeader().setStretchLastSection(True)
+    for i in range(table_widget.columnCount()):
+        if table_widget.columnWidth(i) > 200:
+            table_widget.setColumnWidth(i, 200)
 
+    # Исключениен устойчивых словосочетаний из подбора синонимов
+    bigrammpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/aij-wikiner-ru-wp3.gz_bigram.pkl')
+    bigram_reloaded = Phraser.load(bigrammpath)
+
+    bigrams = []
+
+    for sentence in doc.sents:
+        phrases = bigram_reloaded[[x.text.lower() for x in sentence.tokens]]
+        bigrams.extend([x for x in phrases if ' ' in x])
+
+    table_widget = getattr(main_window, f'TableInitialQueryExceptedBigram')
+    table_widget.clear()
+    time.sleep(0.2)
+    table_widget.setRowCount(0)
+
+    columns = OrderedDict(
+        [
+            ('text', 'Bigram'),
+            ('start', 'Начало'),
+        ])
+    table_widget.setColumnCount(len(columns))
+    table_widget.setHorizontalHeaderLabels(columns.values())
+
+    bigrams_listoflist = [x.split(' ') for x in bigrams]
+    has_bigram = []
+
+    for sentence in doc.sents:
+
+        for token in sentence.tokens:
+            bigrams_intersect = [' '.join(x) for x in bigrams_listoflist if token.text.lower() in x]
+            if len(bigrams_intersect):
+                setattr(token, '_is_bigram', True)
+
+                for bigram_text in bigrams_intersect:
+                    if bigram_text not in has_bigram:
+                        has_bigram.append(bigram_text)
+
+                        curc = table_widget.rowCount()
+                        table_widget.insertRow(curc)
+
+                        qtcell = QtWidgets.QTableWidgetItem(str(bigram_text))
+                        qtcell.setFlags(qtcell.flags() & ~QtCore.Qt.ItemIsEditable)
+                        table_widget.setItem(curc, 0, qtcell)
+
+                        qtcell = QtWidgets.QTableWidgetItem(str(token.start))
+                        qtcell.setFlags(qtcell.flags() & ~QtCore.Qt.ItemIsEditable)
+                        table_widget.setItem(curc, 1, qtcell)
+
+            else:
+                setattr(token, '_is_bigram', False)
+
+    table_widget.setVerticalHeaderLabels(list(map(str, range(1, len(doc_spans) + 1))))
     table_widget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
     table_widget.setWordWrap(True)
     table_widget.resizeColumnsToContents()
@@ -179,6 +238,7 @@ def main(main_window):
             # синтаксический разбор членов предлоежения
             if token.rel in SENT_MEMBERS.keys():
                 virt_token = token
+                _is_ner = False
                 if token.id in [x.id for x in spchains]:
                     for span in doc_spans:
                         if token.id in [x.id for x in span.tokens]:
@@ -187,6 +247,9 @@ def main(main_window):
                             setattr(virt_token, 'start', token.start)
                             setattr(virt_token, 'id', token.id)
                             setattr(virt_token, 'head_id', token.head_id)
+                            _is_ner = True
+
+                setattr(virt_token, '_is_ner', _is_ner)
 
                 has_root = len([x for x in sentence.tokens if x.rel == 'root']) > 0
                 has_nsubj = len([x for x in sentence.tokens if x.rel == 'nsubj']) > 0
@@ -197,6 +260,11 @@ def main(main_window):
                     sentence_members[-1]['main'].append(virt_token)
                 else:
                     sentence_members[-1]['additional'].append(virt_token)
+
+                if virt_token._is_ner or virt_token._is_bigram:
+                    has_tok_ids = [x.id for x in sentence_members[-1]['first_level_cut']]
+                    if virt_token.id not in has_tok_ids:
+                        sentence_members[-1]['first_level_cut'].append(virt_token)
 
                 if (virt_token.rel == 'root') or (not has_root and virt_token.rel == 'advcl') or (virt_token.id == virt_token.head_id and virt_token.rel != 'punct'):
 
@@ -274,11 +342,13 @@ def main(main_window):
             sentence_members[-1]['first_level_cut'] = sorted(sentence_members[-1]['first_level_cut'], key=lambda x: x.start)
             _uniq_tokens_ids = []
             _uniq_tokens = []
+            _has_base_tokens = []
             for tk in sentence_members[-1]['first_level_cut']:
                 if tk.id not in _uniq_tokens_ids:
                     _uniq_tokens_ids.append(tk.id)
-                    _uniq_tokens.append(tk)
-
+                    if not len([x for x in _has_base_tokens if x in tk.text]):
+                        _uniq_tokens.append(tk)
+                        _has_base_tokens.extend((tk.text.split(' ') if tk.text.count(' ') else [tk.text]))
         except Exception as e:
             print(e)
 

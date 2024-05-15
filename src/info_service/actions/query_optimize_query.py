@@ -8,6 +8,8 @@ import math
 import gensim
 import snowballstemmer
 
+from gensim.models.phrases import Phrases, Phraser
+
 from pprint import pprint
 
 from itertools import chain
@@ -272,9 +274,27 @@ def main(text_query: str, only_questions=True):
 
         doc_spans = list(doc.spans)
         spchains = list(itertools.chain.from_iterable(map(lambda x: getattr(x, 'tokens', []), doc_spans)))
-
         for i, row in enumerate(doc_spans):
             row.normalize(morph_vocab)
+
+        bigrammpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/aij-wikiner-ru-wp3.gz_bigram.pkl')
+        bigram_reloaded = Phraser.load(bigrammpath)
+        bigrams = []
+        for sentence in doc.sents:
+            phrases = bigram_reloaded[[x.text.lower() for x in sentence.tokens]]
+            bigrams.extend([x for x in phrases if ' ' in x])
+        bigrams_listoflist = [x.split(' ') for x in bigrams]
+        has_bigram = []
+        for sentence in doc.sents:
+            for token in sentence.tokens:
+                bigrams_intersect = [' '.join(x) for x in bigrams_listoflist if token.text.lower() in x]
+                if len(bigrams_intersect):
+                    setattr(token, '_is_bigram', True)
+                    for bigram_text in bigrams_intersect:
+                        if bigram_text not in has_bigram:
+                            has_bigram.append(bigram_text)
+                else:
+                    setattr(token, '_is_bigram', False)
 
         mpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/gensim-model.bin')
         navecpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/navec_hudlit_v1_12B_500K_300d_100q.tar')
@@ -307,6 +327,7 @@ def main(text_query: str, only_questions=True):
                 # синтаксический разбор членов предлоежения
                 if token.rel in SENT_MEMBERS.keys():
                     virt_token = token
+                    _is_ner = False
                     if token.id in [x.id for x in spchains]:
                         for span in doc_spans:
                             if token.id in [x.id for x in span.tokens]:
@@ -315,6 +336,9 @@ def main(text_query: str, only_questions=True):
                                 setattr(virt_token, 'start', token.start)
                                 setattr(virt_token, 'id', token.id)
                                 setattr(virt_token, 'head_id', token.head_id)
+                                _is_ner = True
+
+                    setattr(virt_token, '_is_ner', _is_ner)
 
                     has_root = len([x for x in sentence.tokens if x.rel == 'root']) > 0
                     has_nsubj = len([x for x in sentence.tokens if x.rel == 'nsubj']) > 0
@@ -323,6 +347,11 @@ def main(text_query: str, only_questions=True):
                         sentence_members[-1]['main'].append(virt_token)
                     else:
                         sentence_members[-1]['additional'].append(virt_token)
+
+                    if virt_token._is_ner or virt_token._is_bigram:
+                        has_tok_ids = [x.id for x in sentence_members[-1]['first_level_cut']]
+                        if virt_token.id not in has_tok_ids:
+                            sentence_members[-1]['first_level_cut'].append(virt_token)
 
                     if (virt_token.rel == 'root') or (not has_root and virt_token.rel == 'advcl') or (virt_token.id == virt_token.head_id and virt_token.rel != 'punct'):
 
@@ -398,10 +427,13 @@ def main(text_query: str, only_questions=True):
                 sentence_members[-1]['first_level_cut'] = sorted(sentence_members[-1]['first_level_cut'], key=lambda x: x.start)
                 _uniq_tokens_ids = []
                 _uniq_tokens = []
+                _has_base_tokens = []
                 for tk in sentence_members[-1]['first_level_cut']:
                     if tk.id not in _uniq_tokens_ids:
                         _uniq_tokens_ids.append(tk.id)
-                        _uniq_tokens.append(tk)
+                        if not len([x for x in _has_base_tokens if x in tk.text]):
+                            _uniq_tokens.append(tk)
+                            _has_base_tokens.extend((tk.text.split(' ') if tk.text.count(' ') else [tk.text]))
             except Exception as e:
                 print(e)
 
