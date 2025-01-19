@@ -2,6 +2,7 @@ import sys
 import os
 import glob
 import gzip
+import tarfile
 import multiprocessing
 import logging
 
@@ -28,22 +29,30 @@ sys.path.append(MAIN_PACKAGE_DIR)
 sys.path.append(os.path.abspath(os.path.join(os.path.split(str(__file__))[0], '..')))
 
 
-def load_gz_lines(path, encoding='utf8'):
-    with gzip.open(path) as file:
-        for line in file:
-            yield line.decode(encoding).rstrip('\n')
+def load_gz_lines(path, encoding='utf8', tarfile_path=None):
+    if '.tar.gz' in path and tarfile_path:
+        with tarfile.open(path, mode='r:gz') as tfile:
+            with tfile.extractfile(tarfile_path(tfile)) as file:
+                for line in file:
+                    yield line.decode(encoding).rstrip('\n')
+    else:
+        with gzip.open(path) as file:
+            for line in file:
+                yield line.decode(encoding).rstrip('\n')
 
 
 class CorpusWrapper:
     """
     https://habr.com/ru/companies/vk/articles/426113/
     """
-    def __init__(self, path, line_callback=None):
+
+    def __init__(self, path, line_callback=None, tarfile_path=None):
         self.path = path
         self.line_callback = line_callback
+        self.tarfile_path = tarfile_path
 
     def __iter__(self):
-        corpus_lines = load_gz_lines(self.path)
+        corpus_lines = load_gz_lines(self.path, tarfile_path=self.tarfile_path)
         for line in corpus_lines:
             if self.line_callback:
                 line = self.line_callback(line)
@@ -106,6 +115,7 @@ def load_train(
         logger.setLevel(logging.DEBUG)
     train_kwargs_ = func_arguments.pop("train_kwargs") if "train_kwargs" in func_arguments else {}
     corpus_line_callback_ = func_arguments.pop("corpus_line_callback") if "corpus_line_callback" in func_arguments else None
+    tarfile_path_ = func_arguments.pop("tarfile_path") if "tarfile_path" in func_arguments else None
 
     if 'workers' not in func_arguments or not func_arguments['workers']:
         func_arguments['workers'] = multiprocessing.cpu_count()-1
@@ -124,7 +134,7 @@ def load_train(
 
     def filterfunc(pat):
         for trainsuff in train_file_suffixes_:
-            if pat.endswith(trainsuff+'.gz'):
+            if pat.endswith(trainsuff+'.gz') or pat.endswith(trainsuff+'.tar.gz'):
                 return False
         return True
 
@@ -136,7 +146,7 @@ def load_train(
         base_name = os.path.basename(corpus)
         modfname = os.path.join(dirname, f"{base_name}.bin")
 
-        sentences_ = CorpusWrapper(corpus, line_callback=corpus_line_callback_) if train_ or not os.path.isfile(modfname) else None
+        sentences_ = CorpusWrapper(corpus, line_callback=corpus_line_callback_, tarfile_path=tarfile_path_) if train_ or not os.path.isfile(modfname) else None
 
         if os.path.isfile(modfname):
             model = gs_models.Word2Vec.load(modfname)
@@ -168,14 +178,25 @@ def load_train(
 
             # Дообучение
             if len(train_file_suffixes_):
-                copath = os.path.splitext(corpus)
+                copath = list(os.path.splitext(corpus))
+
+                if '.tar' in copath[0]:
+                    copath[0] = copath[0].rpartition('.tar')[2]
+                    copath[1] = '.tar' + copath[1]
+
+
+
                 for suff in train_file_suffixes_:
                     corppath = copath[0]+suff+copath[1]
+
                     if not os.path.isfile(corppath):
-                        continue
+                        if not os.path.isfile(corppath.replace('.gz', '.tar.gz')):
+                            continue
+                        else:
+                            corppath = corppath.replace('.gz', '.tar.gz')
 
                     if allready_trained.count(os.path.basename(corppath))==0:
-                        sennces_ = CorpusWrapper(corppath, line_callback=corpus_line_callback_)
+                        sennces_ = CorpusWrapper(corppath, line_callback=corpus_line_callback_, tarfile_path=tarfile_path_)
                         model.train(corpus_iterable=sennces_, **train_kwargs_)
                         allready_trained.append(os.path.basename(corppath))
                         trained = True
