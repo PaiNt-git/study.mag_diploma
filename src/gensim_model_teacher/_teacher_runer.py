@@ -1,6 +1,7 @@
 import os
 import re
-import teacher
+#import teacher
+import _teacher2 as teacher
 
 
 def tarfile_path(tfile):
@@ -23,7 +24,7 @@ teacher.load_train(train=True, train_file_suffixes=[
     '(3)',
     '(4)',
     '(5)',
-], train_debug=True, workers=6, vector_size=300, max_vocab_size=500000,
+], train_debug=True, workers=8, vector_size=300, max_vocab_size=500000,
     corpus_line_callback=corpus_line_callback,
     tarfile_path=tarfile_path
 )  #
