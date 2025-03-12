@@ -209,6 +209,9 @@ def main(main_window):
 
     if os.path.isfile(mpath):
         gensim_model = gensim.models.KeyedVectors.load(mpath)
+        if not hasattr(gensim_model, 'most_similar'):
+            setattr(gensim_model, 'most_similar', gensim_model.wv.most_similar)
+
     else:
         navec_model = ModifNavec.load(navecpath)
         gensim_model = navec_model.as_gensim
@@ -447,6 +450,9 @@ if __name__ == '__main__':
 
     if os.path.isfile(mpath):
         gensim_model = gensim.models.KeyedVectors.load(mpath)
+        if not hasattr(gensim_model, 'most_similar'):
+            setattr(gensim_model, 'most_similar', gensim_model.wv.most_similar)
+
     else:
         navec_model = ModifNavec.load(navecpath)
         gensim_model = navec_model.as_gensim
