@@ -16,6 +16,8 @@ try:
 except ImportError:
     raise gs_utils.NO_CYTHON
 
+cdef public void initteacher():
+    pass
 
 logger = logging.getLogger('gensim')
 logger.setLevel(logging.ERROR)
@@ -58,8 +60,9 @@ class CorpusWrapper:
             yield gs_utils.simple_preprocess(line)
 
 
+
 def load_train(
-    **kwargs
+**kwargs
 ):
     """
     Available kwargs
@@ -102,7 +105,7 @@ def load_train(
     sorted_vocab=1, batch_words=MAX_WORDS_IN_BATCH, compute_loss=False, callbacks=(),
     comment=None, max_final_vocab=None, shrink_windows=True
     """
-    func_arguments = {k: v for k, v in kwargs.items()}
+    func_arguments = {k:v for k, v in kwargs.items()}
     print(func_arguments)
     train_ = func_arguments.pop("train") if "train" in func_arguments else False
     train_file_suffixes_ = func_arguments.pop("train_file_suffixes") if "train_file_suffixes" in func_arguments else None
@@ -115,7 +118,7 @@ def load_train(
     tarfile_path_ = func_arguments.pop("tarfile_path") if "tarfile_path" in func_arguments else None
 
     if 'workers' not in func_arguments or not func_arguments['workers']:
-        func_arguments['workers'] = multiprocessing.cpu_count() - 1
+        func_arguments['workers'] = multiprocessing.cpu_count()-1
 
     allready_trained_path = os.path.join(os.path.join(MAIN_PACKAGE_DIR, "corpuses"), 'allready_trained.txt')
     if not os.path.isfile(allready_trained_path):
@@ -125,13 +128,13 @@ def load_train(
     allready_trained = []
     with open(allready_trained_path) as f:
         allready_trained = f.readlines()
-    allready_trained = [x.strip() for x in set(allready_trained)]
+    allready_trained = [x.strip() for x in  set(allready_trained)]
 
     corpuses = glob.glob(os.path.join(MAIN_PACKAGE_DIR, "corpuses", "*.gz"))
 
     def filterfunc(pat):
         for trainsuff in train_file_suffixes_:
-            if pat.endswith(trainsuff + '.gz') or pat.endswith(trainsuff + '.tar.gz'):
+            if pat.endswith(trainsuff+'.gz') or pat.endswith(trainsuff+'.tar.gz'):
                 return False
         return True
 
@@ -175,14 +178,18 @@ def load_train(
 
             # Дообучение
             if len(train_file_suffixes_):
+                allready_trained.append(os.path.basename(corpus))
+
                 copath = list(os.path.splitext(corpus))
 
                 if '.tar' in copath[0]:
                     copath[0] = copath[0].rpartition('.tar')[2]
                     copath[1] = '.tar' + copath[1]
 
+
+
                 for suff in train_file_suffixes_:
-                    corppath = copath[0] + suff + copath[1]
+                    corppath = copath[0]+suff+copath[1]
 
                     if not os.path.isfile(corppath):
                         if not os.path.isfile(corppath.replace('.gz', '.tar.gz')):
@@ -190,14 +197,14 @@ def load_train(
                         else:
                             corppath = corppath.replace('.gz', '.tar.gz')
 
-                    if allready_trained.count(os.path.basename(corppath)) == 0:
+                    if allready_trained.count(os.path.basename(corppath))==0:
                         sennces_ = CorpusWrapper(corppath, line_callback=corpus_line_callback_, tarfile_path=tarfile_path_)
                         model.train(corpus_iterable=sennces_, **train_kwargs_)
                         allready_trained.append(os.path.basename(corppath))
                         trained = True
 
             else:
-                if allready_trained.count(os.path.basename(corpus)) == 0:
+                if allready_trained.count(os.path.basename(corpus))==0:
                     model.train(corpus_iterable=sentences_, **train_kwargs_)
                     allready_trained.append(os.path.basename(corpus))
                     trained = True
@@ -208,4 +215,10 @@ def load_train(
     with open(allready_trained_path, 'w') as f:
         f.seek(0)
         f.truncate(0)
-        f.writelines(map(lambda x: x + '\n', allready_trained))
+        f.writelines(map(lambda x: x+'\n', allready_trained))
+
+
+def PyInit_teacher():
+    initteacher()
+
+

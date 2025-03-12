@@ -1,7 +1,6 @@
 import os
 import re
-#import teacher
-import _teacher2 as teacher
+import teacher
 
 
 def tarfile_path(tfile):

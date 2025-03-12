@@ -143,7 +143,7 @@ def main(main_window):
             table_widget.setColumnWidth(i, 200)
 
     # Исключениен устойчивых словосочетаний из подбора синонимов
-    bigrammpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/aij-wikiner-ru-wp3.gz_bigram.pkl')
+    bigrammpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/gensim-model_bigram.pkl')
     bigram_reloaded = Phraser.load(bigrammpath)
 
     bigrams = []

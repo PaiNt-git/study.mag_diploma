@@ -277,7 +277,7 @@ def main(text_query: str, only_questions=True):
         for i, row in enumerate(doc_spans):
             row.normalize(morph_vocab)
 
-        bigrammpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/aij-wikiner-ru-wp3.gz_bigram.pkl')
+        bigrammpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/gensim-model_bigram.pkl')
         bigram_reloaded = Phraser.load(bigrammpath)
         bigrams = []
         for sentence in doc.sents:
