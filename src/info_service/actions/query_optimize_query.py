@@ -248,6 +248,9 @@ def main(text_query: str, only_questions=True):
 
     from info_service import actions
 
+    if text_query and text_query[0] == '{' and text_query[-1] == '}':
+        text_query = text_query[1:-1]
+
     allstr = ''
 
     all_tokens_with_synonims = []

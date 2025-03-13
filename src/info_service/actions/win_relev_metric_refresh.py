@@ -17,7 +17,7 @@ from info_service.db_base import Session, QuestAnswerBase, QuestAnswerBaseRelevQ
 from info_service.db_utils import togudb_serializator
 
 
-def main(main_window, optimize=False):
+def main(main_window, optimize=False, substringsearch=False):
     from info_service import actions
 
     MAIN_DIR = os.path.abspath(os.path.join(os.path.split(str(__file__))[0]))
@@ -68,12 +68,17 @@ def main(main_window, optimize=False):
     MetricRefreshProgressBar.setValue(0)
     time.sleep(0.5)
 
+    if substringsearch:
+        def query_text_wrapper(x): return ('{' + str(x) + '}')
+    else:
+        def query_text_wrapper(x): return str(x)
+
     try:
-        p_at_K = '' + ', '.join([f'{actions.metrics_getPrecisionAtK(x.query, K, only_questions, optimize)}' for x in all_queries]) + ''
+        p_at_K = '' + ', '.join([f'{actions.metrics_getPrecisionAtK(query_text_wrapper(x.query), K, only_questions, optimize)}' for x in all_queries]) + ''
         MetricRefreshProgressBar.setValue(1)
         time.sleep(0.2)
 
-        ap_at_K = [actions.metrics_getAvgPrecisionOfKresDecomp(x.query, K, only_questions, optimize) for x in all_queries]
+        ap_at_K = [actions.metrics_getAvgPrecisionOfKresDecomp(query_text_wrapper(x.query), K, only_questions, optimize) for x in all_queries]
 
         r_dot_pk = [' +'.join(map(str, x['precKs'])) for x in ap_at_K]
         apKfrct = []
@@ -86,7 +91,7 @@ def main(main_window, optimize=False):
         MetricRefreshProgressBar.setValue(2)
         time.sleep(0.2)
 
-        map_at_K = actions.metrics_getMeanAvgPrecisionAtKDecomp(K, only_questions, optimize)
+        map_at_K = actions.metrics_getMeanAvgPrecisionAtKDecomp(K, only_questions, optimize, substringsearch)
 
         apks = ' +'.join(map(str, map_at_K['SumApAtKs']))
         apks = r'\frac{' + apks + '}{' + str(map_at_K['count_queries']) + '}'

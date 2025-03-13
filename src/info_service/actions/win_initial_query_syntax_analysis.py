@@ -74,6 +74,9 @@ def main(main_window):
     initial_query_text_widget = getattr(main_window, f'TextInitialQuery')
     initial_query_text = initial_query_text_widget.toPlainText()
 
+    if initial_query_text and initial_query_text[0] == '{' and initial_query_text[-1] == '}':
+        initial_query_text = initial_query_text[1:-1]
+
     doc = Doc(initial_query_text)
 
     morph_vocab = MorphVocab()
