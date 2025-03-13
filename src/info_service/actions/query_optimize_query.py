@@ -370,13 +370,13 @@ def main(text_query: str, only_questions=True):
                             sentence_members[-1]['first_level_cut'].extend(get_childs(virt_token, sentence.tokens, nesting_level=1))
 
                         sentence_members[-1]['first_level_cut'] = list(filter(lambda x: (x.rel in SENT_MEMBERS.keys() and
-                                                                                         x.pos in ('NOUN', 'ADJ', 'VERB', 'INFN', 'PROPN')),
+                                                                                         (hasattr(x, 'pos') and x.pos in ('NOUN', 'ADJ', 'VERB', 'INFN', 'PROPN'))),
                                                                               sentence_members[-1]['first_level_cut']))
 
                 token.lemmatize(morph_vocab)
 
                 _gensim_synonyms = []
-                if token.pos not in (
+                if not hasattr(token, 'pos') or str(token.pos) not in (
                     'PUNCT',    # знаки препинания
                     'ADP',      # предлог
                     'CCONJ',    # союз
