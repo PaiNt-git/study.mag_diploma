@@ -28,7 +28,7 @@ def main(K=10, only_questions=True, optimize=False, substringsearch=False):
 
     session = Session()
     SumApAtK = 0.0
-    all_queries = session.query(QuestAnswerBaseRelevQuery)
+    all_queries = session.query(QuestAnswerBaseRelevQuery).order_by(QuestAnswerBaseRelevQuery.id)
     count_queries = all_queries.count()
     if count_queries == 0:
         return return_vals

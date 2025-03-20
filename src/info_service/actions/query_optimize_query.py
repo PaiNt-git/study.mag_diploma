@@ -280,12 +280,16 @@ def main(text_query: str, only_questions=True):
         for i, row in enumerate(doc_spans):
             row.normalize(morph_vocab)
 
+        # Исключениен устойчивых словосочетаний из подбора синонимов
         bigrammpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/gensim-model_bigram.pkl')
         bigram_reloaded = Phraser.load(bigrammpath)
+
         bigrams = []
+
         for sentence in doc.sents:
             phrases = bigram_reloaded[[x.text.lower() for x in sentence.tokens]]
             bigrams.extend([x for x in phrases if ' ' in x])
+
         bigrams_listoflist = [x.split(' ') for x in bigrams]
         has_bigram = []
         for sentence in doc.sents:
@@ -299,10 +303,9 @@ def main(text_query: str, only_questions=True):
                 else:
                     setattr(token, '_is_bigram', False)
 
-        # mpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/gensim-model.bin')
-        mpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/gensim-navec_news_v1_1B_250K_300d_100q.bin')
-        #navecpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/navec_hudlit_v1_12B_500K_300d_100q.tar')
-        navecpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/navec_news_v1_1B_250K_300d_100q.tar')
+        mpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/gensim-model.bin')
+        navecpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/navec_hudlit_v1_12B_500K_300d_100q.tar')
+        # navecpath = os.path.join('..' if __name__ == '__main__' else os.getcwd(), 'data_for_program/_saved_models/navec_news_v1_1B_250K_300d_100q.tar')
 
         if os.path.isfile(mpath):
             gensim_model = gensim.models.KeyedVectors.load(mpath)
