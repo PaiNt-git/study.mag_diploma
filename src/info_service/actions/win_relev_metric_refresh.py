@@ -61,7 +61,7 @@ def main(main_window, optimize=False, substringsearch=False):
 
     K = 10
 
-    all_queries = session.query(QuestAnswerBaseRelevQuery)
+    all_queries = session.query(QuestAnswerBaseRelevQuery).order_by(QuestAnswerBaseRelevQuery.id)
     count_queries = all_queries.count()
 
     MetricRefreshProgressBar.setRange(0, 3)
